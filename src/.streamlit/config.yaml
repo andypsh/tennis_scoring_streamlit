@@ -1,0 +1,21 @@
+credentials:
+  usernames:
+    andy:
+      name: andy
+      password: test # To be replaced with hashed password
+    busan:
+        name: busan
+        password: test # To be replaced with hashed password
+    jincheon:
+        name: jincheon
+        password: test # To be replaced with hashed password
+    user01 :
+        name : user01
+        password : "1234"
+cookie:
+  expiry_days: 30
+  key: random_signature_key # Must be string
+  name: random_cookie_name
+preauthorized:
+  emails:
+  - sunghyuk.park@cj.net
