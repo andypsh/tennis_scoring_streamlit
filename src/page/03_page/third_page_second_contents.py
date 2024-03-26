@@ -14,23 +14,13 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 src_dir = os.path.dirname(os.path.dirname(current_dir))
 # src 디렉토리에서 lib 폴더의 경로를 구성
 library_path = os.path.join(src_dir , 'lib')
-# resource_path = os.path.join(src_dir, 'resource')
 ###############################################
 sys.path.append(library_path)
-# sys.path.append(resource_path)
 ###############################################
-# resource_module = importlib.import_module("resource.databricks")
-# print(f'1 : {library_path}')
 library_module = importlib.import_module("lib")
-# print(f'2 : {library_module}')
 ###############################################
-# 모듈에서 'get_databricks_data' 클래스 접근
-# get_databricks_data = getattr(resource_module, 'get_databricks_data')
 get_lib_module = getattr(library_module ,'Trend_AnalysisTools')
-# print(f'3 : {get_lib_module}')
-###############################################
-# 모듈에서 함수 접근
-# databricks_data = get_databricks_data()
+
 
 analysis_tools = get_lib_module()
 

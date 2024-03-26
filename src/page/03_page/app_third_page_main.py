@@ -1,7 +1,5 @@
-from first_contents import FirstContents
-from second_contents import SecondContents
-
-
+from third_page_first_contents import FirstContents
+from third_page_second_contents import SecondContents
 
 def run_trend_main(data_loader):
    

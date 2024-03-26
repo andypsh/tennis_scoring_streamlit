@@ -25,3 +25,4 @@ streamlit_extras
 streamlit_authenticator
 extra_streamlit_components
 st_tabs
+st-pages

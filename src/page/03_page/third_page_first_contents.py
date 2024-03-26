@@ -33,62 +33,20 @@ class FirstContents:
         # Streamlit 대시보드 메인 로직
         with col_cal:
 
-            st.header("사업장 클레임 TREND 분석")
+            st.header("Third Page Header1")
             st.markdown('---')
             st.subheader("Filter 선택")
 
-            # 네모난 박스 스타일을 정의
-            ## 날짜 선택###############
-            # 오늘 날짜 및 세션 상태 초기화
+
+            ################# 날짜 선택###############
             today = pd.to_datetime("today")
 
-            st.markdown("""
-                <style>
-                .colored-bg {
-                    background-color: #f0f0f0;  /* 배경색 설정 */
-                    border: 1px solid #e0e0e0;  /* 테두리 설정 */
-                    padding: 10px;
-                    margin: 10px 0;  /* 위아래 여백 설정 */
-                }
-                .fa {
-                    font-size: 24px;  /* 아이콘 크기 조정 */
-                }
-                .subheader-icon {
-                    vertical-align: middle;
-                    margin-right: 5px;  /* 아이콘과 텍스트 사이의 간격 */
-                }
-                .custom-subheader {
-                    font-size: 1.5em;  /* 글씨 크기 조정 */
-                    font-weight: 500;  /* 글씨 두께 */
-                    margin: 1em 0 0.5em 0;  /* 여백 조정 */
-                    line-height: 1.2;  /* 줄 간격 */
-                }
-                .vertical-line {
-                    border-left: 2px solid #000000;  /* 수직선의 두께와 색상 */
-                    height: 100px;  /* 수직선의 높이를 픽셀 단위로 지정 */
-                    position: relative;  /* 상대적 위치 */
-                    left: 50%;  /* 수직선의 위치 (컬럼 내에서 가운데) */
-                    margin-left: -1px;  /* 정중앙 위치 조정 */
-                }
-                </style>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                """, unsafe_allow_html=True)
 
             # 컬럼 레이아웃 설정
             name_1,col_space1, name_2, col_space1_2 = st.columns([2, 7.5, 2 , 2.5])
             col_quick_select1, col_quick_select2, col_space4, col_quick_left_select1, col_quick_left_select2 , col_space4_2= st.columns([1,1,7.5,  1, 1 , 2.5])
             col_date_left1, col_date_left2, col1_1, col1_2 , col_mid,  col_date_right1, col_date_right2  ,col1_3, col1_4 = st.columns([1.5,1.5, 1, 1.5, 5 , 1, 1 ,1, 0.5])
-            
-            ######### 1번째 줄
-            # 각 컬럼에 배경색과 설명 추가
 
-            category_list = ['사업장', 'OEM']
-            plant_dict = {
-                '사업장' : plant_list,
-                'OEM' : oem_list
-            }
-
-            ############ 1번째 줄
             max_date = today
             default_start_date1 = max_date - pd.DateOffset(months=3)
             with col_date_left1:

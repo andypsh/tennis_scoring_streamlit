@@ -5,6 +5,7 @@ import importlib
 import warnings
 import extra_streamlit_components as stx
 from st_tabs import TabBar
+from st_pages import Page , show_pages
 # FutureWarning을 무시하도록 설정
 warnings.filterwarnings("ignore")
 
@@ -13,9 +14,9 @@ warnings.filterwarnings("ignore")
 # Python의 모듈 검색 경로에 andy_main_path를 추가합니다.
 #################[Local Path]#################
 current_dir = os.path.dirname(os.path.realpath(__file__))
-summary_main_path = os.path.join(current_dir + '/page/01_su_page/')
-anomaly_main_path = os.path.join(current_dir + '/page/02_an_page/')
-trend_main_path = os.path.join(current_dir + '/page/03_tr_page/')
+summary_main_path = os.path.join(current_dir + '/page/01_page/')
+anomaly_main_path = os.path.join(current_dir + '/page/02_page/')
+trend_main_path = os.path.join(current_dir + '/page/03_page/')
 login_dir = os.path.join(current_dir + '/login/')
 ###############################################
 resource_path = os.path.join(current_dir + '/resource/')
@@ -47,15 +48,24 @@ def load_and_run_module(module_name, function_name , *args):
     return function_to_run(*args)
 
 def main():
-    st.set_page_config(layout="wide", page_title = 'CIS Anomaly Detection' , page_icon=":memo:")
+    st.set_page_config(layout="wide", page_title = 'Write your Page Title' , page_icon=":memo:")
 
     chosen_id = stx.tab_bar(data=[
-    stx.TabBarItemData(id="tab1", title="01.SUMMARY", description="   "),
-    stx.TabBarItemData(id="tab2", title="02.Anomaly Detection", description="   "),
-    stx.TabBarItemData(id="tab3", title="03.TREND Analysis", description="   ")
+    stx.TabBarItemData(id="tab1", title="01.PAGE", description="description"),
+    stx.TabBarItemData(id="tab2", title="02.PAGE", description="description"),
+    stx.TabBarItemData(id="tab3", title="03.PAGE", description="description")
     ],default = "tab1" , key = "default")
-    config = login_module.get_conf()
-    login_module.login_check(config)
+
+    # show_pages(
+    #     [
+    #         Page('page/01_page/first_page.py', '1번째 Page' , ":memo:"),
+    #         Page('page/02_page/an_page.py', '2번째 Page' , ":memo:"),
+    #         Page('page/03_page/app_trend_main.py', '3번째 Page' , ":memo:"),
+          
+    #     ]
+    # )
+    # config = login_module.get_conf()
+    # login_module.login_check(config)
     # config = get_conf()
     # login_check(config)
     
@@ -66,11 +76,11 @@ def main():
 
     #############################################
     if chosen_id == "tab1":
-        load_and_run_module("su_page", "run_sum_main",data_loader)
+        load_and_run_module("first_page", "run_sum_main",data_loader)
     elif chosen_id == "tab2":
-        load_and_run_module("an_page", "run_anomaly_main" ,data_loader)
+        load_and_run_module("second_page", "run_anomaly_main" ,data_loader)
     elif chosen_id == "tab3":
-        load_and_run_module("app_trend_main", "run_trend_main" ,data_loader)
+        load_and_run_module("app_third_page_main", "run_trend_main" ,data_loader)
 
 
 

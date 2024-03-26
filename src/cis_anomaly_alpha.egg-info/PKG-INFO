@@ -32,3 +32,4 @@ Requires-Dist: streamlit_extras
 Requires-Dist: streamlit_authenticator
 Requires-Dist: extra_streamlit_components
 Requires-Dist: st_tabs
+Requires-Dist: st-pages

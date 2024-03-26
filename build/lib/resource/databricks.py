@@ -78,6 +78,8 @@ class get_databricks_data :
         
         return rule_df
     
+
+
     def load_all_data(self):
         self.dm_clm_proc_data = self.get_dm_clm_proc()
         self.dm_world_c_data = self.get_dm_world_c()
