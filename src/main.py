@@ -80,7 +80,7 @@ def main():
     elif chosen_id == "tab2":
         load_and_run_module("second_page", "run_anomaly_main" ,data_loader)
     elif chosen_id == "tab3":
-        load_and_run_module("app_third_page_main", "run_trend_main" ,data_loader)
+        load_and_run_module("third_page", "FirstContents" ,data_loader)
 
 
 
