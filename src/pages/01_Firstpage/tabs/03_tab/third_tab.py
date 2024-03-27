@@ -16,7 +16,9 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 # src 디렉토리로 이동하기 위해 두 단계 위로 올라감
 src_dir = os.path.dirname(os.path.dirname(current_dir))
 # src 디렉토리에서 lib 폴더의 경로를 구성
-library_path = os.path.join(src_dir , 'lib')
+
+src_dir = os.path.join(current_dir, '..', '..', '..' , '..')
+library_path = os.path.join(src_dir ,'lib')
 ###############################################
 sys.path.append(library_path)
 ###############################################
@@ -354,4 +356,4 @@ class FirstContents:
 
         st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
         st.subheader("RAW DATA")
-        st.dataframe(df_classify , use_container_width=True , height = 400)
+        st.dataframe(df_classify.head(100) , use_container_width=True , height = 400)

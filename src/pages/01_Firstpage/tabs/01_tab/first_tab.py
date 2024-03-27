@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def run_sum_main(data_loader):
-
+    
     df_raw = data_loader.dm_clm_proc_data
 
     from_date, to_date = pd.to_datetime(df_raw['bsymd'].max()).replace(day=1), df_raw['bsymd'].max()

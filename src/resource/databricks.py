@@ -32,14 +32,7 @@ class get_databricks_data :
         df_raw['bsymd'] = pd.to_datetime(df_raw['bsymd'])
         
         return df_raw
-    @st.cache_resource(ttl = 7200)
-    def get_dm_world_c(_self):
-        table = 'dm_world_c'
-   
-        df_wordc = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
-        df_wordc['Date'] = df_wordc['Date'].astype(str)
-        df_wordc['Date'] = pd.to_datetime(df_wordc['Date'])
-        return df_wordc
+
 
     @st.cache_resource(ttl = 7200)
     def setup_data(_self, return_full_df = False):
@@ -55,33 +48,12 @@ class get_databricks_data :
                 'lcls_nm', 'mcls_nm', 'scls_nm', 'making_ymd', 'expiry_ymd', 
                 'lotno', 'buy_way_nm', 'voc_id_count' , 'claim_grd_cd']]
             return df_filtered
-        
-
-    @st.cache_resource(ttl = 7200)
-    def get_dm_anomaly_results(_self):
-        table = 'dm_anomaly_results'
-        df_ano= ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}").copy()
-        
-        #df_ano = analysis_tools.load_data(table).copy()
-        df_ano = df_ano.sort_values(by=['anomaly_count_30d'], ascending = False)
-        df_ano = df_ano[['matnr', 'maktx', 'lot_issue']]
-        df_ano.columns = ['code','sku', 'lot_issue']
-
-        return df_ano
     
-    @st.cache_resource(ttl = 7200)
-    def get_dm_rule_detection(_self):
-        table = 'dm_rule_detection'
 
-        #rule_df = analysis_tools.load_data(table)
-        rule_df = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
-        
-        return rule_df
-    
     def load_all_data(self):
         self.dm_clm_proc_data = self.get_dm_clm_proc()
-        self.dm_world_c_data = self.get_dm_world_c()
-        self.dm_anomaly_results_data = self.get_dm_anomaly_results()
-        self.dm_rule_detection_data = self.get_dm_rule_detection()
+        # self.dm_world_c_data = self.get_dm_world_c()
+        # self.dm_anomaly_results_data = self.get_dm_anomaly_results()
+        # self.dm_rule_detection_data = self.get_dm_rule_detection()
         self.dm_trend_data = self.setup_data(return_full_df=True)
 
