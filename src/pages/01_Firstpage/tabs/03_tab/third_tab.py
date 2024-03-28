@@ -69,7 +69,8 @@ class FirstContents:
         with col_cal:
 
             st.header("Third Page Header1")
-            st.markdown('---')
+            st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
+
             st.subheader("Filter 선택")
 
 

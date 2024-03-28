@@ -26,3 +26,5 @@ streamlit_authenticator
 extra_streamlit_components
 st_tabs
 st-pages
+hydralit_components
+streamlit_login_auth_ui

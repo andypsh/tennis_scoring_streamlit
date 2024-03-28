@@ -33,3 +33,5 @@ Requires-Dist: streamlit_authenticator
 Requires-Dist: extra_streamlit_components
 Requires-Dist: st_tabs
 Requires-Dist: st-pages
+Requires-Dist: hydralit_components
+Requires-Dist: streamlit_login_auth_ui

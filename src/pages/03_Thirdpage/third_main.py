@@ -19,11 +19,12 @@ def main():
     st.header('Third Page')
 
 
-    with st.sidebar:
-        config = login_module.get_conf()
+    # with st.sidebar:
+    #     config = login_module.get_conf()
 
-        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-        login_module.login_check(config)
+    #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+    #     login_module.login_check(config)
+
     if st.session_state.get('authentication_status'):
         tab1, tab2, tab3, tab4=st.tabs([
             "데이터 소개",
