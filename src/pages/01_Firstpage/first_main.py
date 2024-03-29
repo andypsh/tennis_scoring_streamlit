@@ -4,11 +4,13 @@ import sys
 import importlib
 import warnings
 import extra_streamlit_components as stx
-import uuid
+import base64
+import json
 # FutureWarning을 무시하도록 설정
 warnings.filterwarnings("ignore")
-# from sidebar import setup_sidebar
-# from streamlit_login_auth_ui.widgets import __login__
+
+
+
 
 
 
@@ -59,18 +61,18 @@ def main():
     
 
 
-    # with st.sidebar:
+    with st.sidebar:
 
-    #     ################## [login_module] ##################
+        ################## [login_module] ##################
 
-    #     # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
-    #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+        # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
+        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
     
-    #     #####################################################
+        #####################################################
 
-    #     config = login_module.get_conf()
-    #     login_module.login_check(config)
-    
+        config = login_module.get_conf()
+        a= login_module.login_check(config)
+        print(a)
 
 
         ################## [login_module] ##################
@@ -95,44 +97,28 @@ def main():
         # key : 고유한 key 값 지정
 
         ####################################################
-        
-        # if 'selected_tab_id' not in st.session_state:
-        #     # 세션 상태에 선택된 탭 ID가 없으면 기본값을 설정합니다.
-        #     st.session_state['selected_tab_id'] = "tab1"  # 기본값 예시
-        # chosen_id = Nones
+
     unique_key = "tab_bar_" + str(os.getpid())
+    
     chosen_id = stx.tab_bar(data=[
     stx.TabBarItemData(id="tab1", title="01.TAB", description="description"),
     stx.TabBarItemData(id="tab2", title="02.TAB", description="description"),
     stx.TabBarItemData(id="tab3", title="03.TAB", description="description")
     ],default = 'tab1' , key =unique_key)
+    # if f'tab_bar_{unique_key}' not in st.session_state:
+    #     st.session_state[f'tab_bar_{unique_key}'] = False
+    #     a=0
+    # if st.session_state[f'tab_bar_{unique_key}'] == False  and a==0: 
+    #     st.rerun()
+    #     a+=1
+    print(chosen_id)
     # st.write('is it working')
-    # st.write(st.session_state)
+    st.write(st.session_state)
+    jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1c2FuIiwiZXhwX2RhdGUiOjE3MTQyMzcwNjcuMjg4Nzc0fQ.WOp8u6gXNM9JUc39F3W1SNXKbQIoMlYBvrS69pkME7c"
+    payload = jwt_token.split('.')[1]  # JWT의 두 번째 부분(페이로드)을 가져옵니다.
+    decoded_payload = base64.b64decode(payload + "==").decode('utf-8')  # Base64 디코딩
+    print(json.loads(decoded_payload))
 
-
-    # with st.sidebar:
-
-    #     ################# [login_module] ##################
-
-    #     # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
-    #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-        
-    #     ####################################################
-
-    #     config = login_module.get_conf()
-    #     login_module.login_check(config)
-    # setup_sidebar()
-        # st.session_state['selected_tab_id'] = chosen_id
-
-        # st.write(st.session_state['selected_tab_id'])
-        # st.write(chosen_id)
-        # st.write(st.session_state)
-
-
-        ########### [data 한번에 불러오기] ##############
-
-        # data_loader = get_databricks_data() : 데이터 로더 인스턴스를 생성
-        # data_loader.load_all_data() : data 한번에 모두 불러오기
     with st.container():
         
         ####################################################
@@ -155,17 +141,8 @@ def main():
         elif chosen_id == "tab3":
             load_and_run_module("third_tab", "FirstContents" ,data_loader)
 
-        # with st.sidebar:
 
-            ################## [login_module] ##################
 
-            # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
-            # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-            
-            #####################################################
-
-            # config = login_module.get_conf()
-            # login_module.login_check(config)
 
 
 

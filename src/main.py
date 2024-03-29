@@ -19,11 +19,11 @@ def setup_sidebar():
 
     config = login_module.get_conf()
     login_module.login_check(config)
-    # with st.sidebar:
-    #     config = login_module.get_conf()
+    with st.sidebar:
+        config = login_module.get_conf()
 
-    #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-    #     login_module.login_check(config)
+        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+        login_module.login_check(config)
 
 
 # def  __login__obj = __login__(auth_token = "courier_auth_token", 
@@ -39,6 +39,7 @@ def setup_sidebar():
 def main():
     
     # setup_sidebar()
+
     with st.sidebar:
         config = login_module.get_conf()
 
@@ -72,6 +73,12 @@ def main():
         #     login_module.login_check(config)
     else:
         st.header('로그인하세요!')
+    
+    # with st.sidebar:
+    #     config = login_module.get_conf()
+
+    #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+    #     login_module.login_check(config)
 
 
 if __name__ == "__main__":
