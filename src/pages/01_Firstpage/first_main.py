@@ -51,20 +51,20 @@ def main():
     # page_icon : emoji 지정 
     #############################################################
     st.set_page_config(layout="wide", page_title = 'Write your Page Title' , page_icon=":memo:")
-
-    
     with st.sidebar:
 
-        ################## [login_module] ##################
+    ################## [login_module] ##################
 
-        # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
-        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-    
-        #####################################################
+    # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
+    # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+
+    #####################################################
 
         config = login_module.get_conf()
-        a= login_module.login_check(config)
-        #####################################################
+        login_module.login_check(config)
+    #####################################################
+    
+
     
 
 
@@ -121,6 +121,8 @@ def main():
                 load_and_run_module("third_tab", "FirstContents" ,data_loader)
     else:
         st.header('로그인 하세요!')
+
+
     
 if __name__ == "__main__":
     main()  

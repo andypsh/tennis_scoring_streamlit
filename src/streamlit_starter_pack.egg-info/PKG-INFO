@@ -1,27 +1,22 @@
 Metadata-Version: 2.1
-Name: cis_anomaly_alpha
-Version: 0.0.1
-Author: DT Analytics
+Name: streamlit_starter_pack
+Version: 0.0.2
+Author: Data Science
 Author-email: 
 License: MIT License
 Requires-Python: >=3.9.18
 Requires-Dist: click
-Requires-Dist: numpy==1.24.1
-Requires-Dist: matplotlib==3.7.2
-Requires-Dist: pandas==1.5.3
-Requires-Dist: scipy==1.10.0
+Requires-Dist: numpy
+Requires-Dist: matplotlib
+Requires-Dist: pandas
+Requires-Dist: scipy
 Requires-Dist: streamlit==1.31.0
-Requires-Dist: streamlit
 Requires-Dist: streamlit-aggrid
 Requires-Dist: seaborn
 Requires-Dist: streamlit-dynamic-filters_andy==0.0.2
-Requires-Dist: boto3==1.26.65
-Requires-Dist: pyathena==2.21.0
-Requires-Dist: sagemaker==2.131.1
+Requires-Dist: boto3
 Requires-Dist: altair==4.2.2
 Requires-Dist: plotly==5.18.0
-Requires-Dist: kiwipiepy==0.16.0
-Requires-Dist: WordCloud==1.9.2
 Requires-Dist: pip
 Requires-Dist: statsmodels
 Requires-Dist: openpyxl

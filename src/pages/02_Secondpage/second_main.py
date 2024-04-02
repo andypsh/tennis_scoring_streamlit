@@ -26,17 +26,19 @@ login_module = importlib.import_module("lgn")
 
 def main():
     st.set_page_config(layout="wide")
+    with st.sidebar:
+
     ################## [login_module] ##################
 
     # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
 
     #####################################################
-    with st.sidebar:
-        config = login_module.get_conf()
 
-        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+        config = login_module.get_conf()
         login_module.login_check(config)
+    #####################################################
+
 
     if st.session_state.get('authentication_status'):
         menu_data = [
@@ -83,10 +85,7 @@ def main():
     else:
         st.header('로그인 하세요!')
 
-        
-
-
-
+    
 if __name__ == "__main__":
     
 

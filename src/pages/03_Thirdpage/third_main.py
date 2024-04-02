@@ -29,24 +29,25 @@ login_module = importlib.import_module("lgn")
 
 def main():
     st.set_page_config(layout="wide")
+
     ################## [login_module] ##################
 
     # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
 
     #####################################################
-    # with st.sidebar:
-    #     config = login_module.get_conf()
+    with st.sidebar:
+        config = login_module.get_conf()
 
-    #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-    #     login_module.login_check(config)
+        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+        login_module.login_check(config)
     if st.session_state.get('authentication_status'):
         menu_data = [
             {'id' :'tab1' ,'icon': "far fa-copy", 'label':"TAB1"},
             {'id':'tab2','label':"TAB2"},
             # {'icon': "fa-solid fa-radar",'label':"Dropdown1", 'submenu':[{'id':' subid11','icon': "fa fa-paperclip", 'label':"Sub-item 1"},{'id':'subid12','icon': "💀", 'label':"Sub-item 2"},{'id':'subid13','icon': "fa fa-database", 'label':"Sub-item 3"}]},
             # {'icon': "far fa-chart-bar", 'label':"Chart"},#no tooltip message
-            {'id':'tab3','icon': "💀", 'label':"TAB3"},
+            {'id':'tab3','icon': ":book:", 'label':"TAB3"},
             # {'icon': "fas fa-tachometer-alt", 'label':"Dashboard",'ttip':"I'm the Dashboard tooltip!"} #can add a tooltip message
         
         ]
@@ -56,7 +57,7 @@ def main():
             menu_definition=menu_data,
             override_theme=over_theme,
             # home_name='Home',
-            login_name='Logout',
+            # login_name='Logout',
             hide_streamlit_markers=False, #will show the st hamburger as well as the navbar now!
             sticky_nav=True, #at the top or not
             sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
@@ -129,12 +130,7 @@ def main():
         
     else :
         st.header('로그인 하세요!')
-    
-    with st.sidebar:
-        config = login_module.get_conf()
 
-        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-        login_module.login_check(config)
 
 
         

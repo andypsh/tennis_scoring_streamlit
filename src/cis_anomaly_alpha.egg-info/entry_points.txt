@@ -1,2 +1,0 @@
-[console_scripts]
-cis_anomaly_alpha = cis_anomaly_alpha.scripts:cis_anomaly_alpha

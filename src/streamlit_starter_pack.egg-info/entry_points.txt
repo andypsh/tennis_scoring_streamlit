@@ -1,0 +1,2 @@
+[console_scripts]
+streamlit_starter_pack = streamlit_starter_pack.scripts:streamlit_starter_pack
