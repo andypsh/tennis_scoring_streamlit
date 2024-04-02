@@ -9,11 +9,6 @@ import json
 # FutureWarning을 무시하도록 설정
 warnings.filterwarnings("ignore")
 
-
-
-
-
-
 #################[Module PATH 지정]###################
 
 # 현재 python 파일과 여려 모듈간 연결을 위한 path 지정

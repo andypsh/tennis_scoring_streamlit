@@ -15,17 +15,13 @@ library_path = os.path.join(src_dir, 'lib')
 class get_databricks_data :
     def __init__(self):
         self.dm_clm_proc_data = None
-        self.dm_world_c_data = None
-        self.dm_anomaly_results_data = None
-        self.dm_rule_detection_data = None
-
+        self.dm_trend_data = None
 
     @st.cache_resource(ttl = 7200)
     def get_dm_clm_proc(_self):
         table = 'dm_clm_proc'
         
         # 데이터 로드
-        
         df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
         df_raw['bsym'] = df_raw['bsym'].astype(str)
         df_raw['bsymd'] = df_raw['bsymd'].astype(str)
@@ -52,8 +48,5 @@ class get_databricks_data :
 
     def load_all_data(self):
         self.dm_clm_proc_data = self.get_dm_clm_proc()
-        # self.dm_world_c_data = self.get_dm_world_c()
-        # self.dm_anomaly_results_data = self.get_dm_anomaly_results()
-        # self.dm_rule_detection_data = self.get_dm_rule_detection()
         self.dm_trend_data = self.setup_data(return_full_df=True)
 

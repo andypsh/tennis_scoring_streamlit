@@ -44,7 +44,7 @@ def main():
             {'id':'tab2','label':"TAB2"},
             # {'icon': "fa-solid fa-radar",'label':"Dropdown1", 'submenu':[{'id':' subid11','icon': "fa fa-paperclip", 'label':"Sub-item 1"},{'id':'subid12','icon': "💀", 'label':"Sub-item 2"},{'id':'subid13','icon': "fa fa-database", 'label':"Sub-item 3"}]},
             # {'icon': "far fa-chart-bar", 'label':"Chart"},#no tooltip message
-            {'id':'tab3','icon': "💀", 'label':"TAB3"},
+            {'id':'tab3','icon': ":book:", 'label':"TAB3"},
             # {'icon': "fas fa-tachometer-alt", 'label':"Dashboard",'ttip':"I'm the Dashboard tooltip!"} #can add a tooltip message
         
         ]
