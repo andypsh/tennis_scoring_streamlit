@@ -38,61 +38,51 @@ def main():
         # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
         login_module.login_check(config)
 
-
-    menu_data = [
-        {'id' :'tab1' ,'icon': "far fa-copy", 'label':"TAB1"},
-        {'id':'tab2','label':"TAB2"},
-        # {'icon': "fa-solid fa-radar",'label':"Dropdown1", 'submenu':[{'id':' subid11','icon': "fa fa-paperclip", 'label':"Sub-item 1"},{'id':'subid12','icon': "💀", 'label':"Sub-item 2"},{'id':'subid13','icon': "fa fa-database", 'label':"Sub-item 3"}]},
-        # {'icon': "far fa-chart-bar", 'label':"Chart"},#no tooltip message
-        {'id':'tab3','icon': "💀", 'label':"TAB3"},
-        # {'icon': "fas fa-tachometer-alt", 'label':"Dashboard",'ttip':"I'm the Dashboard tooltip!"} #can add a tooltip message
-       
-    ]
-
-    over_theme = {'txc_inactive': '#FFFFFF'}
-    chosen_id = hc.nav_bar(
-        menu_definition=menu_data,
-        override_theme=over_theme,
-        # home_name='Home',
-        login_name='Logout',
-        hide_streamlit_markers=False, #will show the st hamburger as well as the navbar now!
-        sticky_nav=True, #at the top or not
-        sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
-    )
-    st.write(st.session_state)
-   
-        # -------------------------------------------------------------------------------------------------------------------------------
-        # tab1 데이터 소개
-        # -------------------------------------------------------------------------------------------------------------------------------
-    with st.container():
-        if chosen_id == 'tab1':
-            col1, col2=st.columns([7,3])
-            with col1:
-                st.write('tab1')
-
-        # -------------------------------------------------------------------------------------------------------------------------------
-        # tab2 기본 용어 및 수집·분석 정보
-        # -------------------------------------------------------------------------------------------------------------------------------
-
-        if chosen_id == 'tab2':
-            st.write('tab2')
+    if st.session_state.get('authentication_status'):
+        menu_data = [
+            {'id' :'tab1' ,'icon': "far fa-copy", 'label':"TAB1"},
+            {'id':'tab2','label':"TAB2"},
+            # {'icon': "fa-solid fa-radar",'label':"Dropdown1", 'submenu':[{'id':' subid11','icon': "fa fa-paperclip", 'label':"Sub-item 1"},{'id':'subid12','icon': "💀", 'label':"Sub-item 2"},{'id':'subid13','icon': "fa fa-database", 'label':"Sub-item 3"}]},
+            # {'icon': "far fa-chart-bar", 'label':"Chart"},#no tooltip message
+            {'id':'tab3','icon': "💀", 'label':"TAB3"},
+            # {'icon': "fas fa-tachometer-alt", 'label':"Dashboard",'ttip':"I'm the Dashboard tooltip!"} #can add a tooltip message
         
-        elif chosen_id == 'tab3':
-            st.write('tab3')
-        elif chosen_id == 'tab4':
-            st.write('tab4')
+        ]
 
-    with st.sidebar:
+        over_theme = {'txc_inactive': '#FFFFFF'}
+        chosen_id = hc.nav_bar(
+            menu_definition=menu_data,
+            override_theme=over_theme,
+            # home_name='Home',
+            login_name='Logout',
+            hide_streamlit_markers=False, #will show the st hamburger as well as the navbar now!
+            sticky_nav=True, #at the top or not
+            sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
+        )
+  
+            # -------------------------------------------------------------------------------------------------------------------------------
+            # tab1 데이터 소개
+            # -------------------------------------------------------------------------------------------------------------------------------
+        with st.container():
+            if chosen_id == 'tab1':
+                col1, col2=st.columns([7,3])
+                with col1:
+                    st.write('tab1')
 
-        #     ################# [login_module] ##################
+            # -------------------------------------------------------------------------------------------------------------------------------
+            # tab2 기본 용어 및 수집·분석 정보
+            # -------------------------------------------------------------------------------------------------------------------------------
 
-        #     login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
-        #     사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+            if chosen_id == 'tab2':
+                st.write('tab2')
             
-        #     ####################################################
+            elif chosen_id == 'tab3':
+                st.write('tab3')
+            elif chosen_id == 'tab4':
+                st.write('tab4')
+    else:
+        st.header('로그인 하세요!')
 
-            config = login_module.get_conf()
-            login_module.login_check(config)
         
 
 

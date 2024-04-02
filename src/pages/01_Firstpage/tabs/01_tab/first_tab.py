@@ -4,11 +4,22 @@ import pandas as pd
 
 
 def run_sum_main(data_loader):
+
+    ########### [데이터 갖고 오기] ##############
+    
+    # data_loader : get_databricks_data 클래스의 인스턴스를 참조하는 변수
+    # data_loader는 get_databricks_data 인스턴스내 참조되어있는 메서드 load_all_data 갖고 온다.
+    # get_databricks_data 인스턴스내 dm_clm_proc_data 함수를 갖고 온다.
+    #############################################
     
     df_raw = data_loader.dm_clm_proc_data
 
     from_date, to_date = pd.to_datetime(df_raw['bsymd'].max()).replace(day=1), df_raw['bsymd'].max()
-
+    ########### [HTML 형식] ##############
+    
+    # HTML  형식으로 color background 설정 
+    
+    #######################################
     st.markdown("""
             <style>
             .colored-bg {
@@ -18,8 +29,14 @@ def run_sum_main(data_loader):
                 margin: 10px 0;  /* 위아래 여백 설정 */
             }
                 </style>""", unsafe_allow_html=True)
-    
+
     col1, col2, col3, col4 = st.columns([8, 0.8, 0.8, 0.8])
+    ########### [Layout] ##############
+    
+    # st.container() 안에 columns들 설정해야 레이아웃 잡는데 편합니다.
+    # markdown은 기호에 따라 삭제하셔도 무방합니다.
+    
+    #######################################
     with st.container():
         with col1 : 
             st.header("Header")

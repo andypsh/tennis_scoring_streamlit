@@ -3,7 +3,8 @@ from st_pages import Page, show_pages, add_page_title
 import importlib
 import os
 import sys
-
+import datetime
+import extra_streamlit_components as stx
 #################[Local Path]#################
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -11,52 +12,60 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 login_dir = os.path.join(current_dir + '/login/')
 sys.path.append(login_dir)
 login_module = importlib.import_module("lgn")
-def setup_sidebar():
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    login_dir = os.path.join(current_dir, 'login')
-    sys.path.append(login_dir)
-    login_module = importlib.import_module("lgn")
 
-    config = login_module.get_conf()
-    login_module.login_check(config)
-    with st.sidebar:
-        config = login_module.get_conf()
+# def get_manager():
+#     return stx.CookieManager()
 
-        # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-        login_module.login_check(config)
+# # @st.cache_resource
+# cookie_manager = get_manager()
+# st.subheader("All Cookies:")
+# cookies = cookie_manager.get_all()
+# st.write(cookies)
 
+# c1, c2, c3 = st.columns(3)
 
-# def  __login__obj = __login__(auth_token = "courier_auth_token", 
-#                     company_name = "Shims",
-#                     width = 200, height = 250, 
-#                     logout_button_name = 'Logout', hide_menu_bool = False, 
-#                     hide_footer_bool = False, 
-#                     lottie_url = 'https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json')
-
-# LOGGED_IN = __login__obj.build_login_ui()
-
-
+# with c1:
+#     st.subheader("Get Cookie:")
+#     cookie = st.text_input("Cookie", key="0")
+#     clicked = st.button("Get")
+#     if clicked:
+#         value = cookie_manager.get(cookie=cookie)
+#         st.write(value)
+# with c2:
+#     st.subheader("Set Cookie:")
+#     cookie = st.text_input("Cookie", key="1")
+#     val = st.text_input("Value")
+#     if st.button("Add"):
+#         cookie_manager.set(cookie, val) # Expires in a day by default
+# with c3:
+#     st.subheader("Delete Cookie:")
+#     cookie = st.text_input("Cookie", key="2")
+#     if st.button("Delete"):
+#         cookie_manager.delete(cookie)
 def main():
     
-    # setup_sidebar()
+
+    st.set_page_config(layout="wide", page_title = 'Write Your Page name' , page_icon=":memo:")
 
     with st.sidebar:
-        config = login_module.get_conf()
+        ################## [login_module] ##################
 
+        # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
         # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-        login_module.login_check(config)
-
-    # st.session_state['authentication_status'] = None
-    # st.session_state['authentication_status'] = "Aa"
-    # Optional -- adds the title and icon to the current page
-    # add_page_title('로그인하세요!')
     
-    # Specify what pages should be shown in the sidebar, and what their titles 
-    # and icons should be
-
+        #####################################################
+        config = login_module.get_conf()
+        login_module.login_check(config)
+        #####################################################
     if st.session_state.get('authentication_status'):
             
-        st.header('옆에 PAGE를 클릭하세요!')   
+        st.header('옆에 PAGE를 클릭하세요!')
+        ################## [Side bar Menu Tree] ##################
+
+        # st-pages 모듈 내 show_pages 클래스 import 
+        # Page('구동할 파일' , '이름' , '이모티콘')
+    
+        #####################################################
         show_pages(
             [
                 Page('main.py', 'Home', "🏠"),
@@ -66,20 +75,10 @@ def main():
                 Page("pages/04_Fourthpage/fourth_main.py" , "Fourth_page" , ":horse:")
             ]
         )
-        # with st.sidebar:
-        #     config = login_module.get_conf()
+        # st.write(st.session_state)
 
-        #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-        #     login_module.login_check(config)
     else:
         st.header('로그인하세요!')
-    
-    # with st.sidebar:
-    #     config = login_module.get_conf()
-
-    #     # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
-    #     login_module.login_check(config)
-
 
 if __name__ == "__main__":
     # 로그인 성공 후 메인 함수 실행
