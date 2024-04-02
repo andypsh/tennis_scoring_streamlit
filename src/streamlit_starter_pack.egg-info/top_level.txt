@@ -1,4 +1,1 @@
-lib
-login
-pages
 resource

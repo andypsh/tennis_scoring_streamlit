@@ -10,10 +10,10 @@ Requires-Dist: numpy
 Requires-Dist: matplotlib
 Requires-Dist: pandas
 Requires-Dist: scipy
-Requires-Dist: streamlit==1.31.0
+Requires-Dist: streamlit==1.32.0
 Requires-Dist: streamlit-aggrid
 Requires-Dist: seaborn
-Requires-Dist: streamlit-dynamic-filters_andy==0.0.2
+Requires-Dist: streamlit-dynamic-filters_andy==0.0.3
 Requires-Dist: boto3
 Requires-Dist: altair==4.2.2
 Requires-Dist: plotly==5.18.0
