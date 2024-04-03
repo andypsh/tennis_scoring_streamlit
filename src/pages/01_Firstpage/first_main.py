@@ -6,6 +6,7 @@ import warnings
 import extra_streamlit_components as stx
 import base64
 import json
+import hydralit_components as hc
 # FutureWarning을 무시하도록 설정
 warnings.filterwarnings("ignore")
 
@@ -66,7 +67,7 @@ def main():
     
 
     
-
+    
 
         ################## [stx.tab_bar] ###################
 
@@ -85,40 +86,38 @@ def main():
         stx.TabBarItemData(id="tab2", title="02.TAB", description="description"),
         stx.TabBarItemData(id="tab3", title="03.TAB", description="description")
         ],default = 'tab1' , key =unique_key)
+        ################## [hydralit components] ###################
 
-        # print(chosen_id)
-
-        
-        # jwt_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1c2FuIiwiZXhwX2RhdGUiOjE3MTQyMzcwNjcuMjg4Nzc0fQ.WOp8u6gXNM9JUc39F3W1SNXKbQIoMlYBvrS69pkME7c"
-        # payload = jwt_token.split('.')[1]  # JWT의 두 번째 부분(페이로드)을 가져옵니다.
-        # decoded_payload = base64.b64decode(payload + "==").decode('utf-8')  # Base64 디코딩
-        # print(json.loads(decoded_payload))
-
-        with st.container():
-            
-            ########### [데이터 갖고 오기] ##############
-            
-            # data_loader : get_databricks_data 클래스의 인스턴스를 참조하는 변수
-            # data_loader는 get_databricks_data 인스턴스내 참조되어있는 메서드 load_all_data 갖고 온다.
-            #############################################
-            data_loader = get_databricks_data()
-            data_loader.load_all_data()
-            ####################################################
+        # 하단 링크 참조
+        # https://github.com/TangleSpace/hydralit_components?tab=readme-ov-file
+    
+        ####################################################
+        with hc.HyLoader('Now Data loading',hc.Loaders.standard_loaders,index=[3,0,5]):
+            with st.container():
+                
+                ########### [데이터 갖고 오기] ##############
+                
+                # data_loader : get_databricks_data 클래스의 인스턴스를 참조하는 변수
+                # data_loader는 get_databricks_data 인스턴스내 참조되어있는 메서드 load_all_data 갖고 온다.
+                #############################################
+                data_loader = get_databricks_data()
+                data_loader.load_all_data()
+                ####################################################
 
 
-            ########### [동적모듈로딩 방식 활용하여 TAB별 불러오기] ##############
-            
-            # chosen_id = "TAB ID"
-            # load_and_run_module("TAB 이름" , "TAB 내 실행할 모듈 이름" ,  "resource를 갖고오는 클래스 인스턴스 변수")
+                ########### [동적모듈로딩 방식 활용하여 TAB별 불러오기] ##############
+                
+                # chosen_id = "TAB ID"
+                # load_and_run_module("TAB 이름" , "TAB 내 실행할 모듈 이름" ,  "resource를 갖고오는 클래스 인스턴스 변수")
 
-            ##################################################S##################
+                ##################################################S##################
 
-            if chosen_id == "tab1":
-                load_and_run_module("first_tab", "run_sum_main",data_loader)
-            elif chosen_id == "tab2":
-                load_and_run_module("second_tab", "run_anomaly_main" ,data_loader)
-            elif chosen_id == "tab3":
-                load_and_run_module("third_tab", "FirstContents" ,data_loader)
+                if chosen_id == "tab1":
+                    load_and_run_module("first_tab", "run_sum_main",data_loader)
+                elif chosen_id == "tab2":
+                    load_and_run_module("second_tab", "run_anomaly_main" ,data_loader)
+                elif chosen_id == "tab3":
+                    load_and_run_module("third_tab", "FirstContents" ,data_loader)
     else:
         st.header('로그인 하세요!')
 
