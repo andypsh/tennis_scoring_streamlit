@@ -32,6 +32,7 @@
 ## ⓒ  사용법 
 ##### 🛎 ️폴더 Tree 둘러보기
 - ![폴더Tree1](/readme_images/folder_Tree1.PNG)
+<img src="/readme_images/folder_Tree1.PNG" width="100" height="100">
 - ![폴더Tree2](/readme_images/folder_Tree.PNG)
 1. **resource/databricks.py** 내 코드 변경
 
