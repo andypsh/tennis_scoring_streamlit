@@ -63,9 +63,7 @@ def main():
             sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
         )
     
-            # -------------------------------------------------------------------------------------------------------------------------------
-            # tab1 데이터 소개
-            # -------------------------------------------------------------------------------------------------------------------------------
+
         with hc.HyLoader('Now Data loading',hc.Loaders.standard_loaders,index=[3,0,5]):
             with st.container():
                 if chosen_id == 'tab1':

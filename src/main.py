@@ -29,10 +29,8 @@ def main():
         config = login_module.get_conf()
         login_module.login_check(config)
 
-    # for 3 loaders from the standard loader group
+    
     with hc.HyLoader('Now doing loading',hc.Loaders.standard_loaders,index=[3,0,5]):
-        # time.sleep(5)
-
 
         #####################################################
         if st.session_state.get('authentication_status'):

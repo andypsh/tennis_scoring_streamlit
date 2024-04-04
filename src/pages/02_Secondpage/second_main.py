@@ -93,7 +93,7 @@ def main():
         over_theme = {'txc_inactive': 'black' , 'menu_background' : 'skyblue' ,'txc_active' : 'red' , 'option_active' : 'white'}
         chosen_id = hc.nav_bar(
             menu_definition=menu_data,
-            first_select = 30,
+            first_select = 00,
             override_theme=over_theme,
             # home_name='Home',
             login_name='Logout',

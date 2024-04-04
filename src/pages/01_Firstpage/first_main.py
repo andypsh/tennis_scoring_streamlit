@@ -63,12 +63,6 @@ def main():
 
         config = login_module.get_conf()
         login_module.login_check(config)
-    #####################################################
-    
-
-    
-    
-
         ################## [stx.tab_bar] ###################
 
         # id : 각 TAB 별로 부여할 ID

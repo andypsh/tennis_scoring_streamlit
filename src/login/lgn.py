@@ -6,6 +6,7 @@ import extra_streamlit_components as stx
 import os
 from uuid import uuid4
 
+@st.cache_resource()
 def get_conf():
     """
     config.yaml 파일 정보 갖고오기
