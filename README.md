@@ -12,14 +12,14 @@
 
 ---
 
-### 설치하기
+### ⓑ 설치하기
 
 1. setup.cfg 내 package들 설치(base / 가상환경)
     - ```sh
       pip install .
       ```
-    - setup.cfg 가 있는 폴더 Tree로 이동 이후에 "<span style="color: red;">**pip install .**</span>" 실행해주세요.
-
+    - setup.cfg 가 있는 폴더 Tree로 이동 이후에 "**pip install .**" 실행해주세요.
+    - ![setup.cfg 위치](/readme_images/setup.PNG)
 
 2. "pip install ." 를 시행하였으나, 아래와 같은 오류가 발생시
 "first_select: int (default 0)
