@@ -30,39 +30,56 @@
 
 ---
 ## ⓒ  사용법 
-##### 🛎 ️폴더 Tree 둘러보기
-<img src="/readme_images/folder_Tree1.PNG" width="300" height="600"></img>
-![폴더Tree2](/readme_images/folder_Tree.PNG)
-1. **resource/databricks.py** 내 코드 변경
+#####  🚨 ️폴더 Tree 둘러보기
+- ![폴더Tree1](/readme_images/folder_Tree1.PNG)
+<img src="/readme_images/folder_Tree1.PNG" width="100" height="100">
+- ![폴더Tree2](/readme_images/folder_Tree.PNG)
+1. **resource/databricks.py** 내 "**get_dm_clm_proc**" 메서드 코드 변경
 
 ```python
 class get_databricks_data :
     def __init__(self):
         self.dm_clm_proc_data = None
         self.dm_trend_data = None
+    #################[Resource 불러오기]###################
+        
+    #cache_resource(ttl 변경)
+    # table 명 변경
+    # databricks 경로 변경
+    # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
 
+    ######################################################
     @st.cache_resource(ttl = 7200)
     def get_dm_clm_proc(_self):
-        #################[Resource 불러오기]###################
-
-        # table 명 변경
-        # databricks 경로 변경
-        # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
-
-        ######################################################
+    
         table = 'dm_clm_proc'
-        
-        
         df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
 
         return df_raw
 ```
 ##### ❗ **변경해야할 사항**
-- ✅ **table명 변경**
-- ✅ ️ds_databricks.select_all("*" , **table 이 위치한  databricks 경로** )
-
-
-
+- ️✏️  @st.cache_resource()내 ttl 변경. 7200 초 = 2시간
+    - ✅ **Loop 참고링크** [Streamlit Cache 참고](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/ETo-vd9MXvRGiroB8sCfiowBxuU3l2U0LvqI66YpqhdI5w?e=wAbfAV&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHSjJIMjY1NlRDNjZSRElWT1FCNkxBSjdDVU0mYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhkNCUyMiU3RA%3D%3D)
+- ✏️ **table명 변경**
+- ✏️ ️ds_databricks.select_all("*" , **table 이 위치한  databricks 경로** )
+2. **resource/databricks.py** 내 "**setup_data**" 메서드 코드 변경
+```python
+    @st.cache_resource(ttl = 7200)
+    def setup_data(_self, return_full_df = False):
+        table = 'dm_trend_all_filter'
+ 
+        df = ds_databricks.select_query(f"select * from b10g000565.cis_ano.{table}")
+        df['bsymd'] = pd.to_datetime(df['bsymd'])
+        df.dropna(subset=['voc_id', 'rece_dttm'], inplace=True)
+        if return_full_df:
+            return df
+        else:
+            df_filtered = df[['bsymd', 'wname1', 'maktx', 'prdha1_nm', 'prdha2_nm', 'prdha3_nm', 
+                'lcls_nm', 'mcls_nm', 'scls_nm', 'making_ymd', 'expiry_ymd', 
+                'lotno', 'buy_way_nm', 'voc_id_count' , 'claim_grd_cd']]
+            return df_filtered
+```
+🚨 setup_data 메서드는 "**01_Firstpage/tabs/03_tab/**" 내에서 쓰이는 "**DATA 이므로 참고용으로만 보세요.**" 
 
 ---
 ## ⓓ 기능

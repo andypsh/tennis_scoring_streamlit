@@ -16,16 +16,17 @@ class get_databricks_data :
     def __init__(self):
         self.dm_clm_proc_data = None
         self.dm_trend_data = None
+    #################[Resource 불러오기]###################
+        
+    #cache_resource(ttl 변경)
+    # table 명 변경
+    # databricks 경로 변경
+    # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
 
+    ######################################################
     @st.cache_resource(ttl = 7200)
     def get_dm_clm_proc(_self):
-        #################[Resource 불러오기]###################
 
-        # table 명 변경
-        # databricks 경로 변경
-        # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
-
-        ######################################################
         table = 'dm_clm_proc'
         
         
