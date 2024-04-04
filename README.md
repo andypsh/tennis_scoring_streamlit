@@ -35,7 +35,7 @@
 ![폴더Tree2](/readme_images/folder_Tree.PNG)
 1. **resource/databricks.py** 내 코드 변경
 
-```
+```python
 class get_databricks_data :
     def __init__(self):
         self.dm_clm_proc_data = None
