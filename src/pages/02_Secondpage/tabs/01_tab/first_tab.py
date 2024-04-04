@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
+
 ## 추가
 
 
@@ -13,8 +15,12 @@ def run_sum_main(data_loader):
     #############################################
     
     df_raw = data_loader.dm_clm_proc_data
-
-    from_date, to_date = pd.to_datetime(df_raw['bsymd'].max()).replace(day=1), df_raw['bsymd'].max()
+    # 현재 날짜를 datetime.date 객체로 얻기
+    today = datetime.today().date()
+    # 3개월 전 날짜를 계산하고 datetime.date 객체로 변환
+    default_start_date = (today - pd.DateOffset(months=3)).date()
+    from_date = default_start_date
+    to_date = today
     ########### [HTML 형식] ##############
     
     # HTML  형식으로 color background 설정 
@@ -50,12 +56,12 @@ def run_sum_main(data_loader):
             
         with col3 :
             st.markdown('<div class="colored-bg">st.columns col3 범위</div>', unsafe_allow_html=True)
-            from_date = st.date_input('from_date:', from_date, key = 'from_date')
-            from_date = pd.Timestamp(from_date)
+            from_date_input = st.date_input('from_date:', from_date, key = 'from_date')
+            from_date = pd.Timestamp(from_date_input)
         with col4 :
             st.markdown('<div class="colored-bg">st.columns col4 범위</div>', unsafe_allow_html=True)
-            to_date = st.date_input('to_date:', to_date, key = 'to_date')
-            to_date = pd.Timestamp(to_date)
+            to_date_input = st.date_input('to_date:', to_date, key = 'to_date')
+            to_date = pd.Timestamp(to_date_input)
 
     layout1, layout2 = st.columns([10,2.4])
     with layout1:

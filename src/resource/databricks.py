@@ -19,14 +19,18 @@ class get_databricks_data :
 
     @st.cache_resource(ttl = 7200)
     def get_dm_clm_proc(_self):
+        #################[Resource 불러오기]###################
+
+        # table 명 변경
+        # databricks 경로 변경
+        # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
+
+        ######################################################
         table = 'dm_clm_proc'
         
-        # 데이터 로드
-        df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
-        df_raw['bsym'] = df_raw['bsym'].astype(str)
-        df_raw['bsymd'] = df_raw['bsymd'].astype(str)
-        df_raw['bsymd'] = pd.to_datetime(df_raw['bsymd'])
         
+        df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
+
         return df_raw
 
 

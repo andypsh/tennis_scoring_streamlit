@@ -1,6 +1,6 @@
 # 프로젝트 이름 : Streamlit Starteer Package
----
-- Ver0.1
+
+- Ver 0.1
     - 240404 Andy 수정
 ---
 
@@ -12,7 +12,7 @@
 
 ---
 
-### ⓑ 설치하기
+### ⓑ  패키지 설치하기
 
 1. setup.cfg 내 package들 설치(base / 가상환경)
 - ```sh
@@ -28,7 +28,52 @@
 3. 이후 "**pip install .**" 재 시행시 **템플릿 관련 패키지 설치 완료**
 ![package 설치](/readme_images/setup_cfg.PNG)
 
+---
+## ⓒ  사용법 
+##### 🛎 ️폴더 Tree 둘러보기
+- ![폴더Tree1](/readme_images/folder_Tree1.PNG)
+- ![폴더Tree2](/readme_images/folder_Tree.PNG)
+1. **resource/databricks.py** 내 코드 변경
 
+```
+class get_databricks_data :
+    def __init__(self):
+        self.dm_clm_proc_data = None
+        self.dm_trend_data = None
+
+    @st.cache_resource(ttl = 7200)
+    def get_dm_clm_proc(_self):
+        #################[Resource 불러오기]###################
+
+        # table 명 변경
+        # databricks 경로 변경
+        # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
+
+        ######################################################
+        table = 'dm_clm_proc'
+        
+        
+        df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
+
+        return df_raw
+```
+##### ❗ **변경해야할 사항**
+- ✅ **table명 변경**
+- ✅ ️ds_databricks.select_all("*" , **table 이 위치한  databricks 경로** )
+
+
+
+
+---
+## ⓓ 기능
+| 기능 | 기술명  | Loop 링크
+| ------ | ------ | ------ |
+| login | Streamlit_Authenticator |[streamlit_authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=7NL8vf&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D) | |
+| GitHub | [plugins/github/README.md][PlGh] |
+| Google Drive | [plugins/googledrive/README.md][PlGd] |
+| OneDrive | [plugins/onedrive/README.md][PlOd] |
+| Medium | [plugins/medium/README.md][PlMe] |
+| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
 
 ## Features
 
