@@ -2,6 +2,8 @@
 
 - Ver 0.1
     - 240404 Andy 수정
+- Ver 0.2
+    - 240405 Andy 수정
 ---
 
 ### ⓐ 템플릿 다운 받기
@@ -32,7 +34,7 @@
 ## ⓒ  사용법 
 #####  🚨 ️폴더 Tree 둘러보기
 - ![폴더Tree1](/readme_images/folder_Tree1.PNG)
-<img src="/readme_images/folder_Tree1.PNG" width="100" height="100">
+<img src="/readme_images/folder_Tree1.PNG" width="300" height="500"></img>
 - ![폴더Tree2](/readme_images/folder_Tree.PNG)
 1. **resource/databricks.py** 내 "**get_dm_clm_proc**" 메서드 코드 변경
 
@@ -57,12 +59,13 @@ class get_databricks_data :
 
         return df_raw
 ```
-##### ❗ **변경해야할 사항**
+<div style="padding-left:30px;"> ❗ **변경해야할 사항** 
 - ️✏️  @st.cache_resource()내 ttl 변경. 7200 초 = 2시간
     - ✅ **Loop 참고링크** [Streamlit Cache 참고](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/ETo-vd9MXvRGiroB8sCfiowBxuU3l2U0LvqI66YpqhdI5w?e=wAbfAV&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHSjJIMjY1NlRDNjZSRElWT1FCNkxBSjdDVU0mYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhkNCUyMiU3RA%3D%3D)
 - ✏️ **table명 변경**
 - ✏️ ️ds_databricks.select_all("*" , **table 이 위치한  databricks 경로** )
-2. **resource/databricks.py** 내 "**setup_data**" 메서드 코드 변경
+</div>
+2. 🚨  **resource/databricks.py** 내 "**setup_data**" 메서드는 "**01_Firstpage/tabs/03_tab/**" 내에서 쓰이는 "**예시 DATA 이므로 참고용으로만 보세요.**"(지우셔도 무방합니다.) 
 ```python
     @st.cache_resource(ttl = 7200)
     def setup_data(_self, return_full_df = False):
@@ -79,7 +82,7 @@ class get_databricks_data :
                 'lotno', 'buy_way_nm', 'voc_id_count' , 'claim_grd_cd']]
             return df_filtered
 ```
-🚨 setup_data 메서드는 "**01_Firstpage/tabs/03_tab/**" 내에서 쓰이는 "**DATA 이므로 참고용으로만 보세요.**" 
+
 
 ---
 ## ⓓ 기능
