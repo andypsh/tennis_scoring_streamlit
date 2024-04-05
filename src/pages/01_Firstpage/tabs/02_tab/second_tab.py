@@ -62,19 +62,19 @@ def run_anomaly_main(data_loader):
             st.subheader('Right col Subheader')
             st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)    
             with st.container(height=400, border=None):
-                st.write('Contents')
+                st.write('Contents2')
         
         with st.container() :
             st.subheader('Right col Subheader2')
             st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)  
             with st.container(height=400, border=None):
-                st.write('Contents')
+                st.write('Contents3')
 
         with st.container() :
             st.subheader('Right col Subheader3')
             st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
             with st.container(height=400, border=None):
-                st.write('Contents')
+                st.write('Contents4')
 
     col1, col2, col3, col4, col5, col6 = st.columns([8, 1, 1, 0.05, 1, 1])
 

@@ -167,7 +167,7 @@ from st_pages import Page, show_pages, add_page_title
             )
 ```
 - ✏️**Page('구동할 파일', '이름', '이모티콘')**
-![SideMenu Tree](/readme_images/sidemenuTree.PNG)
+- ![SideMenu Tree](/readme_images/sidemenuTree.PNG)
 - ✅ **Loop 참고링크** : [SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=STfg3j&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
 ---
 ## ⓒ  사용법 _3(TAB 형식 갖추기)
@@ -316,13 +316,13 @@ with st.container():
         st.markdown('<div class="colored-bg">st.columns col1 범위</div>', unsafe_allow_html=True)
         st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
     ```
-    
-    ![LayOut](/readme_images/Layout.PNG)
+    - **st.columns() 메서드를 활용하여 열 Layout을 잡은뒤 st.container() 사용 추천**
+    - ![LayOut](/readme_images/Layout.PNG)
     - **st.container()** & **st.columns()** 활용
     
     - **st.container()** 의 경우 내부 파라미터로 크기,높이,테두리를 설정할 수 있다.
     EX) **st.container(height=400 , border=None)**
-    ```
+    ```python
     layout1, layout2 = st.columns([10,2.4])
     with layout1:
         st.subheader('Subheader')
@@ -337,8 +337,9 @@ with st.container():
             st.write('Contents2')
             st.dataframe(df_raw.head(100))
     ```
-    ![st.container](/readme_images/container.PNG)
-    
+    - ![st.container](/readme_images/container.PNG)
+#### 2. LayOut 구조 잡기
+##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/first_tab.py 참조
     
     
 ## ⓓ 기능
