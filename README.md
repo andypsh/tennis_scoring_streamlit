@@ -1,4 +1,4 @@
-# 프로젝트 이름 : Streamlit Starteer Package
+# 프로젝트 이름 : Streamlit Starter Package
 
 - Ver 0.1
     - 240404 Andy 수정
@@ -10,7 +10,7 @@
 
 #### 1. git clone/pull 을 통하여 사용하세요.
 
-    - ✅ **LOOP 참고 링크** : [git pull 방법](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eee0lnt2irFAun5oKqVO4fsBid-Dhx28dz2ny0flcXT1OA?e=BXX1OT&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHUEhXU0xIVzVVS1dGQUxVN1RJRktTVTVZUDMmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhhMCUyMiU3RA%3D%3D)
+- ✅ **LOOP 참고 링크** : [git pull 방법](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eee0lnt2irFAun5oKqVO4fsBid-Dhx28dz2ny0flcXT1OA?e=BXX1OT&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHUEhXU0xIVzVVS1dGQUxVN1RJRktTVTVZUDMmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhhMCUyMiU3RA%3D%3D)
 
 ---
 
@@ -31,7 +31,7 @@
 ![package 설치](/readme_images/setup_cfg.PNG)
 
 ---
-## ⓒ  사용법 
+## ⓒ  사용법 _1 (Resource 갖고오기)
 #####  🚨 ️폴더 Tree 둘러보기
 
 <img src="/readme_images/folder_Tree1.PNG" width="300" height="500"></img>
@@ -82,8 +82,65 @@ class get_databricks_data :
                 'lotno', 'buy_way_nm', 'voc_id_count' , 'claim_grd_cd']]
             return df_filtered
 ```
+#### 3. resource/databricks.py내 'load_all_data' 메서드는 페이지를 실행할때 쓰이는 databiricks의 DATA를 한번에 불러올수 있게하는 메서드 입니다.
+```
+    def load_all_data(self):
+        self.dm_clm_proc_data = self.get_dm_clm_proc()
+        self.dm_trend_data = self.setup_data(return_full_df=True)
+```
+- 메서드를 직접 선언하시어, 위의 self.dm_trend_data 와 같이 인스턴스 변수를 직접 만드셔도 됩니다!
 
+#### 4. Resource 한번에 로드하여 각 페이지의 main.py 에 인스턴스 형태로 불러하기. 
+- **EX)** src/pages/first_main.py 코드참조 
+```python
+resource_path = os.path.join('../../resource/')
+sys.path.append(resource_path)
+resource_module = importlib.import_module("resource.databricks")
+get_databricks_data = getattr(resource_module, 'get_databricks_data')
 
+            with st.container():
+                
+                ########### [데이터 갖고 오기] ##############
+                
+                # data_loader : get_databricks_data 클래스의 인스턴스를 참조하는 변수
+                # data_loader는 get_databricks_data 인스턴스내 참조되어있는 메서드 load_all_data 갖고 온다.
+                #############################################
+                data_loader = get_databricks_data()
+                data_loader.load_all_data()
+                
+                ########### [동적모듈로딩 방식 활용하여 TAB별 불러오기] ##############
+                
+                # chosen_id = "TAB ID"
+                # load_and_run_module("TAB 이름" , "TAB 내 실행할 모듈 이름" ,  "resource를 갖고오는 클래스 인스턴스 변수")
+
+                ##################################################S##################
+
+                if chosen_id == "tab1":
+                    load_and_run_module("first_tab", "run_sum_main",data_loader)
+                elif chosen_id == "tab2":
+                    load_and_run_module("second_tab", "run_anomaly_main" ,data_loader)
+                elif chosen_id == "tab3":
+                    load_and_run_module("third_tab", "FirstContents" ,data_loader)
+```
+- 각 페이지의 main.py 에서 Data를 불러와야 한번에 데이터 로드시 효율적(**시간단축**)으로 불러올수 있게 된다.
+- 각 tab에 **data_loader 인스턴스**를 부여한다. 
+#### 5. 각 TAB에서 data_loader 인스턴스내 메서드 불러오기.
+- **EX)** pages/01_Firstpage/tabs/01_tab/first_tab.py 코드 참조
+```python
+def run_sum_main(data_loader):
+
+    ########### [데이터 갖고 오기] ##############
+    
+    # data_loader : get_databricks_data 클래스의 인스턴스를 참조하는 변수
+    # data_loader는 get_databricks_data 인스턴스내 참조되어있는 메서드 load_all_data 갖고 온다.
+    # get_databricks_data 인스턴스내 dm_clm_proc_data 함수를 갖고 온다.
+    
+    #############################################
+    
+    df_raw = data_loader.dm_clm_proc_data
+```
+- dm_clm_proc_data 메서드를 tab에서 불러왔다.
+- 이미 CASCHE 처리가 되어, 빠르게 불러올수 있다.
 ---
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크
