@@ -5,7 +5,11 @@
 - Ver 0.2
     - 240405 Andy 수정
 ---
-
+## 아이콘 표시
+✏️ : **직접 수정해야할 사항**
+✅  : **Loop 링크**
+🚨 : **주의 사항**
+---
 ### ⓐ 템플릿 다운 받기
 
 #### 1. git clone/pull 을 통하여 사용하세요.
@@ -162,6 +166,7 @@ from st_pages import Page, show_pages, add_page_title
                 ]
             )
 ```
+- ✏️**Page('구동할 파일', '이름', '이모티콘')**
 ![SideMenu Tree](/readme_images/sidemenuTree.PNG)
 - ✅ **Loop 참고링크** : [SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=STfg3j&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
 ---
@@ -169,7 +174,8 @@ from st_pages import Page, show_pages, add_page_title
 
 #### 1. TAB의 경우 2가지 형식을 구현했습니다. 원하시는 TAB을 사용하시면 됩니다.
 🚨 기본 **st.tabs** 의 경우 TAB별로 ID 부여가 불가하여, **속도 저하**의 원인이 될수 있습니다.
-아래 **2가지 라이브러리**를 사용하시는 것을 추천드립니다.
+아래 **2가지 라이브러리** 中 1가지를 사용하시는 것을 추천드립니다.
+(**저는 hydralit_components 라이브러리 사용하는 것을 추천합니다.**)
 
 #### 2-1. "extra_streamlit_components" 내 TabBarItemData 메서드 활용
 ##### - ✏️ src/pages/01_Firstpage/first_main.py 참조
@@ -193,7 +199,7 @@ from st_pages import Page, show_pages, add_page_title
         stx.TabBarItemData(id="tab3", title="03.TAB", description="description")
         ],default = 'tab1' , key =unique_key)
 ```
-- ️✏️ id , title 명 변경 , description(선택기능, **공백처리**[""]시 안보입니다.)
+- ️✏️ **id(필수수정)** , **title(필수수정)** , **description**(선택기능, **공백처리**[""]시 화면에 안보입니다.)
 - ✅  **Loop 참조 링크 ** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 
 #### 2-2) "hydralit_components" 내 nav_bar 메서드 활용
@@ -231,13 +237,110 @@ chosen_id = hc.nav_bar(
     sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
 )
 ```
+![SubMenu ITEM](/readme_images/submenuitem.PNG)
 - ✏️  menu_data 변수 수정(딕셔너리 형태) 
     - **id**(필수) , icon(선택) , **label**(필수 , 화면에 표시할 문구)
     - submenu를 구성하기 위해서는 딕셔너리 내에서 다시 선언
-    ```
+    ```python
     {'icon': "fa-solid fa-radar",'label':"Dropdown1", 'submenu':[{'id':'subid11','icon': "fa fa-paperclip", 'label':"Sub-item 1"},{'id':'subid12','icon': ":book:", 'label':"Sub-item 2"},{'id':'subid13','icon': "fa fa-database", 'label':"Sub-item 3"}]}
     ```
+
+- ✏️ **파라미터 수정사항**
+    - first_select(**필수수정**) : PAGE 로드시 뜨는 첫번째 TAB
+    - override_theme(**필수수정**) : TAB 속성 지정
+    - home_name , login_name(선택적으로 수정)
+    - hide_streamlit_markers(**필수수정**) : bool 형식
+    - sticky_nav, sticky_mode(**필수수정**) : False(default) , 'pinned'(defualt)
+    
+- ✅  **Loop 참조 링크** : [hydralit_components , nav_bar](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 ---
+## ⓒ  사용법 _4(Contents 반영하기)
+
+#### 1. LayOut 구조 잡기
+##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/first_tab.py 참조
+```python
+st.markdown("""
+        <style>
+        .colored-bg {
+            background-color: #f0f0f0;  /* 배경색 설정 */
+            border: 1px solid #e0e0e0;  /* 테두리 설정 */
+            padding: 10px;
+            margin: 10px 0;  /* 위아래 여백 설정 */
+        }
+            </style>""", unsafe_allow_html=True)
+
+col1, col2, col3, col4 = st.columns([8, 0.8, 0.8, 0.8])
+########### [Layout] ##############
+
+# st.container() 안에 columns들 설정해야 레이아웃 잡는데 편합니다.
+# markdown은 기호에 따라 삭제하셔도 무방합니다.
+
+#######################################
+with st.container():
+    with col1 : 
+        st.header("Header")
+        st.markdown('<div class="colored-bg">st.columns col1 범위</div>', unsafe_allow_html=True)
+        st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
+
+    with col2 :
+        st.markdown('<div class="colored-bg">st.columns col2 범위</div>', unsafe_allow_html=True)
+        select_options = ['전체', 'SELECT1', 'SELECT2']
+        select_value = st.selectbox("Select BOX:", select_options)
+        
+    with col3 :
+        st.markdown('<div class="colored-bg">st.columns col3 범위</div>', unsafe_allow_html=True)
+        from_date = st.date_input('from_date:', from_date, key = 'from_date')
+        from_date = pd.Timestamp(from_date)
+    with col4 :
+        st.markdown('<div class="colored-bg">st.columns col4 범위</div>', unsafe_allow_html=True)
+        to_date = st.date_input('to_date:', to_date, key = 'to_date')
+        to_date = pd.Timestamp(to_date)
+```
+- ✏️ **LayOut 구조 설정 사항**
+    - st.markdown("""<style></style>""") : HTML 형식, LayOut 구조를 **시각적**으로 파악할때 유용(실제 서비스 배포시 **해당부분 삭제**)
+    ```python
+    st.markdown("""
+        <style>
+        .colored-bg {
+            background-color: #f0f0f0;  /* 배경색 설정 */
+            border: 1px solid #e0e0e0;  /* 테두리 설정 */
+            padding: 10px;
+            margin: 10px 0;  /* 위아래 여백 설정 */
+        }
+            </style>""", unsafe_allow_html=True)
+    ```
+    →  **상단**에서 선언
+    ```python
+    with col1 : 
+        st.header("Header")
+        st.markdown('<div class="colored-bg">st.columns col1 범위</div>', unsafe_allow_html=True)
+        st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
+    ```
+    
+    ![LayOut](/readme_images/Layout.PNG)
+    - **st.container()** & **st.columns()** 활용
+    
+    - **st.container()** 의 경우 내부 파라미터로 크기,높이,테두리를 설정할 수 있다.
+    EX) **st.container(height=400 , border=None)**
+    ```
+    layout1, layout2 = st.columns([10,2.4])
+    with layout1:
+        st.subheader('Subheader')
+        st.markdown('<div class="colored-bg">st.columns layout1 범위</div>', unsafe_allow_html=True)
+        with st.container(height=400, border=None):
+            st.write('Contents')
+            st.write(df_raw.head(20))
+    with layout2:
+        st.subheader('Subheader2')
+        st.markdown('<div class="colored-bg">st.columns layout2 범위</div>', unsafe_allow_html=True)
+        with st.container(height=400, border=None):
+            st.write('Contents2')
+            st.dataframe(df_raw.head(100))
+    ```
+    ![st.container](/readme_images/container.PNG)
+    
+    
+    
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크
 | ------ | ------ | ------ |

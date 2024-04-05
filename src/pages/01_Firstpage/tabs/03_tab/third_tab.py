@@ -75,7 +75,7 @@ class FirstContents:
             st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
             st.subheader("Filter 선택")
 
-            today = pd.to_datetime("today")
+        
 
             # 컬럼 레이아웃 설정
             name_1,col_space1, name_2, col_space1_2 = st.columns([2, 7.5, 2 , 2.5])
