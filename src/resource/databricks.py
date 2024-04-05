@@ -16,20 +16,27 @@ class get_databricks_data :
     def __init__(self):
         self.dm_clm_proc_data = None
         self.dm_trend_data = None
+    #################[Resource 불러오기]###################
+        
+    #cache_resource(ttl 변경)
+    # table 명 변경
+    # databricks 경로 변경
+    # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
 
+    ######################################################
     @st.cache_resource(ttl = 7200)
     def get_dm_clm_proc(_self):
+
         table = 'dm_clm_proc'
-        
-        # 데이터 로드
         df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
-        df_raw['bsym'] = df_raw['bsym'].astype(str)
-        df_raw['bsymd'] = df_raw['bsymd'].astype(str)
-        df_raw['bsymd'] = pd.to_datetime(df_raw['bsymd'])
-        
         return df_raw
 
+    #################[Resource 불러오기_ setup_resource 메서드]###################
+        
+    #예시용
+    # 03_tab/third_tab.py 에서 해당 메서드 활용하여 인스턴스 생성.
 
+    ######################################################
     @st.cache_resource(ttl = 7200)
     def setup_data(_self, return_full_df = False):
         table = 'dm_trend_all_filter'
@@ -38,11 +45,13 @@ class get_databricks_data :
         df['bsymd'] = pd.to_datetime(df['bsymd'])
         df.dropna(subset=['voc_id', 'rece_dttm'], inplace=True)
         if return_full_df:
+            
             return df
         else:
             df_filtered = df[['bsymd', 'wname1', 'maktx', 'prdha1_nm', 'prdha2_nm', 'prdha3_nm', 
                 'lcls_nm', 'mcls_nm', 'scls_nm', 'making_ymd', 'expiry_ymd', 
                 'lotno', 'buy_way_nm', 'voc_id_count' , 'claim_grd_cd']]
+            st.write(df_filtered.tail(10))
             return df_filtered
     
 

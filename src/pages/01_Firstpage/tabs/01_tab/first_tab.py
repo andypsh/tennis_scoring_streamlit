@@ -1,3 +1,4 @@
+from datetime import datetime
 import streamlit as st
 import pandas as pd
 ## 추가
@@ -14,7 +15,11 @@ def run_sum_main(data_loader):
     
     df_raw = data_loader.dm_clm_proc_data
 
-    from_date, to_date = pd.to_datetime(df_raw['bsymd'].max()).replace(day=1), df_raw['bsymd'].max()
+    today = datetime.today().date()
+    # 3개월 전 날짜를 계산하고 datetime.date 객체로 변환
+    default_start_date = (today - pd.DateOffset(months=3)).date()
+    from_date = default_start_date
+    to_date = today
     ########### [HTML 형식] ##############
     
     # HTML  형식으로 color background 설정 
