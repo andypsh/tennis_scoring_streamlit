@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-
+from datetime import datetime
 ########### [Layout] ##############
 
 # st.container() 안에 columns들 설정해야 레이아웃 잡는데 편합니다.
@@ -23,6 +23,10 @@ def run_anomaly_main(data_loader):
     min_date, max_date = df_raw['bsymd'].min(), df_raw['bsymd'].max()
     default_start_date = max_date - pd.DateOffset(months=3)
 
+    today = pd.to_datetime("today")
+    max_date = today
+    default_start_date = max_date - pd.DateOffset(months=3)
+
     with col1:
         st.header("Second Page Header1")
         st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
@@ -33,10 +37,10 @@ def run_anomaly_main(data_loader):
         select_value = st.selectbox("Select BOX:", select_options , key='select_options_1')
     with col3:
         start_date = st.date_input('Start date', default_start_date, key = 'start_date1001')
-        start_date = pd.Timestamp(start_date)
+        
     with col4:
         end_date = st.date_input('End date', max_date, key='end_date1001')
-        end_date = pd.Timestamp(end_date)
+        
 
     left_col, right_col = st.columns([6, 6])
 

@@ -167,8 +167,76 @@ from st_pages import Page, show_pages, add_page_title
 ---
 ## ⓒ  사용법 _3(TAB 형식 갖추기)
 
+#### 1. TAB의 경우 2가지 형식을 구현했습니다. 원하시는 TAB을 사용하시면 됩니다.
+🚨 기본 **st.tabs** 의 경우 TAB별로 ID 부여가 불가하여, **속도 저하**의 원인이 될수 있습니다.
+아래 **2가지 라이브러리**를 사용하시는 것을 추천드립니다.
 
+#### 2-1. "extra_streamlit_components" 내 TabBarItemData 메서드 활용
+##### - ✏️ src/pages/01_Firstpage/first_main.py 참조
 
+```python
+    ################## [stx.tab_bar] ###################
+
+    # id : 각 TAB 별로 부여할 ID
+    # title : TAB 이름 부여
+    # description : TAB 설명 부여
+    # default : TAB에 대한 default값 지정
+    # key : 고유한 key 값 지정
+
+    ####################################################
+    if st.session_state.get('authentication_status'):
+        unique_key = "tab_bar_" + str(os.getpid())
+        
+        chosen_id = stx.tab_bar(data=[
+        stx.TabBarItemData(id="tab1", title="01.TAB", description="description"),
+        stx.TabBarItemData(id="tab2", title="02.TAB", description="description"),
+        stx.TabBarItemData(id="tab3", title="03.TAB", description="description")
+        ],default = 'tab1' , key =unique_key)
+```
+- ️✏️ id , title 명 변경 , description(선택기능, **공백처리**[""]시 안보입니다.)
+- ✅  **Loop 참조 링크 ** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
+
+#### 2-2) "hydralit_components" 내 nav_bar 메서드 활용
+
+- ✏️  src/pages/02_Secondpage/second_main.py 참조
+```python
+################## [hydralit_components] ##################
+
+# nav_bar 메서드 확인은 하단 링크 참조
+# https://github.com/TangleSpace/hydralit_components/blob/main/hydralit_components/NavBar/__init__.py
+# menu_definition 파라미터에 부여할 menu_data 양식은 , 딕셔너리 형태로 지정
+
+# {'id' : id 명 , 'icon' : 사용할 icon , 'label' : 표시할 label 명}
+#####################################################
+
+menu_data = [
+    {'id' :'tab1' ,'icon': "far fa-copy", 'label':"TAB1"},
+    {'id':'tab2','label':"TAB2"},
+    {'icon': "fa-solid fa-radar",'label':"Dropdown1", 'submenu':[{'id':'subid11','icon': "fa fa-paperclip", 'label':"Sub-item 1"},{'id':'subid12','icon': ":book:", 'label':"Sub-item 2"},{'id':'subid13','icon': "fa fa-database", 'label':"Sub-item 3"}]},
+    {'icon': "far fa-chart-bar", 'label':"Chart"},#no tooltip message
+    {'id':'tab3','icon': ":book:", 'label':"TAB3"},
+    {'icon': "fas fa-tachometer-alt", 'label':"Dashboard",'ttip':"I'm the Dashboard tooltip!"} #can add a tooltip message
+
+]
+
+over_theme = {'txc_inactive': 'black' , 'menu_background' : 'skyblue' ,'txc_active' : 'red' , 'option_active' : 'white'}
+chosen_id = hc.nav_bar(
+    menu_definition=menu_data,
+    first_select = 00,
+    override_theme=over_theme,
+    home_name='Home',
+    login_name='Logout',
+    hide_streamlit_markers= True, #will show the st hamburger as well as the navbar now!
+    sticky_nav=False, #at the top or not
+    sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
+)
+```
+- ✏️  menu_data 변수 수정(딕셔너리 형태) 
+    - **id**(필수) , icon(선택) , **label**(필수 , 화면에 표시할 문구)
+    - submenu를 구성하기 위해서는 딕셔너리 내에서 다시 선언
+    ```
+    {'icon': "fa-solid fa-radar",'label':"Dropdown1", 'submenu':[{'id':'subid11','icon': "fa fa-paperclip", 'label':"Sub-item 1"},{'id':'subid12','icon': ":book:", 'label':"Sub-item 2"},{'id':'subid13','icon': "fa fa-database", 'label':"Sub-item 3"}]}
+    ```
 ---
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크

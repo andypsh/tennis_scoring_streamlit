@@ -1,3 +1,4 @@
+from datetime import datetime
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -19,8 +20,8 @@ def run_anomaly_main(data_loader):
     df_raw = data_loader.dm_clm_proc_data
     df_raw 
     col1, col2, col3, col4 = st.columns([8, 1, 1, 1])
-
-    min_date, max_date = df_raw['bsymd'].min(), df_raw['bsymd'].max()
+    today = datetime.today().date()
+    max_date = today
     default_start_date = max_date - pd.DateOffset(months=3)
 
     with col1:
