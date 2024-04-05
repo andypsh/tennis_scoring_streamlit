@@ -88,10 +88,10 @@ class get_databricks_data :
         self.dm_clm_proc_data = self.get_dm_clm_proc()
         self.dm_trend_data = self.setup_data(return_full_df=True)
 ```
-- 메서드를 직접 선언하시어, 위의 self.dm_trend_data 와 같이 인스턴스 변수를 직접 만드셔도 됩니다!
+- 메서드를 직접 선언하시어, 위의 **"self.dm_trend_data"** 와 같이 인스턴스 변수를 직접 만드셔도 됩니다!
 
 #### 4. Resource 한번에 로드하여 각 페이지의 main.py 에 인스턴스 형태로 불러하기. 
-- **EX)** src/pages/first_main.py 코드참조 
+- **EX)** src/pages/01_Firstpage/first_main.py 코드참조 
 ```python
 resource_path = os.path.join('../../resource/')
 sys.path.append(resource_path)
@@ -123,7 +123,7 @@ get_databricks_data = getattr(resource_module, 'get_databricks_data')
                     load_and_run_module("third_tab", "FirstContents" ,data_loader)
 ```
 - 각 페이지의 main.py 에서 Data를 불러와야 한번에 데이터 로드시 효율적(**시간단축**)으로 불러올수 있게 된다.
-- 각 tab에 **data_loader 인스턴스**를 부여한다. 
+- 각 tab에 "**data_loader 인스턴스**"를 부여한다. 
 #### 5. 각 TAB에서 data_loader 인스턴스내 메서드 불러오기.
 - **EX)** pages/01_Firstpage/tabs/01_tab/first_tab.py 코드 참조
 ```python
@@ -140,15 +140,43 @@ def run_sum_main(data_loader):
     df_raw = data_loader.dm_clm_proc_data
 ```
 - dm_clm_proc_data 메서드를 tab에서 불러왔다.
-- 이미 CASCHE 처리가 되어, 빠르게 불러올수 있다.
+- 이미 main.py에서 데이터를 불러오면서 **CASCHE 처리가 완료** 되어있기 때문에, 빠르게 데이터를 볼수 있다.
+---
+## ⓒ  사용법 _2(PAGE 형식  갖추기)
+#### 1. SidebarMenu Tree 형태 , src/main.py 참조
+```python
+from st_pages import Page, show_pages, add_page_title
+            ################## [Side bar Menu Tree] ##################
+
+            # st-pages 모듈 내 show_pages 클래스 import 
+            # Page('구동할 파일' , '이름' , '이모티콘')
+        
+            #####################################################
+            show_pages(
+                [
+                    Page('main.py', 'Home', "🏠"),
+                    Page("pages/01_Firstpage/first_main.py", "First_page", ":smile:"),
+                    Page("pages/02_Secondpage/second_main.py", "Second_page", ":books:"),
+                    Page("pages/03_Thirdpage/third_main.py", "Third_page", ":pig:"),
+                    Page("pages/04_Fourthpage/fourth_main.py" , "Fourth_page" , ":horse:")
+                ]
+            )
+```
+![SideMenu Tree](/readme_images/sidemenuTree.PNG)
+- ✅ **Loop 참고링크** : [SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=STfg3j&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
+---
+## ⓒ  사용법 _3(TAB 형식 갖추기)
+
+
+
 ---
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크
 | ------ | ------ | ------ |
 | login | Streamlit_Authenticator |[streamlit_authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=7NL8vf&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D) | |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
+| GitHub | Git Push/Merge/Pull |
+| Page 구성하기 | SideBarMenu Tree |
+| Tab 구성하기  | hydralit_components |
 | Medium | [plugins/medium/README.md][PlMe] |
 | Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
 
