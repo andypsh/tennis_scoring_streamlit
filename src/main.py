@@ -17,11 +17,6 @@ sys.path.append(login_dir)
 login_module = importlib.import_module("lgn")
 
 def main():
-    layout3 = st.columns([1])
-    with layout3[0]:
-        with st.container(height=500, border=None):
-             st.write('why')
-    st.stop()
     st.set_page_config(layout="wide", page_title = 'Write Your Page name' , page_icon=":memo:")
     with st.sidebar:
     ################## [login_module] ##################
