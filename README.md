@@ -37,7 +37,20 @@
 ![package 설치](/readme_images/setup_cfg.PNG)
 
 ---
-## ⓒ  사용법 _1 (Resource 갖고오기)
+## ⓒ 기능요약 
+| 기능 | 기술명  | Loop 링크
+| ------ | ------ | ------ |
+| login | Streamlit_Authenticator |[streamlit_authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=7NL8vf&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D) | |
+| GitHub | Git Push/Merge/Pull |[Git Branch 다루기](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eee0lnt2irFAun5oKqVO4fsBid-Dhx28dz2ny0flcXT1OA?e=sEmldr&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHUEhXU0xIVzVVS1dGQUxVN1RJRktTVTVZUDMmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhhMCUyMiU3RA%3D%3D)
+| Page 구성하기 | SideBarMenu Tree |[SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=u4Hcpy&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
+| Tab 구성하기  | hydralit_components , extra_streamlit_components  |[Tab 기능](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=NkckXg&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
+| 유기적인 필터  | DynamicFilter | [DynamicFilter](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EUkFSyloe1ROsk3J9EBO028BwJV9i_jawwlfnwvROJjEDQ?e=ZpGz93&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHS0pBVkZTUzJEM0tSSExFVE9KNlJBRTVVM1AmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjdiNzdkYTA3LTZjZTItNGJkYi1hMDY3LTU3OGM4OTA5YTRmMyUyMiU3RA%3D%3D)
+| 차트 색상 지정  | Seaborn 활용 | [Seaborn pallette](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Ebll3Ugm72xGvxmEl1_H2PUBlCQheUH3ao89ZJb-a5_1og?e=KJQx44&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTlpNWE9VUUpYUE5SREw2R01FUzVQNFBXSFYmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmQ1NzZlZTdkLTdlY2UtNGM4NC05NzM1LTk3OGIxY2IzODBlZiUyMiU3RA%3D%3D)
+
+
+---
+
+## ⓓ 사용법 _1 (Resource 갖고오기)
 #####  🚨 ️폴더 Tree 둘러보기
 
 <img src="/readme_images/folder_Tree1.PNG" width="300" height="500"></img>
@@ -147,8 +160,17 @@ def run_sum_main(data_loader):
 ```
 - dm_clm_proc_data 메서드를 tab에서 불러왔다.
 - 이미 main.py에서 데이터를 불러오면서 **CASCHE 처리가 완료** 되어있기 때문에, 빠르게 데이터를 볼수 있다.
+
+#### 6. Cache_resource 사용하기
+
+- ✅ **Loop 참고링크** : [Cache 사용법](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/ETo-vd9MXvRGiroB8sCfiowBxuU3l2U0LvqI66YpqhdI5w?e=eoNLTq&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHSjJIMjY1NlRDNjZSRElWT1FCNkxBSjdDVU0mYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhkNCUyMiU3RA%3D%3D)
+EX) 추후에 기술 되어질, **Loading 되어지는 모습**을 이쁘게 하기위해 파라미터를 수정하였다.
+```python
+@st.cache_resource(ttl = 7200,show_spinner  = False)
+```
+![package 설치](/readme_images/setup_cfg.PNG)
 ---
-## ⓒ  사용법 _2(PAGE 형식  갖추기)
+## ⓓ  사용법 _2(PAGE 형식  갖추기)
 #### 1. SidebarMenu Tree 형태 , src/main.py 참조
 ```python
 from st_pages import Page, show_pages, add_page_title
@@ -172,7 +194,7 @@ from st_pages import Page, show_pages, add_page_title
 - ![SideMenu Tree](/readme_images/sidemenuTree.PNG)
 - ✅ **Loop 참고링크** : [SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=STfg3j&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
 ---
-## ⓒ  사용법 _3(TAB 형식 갖추기)
+## ⓓ  사용법 _3(TAB 형식 갖추기)
 
 #### 1. TAB의 경우 2가지 형식을 구현했습니다. 원하시는 TAB을 사용하시면 됩니다.
 🚨 기본 **st.tabs** 의 경우 TAB별로 ID 부여가 불가하여, **속도 저하**의 원인이 될수 있습니다.
@@ -256,7 +278,7 @@ chosen_id = hc.nav_bar(
     
 - ✅  **Loop 참조 링크** : [hydralit_components , nav_bar](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 ---
-## ⓒ  사용법 _4(Layout 구조 반영하기)
+## ⓓ  사용법 _4(Layout 구조 반영하기)
 
 #### 1. LayOut 구조 잡기
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/first_tab.py 참조
@@ -382,7 +404,7 @@ left_col, right_col = st.columns([6, 6])
 - 🚨 st.columns() 활용법 : [st.columns](https://docs.streamlit.io/develop/api-reference/layout/st.columns)
 - 🚨 st.container()활용법: [st.container](https://docs.streamlit.io/library/api-reference/layout/st.container)
 ---
-## ⓒ  사용법 _5(내 DATA 에 Filter 적용하기)
+## ⓓ  사용법 _5(내 DATA 에 Filter 적용하기)
 #### 1. DynamicFilter 사용하기
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/third_tab.py 참조
 
@@ -475,7 +497,7 @@ choices = ['사업장', 'OEM']
 data['plant_division'] = np.select(conditions, choices, default='Not Specified')
 ```
 ---
-## ⓒ  사용법 _6(Login 기능 , Streamlit _Authenticator 활용)
+## ⓓ  사용법 _6(Login 기능 , Streamlit _Authenticator 활용)
 #### 1. config.yaml 파일 생성하기
 ##### - ✏️ src/.streamlit/config.yaml 참조
 ```
@@ -559,7 +581,7 @@ if 'name' in st.session_state:
 
 - ✅  **Loop 참조 링크** : [Streamlit Authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=oDgMSv&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D)
 ---
-## ⓒ  사용법 _7(기타  기능)
+## ⓓ  사용법 _7(기타  기능)
 #### 1. 차트내 색상 지정
 ##### - ✏️ src/Pages/01_Firstpage/tabs/03_tab/third_tab.py 참조
 ```python
@@ -592,7 +614,7 @@ color_palette2 = [rgb2hex(rgb) for rgb in palette2]
 #### 2. Data 로딩 표시
 ##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
 
-```
+```python
         with hc.HyLoader('Now Data loading',hc.Loaders.standard_loaders,index=[3,0,5]):
             with st.container():
 ```
@@ -603,7 +625,7 @@ color_palette2 = [rgb2hex(rgb) for rgb in palette2]
 
 #### 3. ICON 및 브라우저에 띄울 이름 설정
 ##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
-```
+```python
 def main():
 
     ################### [st.set_page_config] ####################
@@ -615,12 +637,5 @@ def main():
 ```
 
 ![page_name](/readme_images/page_name.PNG)
-## ⓓ 기능
-| 기능 | 기술명  | Loop 링크
-| ------ | ------ | ------ |
-| login | Streamlit_Authenticator |[streamlit_authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=7NL8vf&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D) | |
-| GitHub | Git Push/Merge/Pull |
-| Page 구성하기 | SideBarMenu Tree |
-| Tab 구성하기  | hydralit_components |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+
+---

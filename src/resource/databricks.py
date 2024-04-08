@@ -24,7 +24,7 @@ class get_databricks_data :
     # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
 
     ######################################################
-    @st.cache_resource(ttl = 7200)
+    @st.cache_resource(ttl = 7200 ,show_spinner  = False)
     def get_dm_clm_proc(_self):
 
         table = 'dm_clm_proc'
@@ -37,7 +37,7 @@ class get_databricks_data :
     # 03_tab/third_tab.py 에서 해당 메서드 활용하여 인스턴스 생성.
 
     ######################################################
-    @st.cache_resource(ttl = 7200)
+    @st.cache_resource(ttl = 7200,show_spinner  = False)
     def setup_data(_self, return_full_df = False):
         table = 'dm_trend_all_filter'
  
