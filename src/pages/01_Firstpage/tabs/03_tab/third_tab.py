@@ -42,17 +42,7 @@ class FirstContents:
     # 하단 링크 참조
     # https://discuss.streamlit.io/t/new-component-dynamic-multi-select-filters/49595
 
-    ###########################################################
-    def initialize_dynamic_filters(self, data):
-        # 'dynamic_filters_instance'가 세션 상태에 없으면 초기화 실행
-        if 'dynamic_filters_instance' not in st.session_state:
-            st.session_state.dynamic_filters_instance = DynamicFilters(data, filters=[
-                'plant_division', 'wname1', 'lcls_nm', 'mcls_nm', 'scls_nm',
-                'prdha1_nm', 'prdha2_nm', 'prdha3_nm', 'maktx', 'unsati_cause_nm',
-                'buy_way_nm', 'buy_place', 'claim_grd_cd'
-            ], filters_name='filters1')
-
-    
+    ###########################################################    
     def setup_state(self , data_loader):
         
         plant_list = ['공주공장', '남원공장', '논산1공장', '부산공장', '삼해상사(김포)', '삼해상사(부안1)', '씨푸드_성남', '씨푸드_음성', '씨푸드_이천', '양산공장', '영등포공장', '인천1)당', '인천2)유', '인천3공장', '인천냉동식품', '진천)B2B', '진천)B2B생산', '진천)두부', '진천)육가공', '진천BC']
@@ -120,7 +110,11 @@ class FirstContents:
 
 ######################################################################################################################
 ######################################################################################################################
+            ########### [날짜에 대한 빈값 처리] ##############
 
+            # 원본 DATA 의 날짜가 비어있을 경우 채워
+            
+            ########################################
 
             date_range = pd.date_range(start=start_date, end=end_date, freq='D')
             df_date_range = pd.DataFrame(date_range, columns=['bsymd'])
