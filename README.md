@@ -200,7 +200,7 @@ from st_pages import Page, show_pages, add_page_title
         ],default = 'tab1' , key =unique_key)
 ```
 - ️✏️ **id(필수수정)** , **title(필수수정)** , **description**(선택기능, **공백처리**[""]시 화면에 안보입니다.)
-- ✅  **Loop 참조 링크 ** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
+- ✅  **Loop 참조 링크** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 
 #### 2-2) "hydralit_components" 내 nav_bar 메서드 활용
 
@@ -383,6 +383,72 @@ left_col, right_col = st.columns([6, 6])
 ## ⓒ  사용법 _5(내 DATA 에 Filter 적용하기)
 #### 1. DynamicFilter 사용하기
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/third_tab.py 참조
+
+```python
+with st.container():
+
+    ########### [DynamicFilter(andy) 하이퍼파라미터 부여방법] ##############
+
+    # 1. Filter를 위치시킬 layout 설정을 우선 먼저한다. ex) name_1 , name_2,col_space1, col_space1_2 = st.columns([3, 3, 5.5 , 2.5])v
+    # 2. dictionary 형태로 인자들을 받아온다. 
+    #    └ {필터적용할 '열' 명 : ('화면에 표시할 이름' , 해당 필터를 위치시킬 위치 변수)} 
+    # 3. DynamicFilters 클래스 불러오기.
+    #    └ DynamicFilters(데이터 , filters = [필터 적용할 '열' 명 리스트] , 필터 key 값)
+    # 자세한 설명은 하단 Loop 참조
+    # Loop > 전략적 데이터 분석을 위한 현대적인 분석환경과 프레임워크 > 분석과제 수행 Framework > 기술문서 > streamlit > 기능 > Dynamic Filter 참조
+
+    #################################################################
+    name_1 , name_2,col_space1, col_space1_2 = st.columns([3, 3, 5.5 , 2.5])
+    col_quick_select1, col_quick_select2, col_quick_select3 , col_space2= st.columns([3,3,3 ,5])
+    col_ph_select1, col_ph_select2, col_ph_select3 ,col_maktx_select3 , col_space3_1 = st.columns([3,3,3 , 3, 2])
+    col_cause, col_buy_way, col_buy_place, col4_1 = st.columns([3,3,3,5])
+    col_grade , col_grade_space = st.columns([3, 11])
+
+
+    custom_layout_first = {
+    'plant_division': ('사업장/OEM', name_1),
+    'wname1': ('사업소', name_2),
+    'lcls_nm': ('대분류', col_quick_select1),
+    'mcls_nm': ('중분류', col_quick_select2),
+    'scls_nm': ('소분류', col_quick_select3),
+    'prdha1_nm' : ('PH1' , col_ph_select1),
+    'prdha2_nm': ('PH2', col_ph_select2),
+    'prdha3_nm': ('PH3', col_ph_select3),
+    'maktx': ('자재', col_maktx_select3),
+    'unsati_cause_nm': ('불만원인', col_cause),
+    'buy_way_nm': ('구입경로', col_buy_way),
+    'buy_place': ('구입처', col_buy_place),
+    'claim_grd_cd' : ('Claim Grade' , col_grade)
+    }
+
+    dynamic_filters = DynamicFilters(data, filters= ['plant_division', 'wname1' , 'lcls_nm' ,'mcls_nm' , 'scls_nm' ,'prdha1_nm', 'prdha2_nm' , 'prdha3_nm' ,'maktx' ,'unsati_cause_nm' ,'buy_way_nm' , 'buy_place' ,'claim_grd_cd'], filters_name = 'filters1')
+
+    dynamic_filters.display_filters(location="columns", num_columns=3 , gap="large"  ,custom_layout_definitions = custom_layout_first )
+    self.dynamic_filter_df = dynamic_filters.filter_df()
+############################################################################################################################################################
+############################################################################################################################################################
+
+    # 특정 필터에 대한 사용자 선택 옵션을 가져옴
+
+    filters_to_check = ['lcls_nm', 'mcls_nm', 'scls_nm']
+    selections_results = {}
+    for filter_name in filters_to_check:
+        selections = dynamic_filters.get_user_selections(filter_name)
+        # 선택된 옵션이 없는 경우 False로 설정
+        selections_results[filter_name] = False if selections is False else True
+
+    self.filter_name = False
+    # 선택된 옵션 출력
+    for filter_name, is_selected in selections_results.items():
+        if not is_selected:
+            pass
+        else:
+            self.filter_name = filter_name
+```
+- ✅  **Loop 참조 링크** : [Dynamic-Filter](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EUkFSyloe1ROsk3J9EBO028BwJV9i_jawwlfnwvROJjEDQ?e=tBHRxR&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHS0pBVkZTUzJEM0tSSExFVE9KNlJBRTVVM1AmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjdiNzdkYTA3LTZjZTItNGJkYi1hMDY3LTU3OGM4OTA5YTRmMyUyMiU3RA%3D%3D)
+
+
+
 
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크
