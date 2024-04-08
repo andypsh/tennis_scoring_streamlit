@@ -599,7 +599,7 @@ color_palette2 = [rgb2hex(rgb) for rgb in palette2]
 
 - ✅**Streamlit 커뮤니티 링크:** [Hydralit Components](   https://discuss.streamlit.io/t/new-component-20-animated-loaders-updated-navbar-and-more-from-hydralit-components/17650)
 
-![loding](/readme_images/loding.PNG)
+![loding](/readme_images/loading.PNG)
 
 #### 3. ICON 및 브라우저에 띄울 이름 설정
 ##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
