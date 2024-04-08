@@ -80,8 +80,7 @@ class FirstContents:
             
         #############################################
             today = datetime.today().date()
-            max_date = today
-            default_start_date1 = max_date - pd.DateOffset(months=3)
+            default_start_date1 = today - pd.DateOffset(months=3)
             with col_date_left1:
                 start_date = st.date_input('Start date:', default_start_date1, key = 'start_date_input')
                 self.start_date = start_date
