@@ -434,7 +434,127 @@ with st.container():
 
 - ✅  **Loop 참조 링크** : [Dynamic-Filter](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EUkFSyloe1ROsk3J9EBO028BwJV9i_jawwlfnwvROJjEDQ?e=tBHRxR&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHS0pBVkZTUzJEM0tSSExFVE9KNlJBRTVVM1AmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjdiNzdkYTA3LTZjZTItNGJkYi1hMDY3LTU3OGM4OTA5YTRmMyUyMiU3RA%3D%3D)
 
+#### 2. 일반 Filter 사용하기
+##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/third_tab.py 참조
+- 예시 코드(어떻게 쓰이는지만 파악하시면 됩니다.)
+- **pandas**를 활용하여 Filter에 대한 변수를 활용하여 **DataFrame을 수정** 하시면 됩니다. 
+```python
+default_start_date1 = max_date - pd.DateOffset(months=3)
+with col_date_left1:
+    start_date = st.date_input('Start date:', default_start_date1, key = 'start_date_input')
+    self.start_date = start_date
 
+with col_date_left2:
+    end_date = st.date_input('End date:', today, key = 'end_date_input')
+
+    self.end_date = end_date
+
+data = self.df
+
+########### [날짜에 대한 NULL 값 처리로직] ##############
+
+# 원본 DATA 의 날짜가 비어(NULL)있을 경우 채워넣는 코드.
+# ※ 지우셔도 무방합니다.
+                    
+########################################
+
+date_range = pd.date_range(start=start_date, end=end_date, freq='D')
+df_date_range = pd.DataFrame(date_range, columns=['bsymd'])
+
+data = pd.merge(df_date_range, data, on=['bsymd'], how='left')
+data.dropna(subset=['voc_id' , 'rece_dttm'] , inplace= True)
+
+conditions = [
+    data['wname1'].isin(plant_list),  # wname1의 값이 plant_list 내에 있는 경우
+    data['wname1'].isin(oem_list)     # wname1의 값이 oem_list 내에 있는 경우
+]
+choices = ['사업장', 'OEM']
+
+data['plant_division'] = np.select(conditions, choices, default='Not Specified')
+```
+## ⓒ  사용법 _6(Login 기능 , Streamlit _Authenticator 활용)
+#### 1. config.yaml 파일 생성하기
+##### - ✏️ src/.streamlit/config.yaml 참조
+```
+credentials:
+  usernames:
+    andy:
+      name: andy
+      password: test # To be replaced with hashed password
+    busan:
+        name: busan
+        password: test # To be replaced with hashed password
+    user01 :
+        name : user01
+        password : "1234" # 숫자는 큰 따옴표 처리
+cookie:
+  expiry_days: 1
+  key: random_signature_key # Must be string
+  name: random_cookie_name
+preauthorized:
+  emails:
+  - sunghyuk.park@cj.net
+```
+① **ID , Password 지정**
+```
+    지정할 ID:
+      name: ID를 사용하는 사람 이름
+      password: password (숫자의 경우에는 큰 따옴표("")처리) 
+```
+② **쿠키 설정**(**exipiry_days** 이외 값  변경 X)
+```
+cookie:
+  expiry_days: 1
+  key: random_signature_key # Must be string
+  name: random_cookie_name
+```
+
+#### 2. 각 페이지의 main.py내에 login 관련 메서드 적용하기
+##### - src/main.py 참조
+```python
+login_dir = os.path.join(current_dir + '/login/')
+sys.path.append(login_dir)
+login_module = importlib.import_module("lgn")
+def main():
+    with st.sidebar:
+    ################## [login_module] ##################
+    
+    # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
+    # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+    
+    #####################################################
+        config = login_module.get_conf()
+        login_module.login_check(config)
+
+```
+
+>  🚨 Login 기능을 사용하기 위해서는, **각 페이지의 main.py** 내에 
+```python
+config = login_module.get_conf()
+login_module.login_check(config)
+```
+→  **이 2줄을**  넣어야한다. 
+![login](/readme_images/login.PNG)
+
+#### 3. login 이후 권한별로 볼수 있게끔하는 예시코드
+##### - ✏️ src/Pages/01_Firstpage/tabs/03_tab/third_tab.py 참조
+```python
+########### [로그인 코드] ##############
+
+# session_state 내에서 name의 key 값의 value 값에 login username이 지정
+
+########################################
+if 'name' in st.session_state:
+    current_user = st.session_state['name']
+    if current_user == 'busan':
+        data = data[data['wname1'] == '부산공장']
+    elif current_user == 'jincheon':
+        data = data[data['wname1'].isin(['진천BC', '진천)두부', '진천선물세트', '진천)B2B', '진천)육가공', '진천)B2B생산'])]
+```
+→  ID 에 따라  **DataFrame을 Filter** 처리 하였다. 
+
+
+- ✅  **Loop 참조 링크** : [Streamlit Authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=oDgMSv&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D)
 
 
 ## ⓓ 기능
