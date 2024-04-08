@@ -28,14 +28,14 @@
   pip install . 
   ```
 - setup.cfg 가 있는 **폴더 Tree**로 이동 이후에 "**pip install .**" 실행해주세요.
-    ![setup.cfg 위치](/etc/readme_images/setup.PNG)
+    ![setup.cfg 위치](/readme_images/setup.PNG)
 
 #### 2. "**pip install .**" 를 시행하였으나, 아래와 같은 오류가 발생시 "**하단 Loop 참고하여 Pypi 설정**" 
 >``` ignored the following versions that require a different python version : 0.55.2 Requires-Python<3.5 " ```
 - ✅ **LOOP 참고 링크** : [CJ PYPI 설정방법](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EStqSnylB_tBiKJQx9SrrhUBZyiI0eoavncavkS1T_M3ug?e=SBBg0h&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHSkxOSkZIWkpJSDdOQVlSSVNRWTdLS1hMUVYmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjg1YmZmZWZiLTUyMzAtNGVmOS05MmVlLTYyZjIxYTUxODJiMiUyMiU3RA%3D%3D) 
 
 #### 3. 이후 "**pip install .**" 재 시행시 **템플릿 관련 패키지 설치 완료**
-![package 설치](/etc/readme_images/setup_cfg.PNG)
+![package 설치](/readme_images/setup_cfg.PNG)
 
 ---
 ## ⓒ 기능요약 
@@ -54,8 +54,8 @@
 ## ⓓ 사용법 _1 (Resource 갖고오기)
 #####  🚨 ️폴더 Tree 둘러보기
 
-<img src="/etc/readme_images/folder_Tree1.PNG" width="300" height="500"></img>
-![폴더Tree2](/etc/readme_images/folder_Tree.PNG)
+<img src="/readme_images/folder_Tree1.PNG" width="300" height="500"></img>
+![폴더Tree2](/readme_images/folder_Tree.PNG)
 #### 1. **resource/databricks.py** 내 "**get_dm_clm_proc**" 메서드 코드 변경
 
 ```python
@@ -103,7 +103,7 @@ class get_databricks_data :
             return df_filtered
 ```
 #### 3. resource/databricks.py내 'load_all_data' 메서드는 페이지를 실행할때 쓰이는 databiricks의 DATA를 한번에 불러올수 있게하는 메서드 입니다.
-```
+```python
     def load_all_data(self):
         self.dm_clm_proc_data = self.get_dm_clm_proc()
         self.dm_trend_data = self.setup_data(return_full_df=True)
@@ -170,7 +170,7 @@ EX) 추후에 기술 되어질, **Loading 되어지는 모습**을 이쁘게 하
 ```python
 @st.cache_resource(ttl = 7200,show_spinner  = False)
 ```
-![Cache](/etc/readme_images/cache.PNG)
+![Cache](/readme_images/cache.PNG)
 ---
 ## ⓓ  사용법 _2(PAGE 형식  갖추기)
 #### 1. SidebarMenu Tree 형태 , src/main.py 참조
@@ -193,7 +193,7 @@ from st_pages import Page, show_pages, add_page_title
             )
 ```
 - ✏️**Page('구동할 파일', '이름', '이모티콘')**
-- ![SideMenu Tree](/etc/readme_images/sidemenuTree.PNG)
+- ![SideMenu Tree](/readme_images/sidemenuTree.PNG)
 - ✅ **Loop 참고링크** : [SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=STfg3j&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
 ---
 ## ⓓ  사용법 _3(TAB 형식 갖추기)
@@ -263,7 +263,7 @@ chosen_id = hc.nav_bar(
     sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
 )
 ```
-![SubMenu ITEM](/etc/readme_images/submenuitem.PNG)
+![SubMenu ITEM](/readme_images/submenuitem.PNG)
 - ✏️  menu_data 변수 수정(딕셔너리 형태) 
     - **id**(필수) , icon(선택) , **label**(필수 , 화면에 표시할 문구)
     - submenu를 구성하기 위해서는 딕셔너리 내에서 다시 선언
@@ -343,7 +343,7 @@ with st.container():
         st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
     ```
     - **st.columns() 메서드를 활용하여 열 Layout을 잡은뒤 st.container() 사용 추천**
-    - ![LayOut](/etc/readme_images/Layout.PNG)
+    - ![LayOut](/readme_images/Layout.PNG)
     - **st.container()** & **st.columns()** 활용
     
     - **st.container()** 의 경우 내부 파라미터로 크기,높이,테두리를 설정할 수 있다.
@@ -363,10 +363,10 @@ with st.container():
             st.write('Contents2')
             st.dataframe(df_raw.head(100))
     ```
-    - ![st.container](/etc/readme_images/container.PNG)
+    - ![st.container](/readme_images/container.PNG)
 #### 2. LayOut 구조 잡기-TIP
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/second_tab.py 참조
-- ![Layout2](/etc/readme_images/Layout2.PNG)
+- ![Layout2](/readme_images/Layout2.PNG)
 ```python
 left_col, right_col = st.columns([6, 6])
 
@@ -456,7 +456,7 @@ with st.container():
  - ②  key : value  의 딕셔너리 형태로, {filter  적용할  **'열'**  : **'표시될  이름'** ,  **'위치'**    }
  - ③  display_filters() :  화면에  표시 하는  메서드
  - ④  filter_df () :  **내 DATA 에 Filter 적용**
-![Dynamic_Filter](/etc/readme_images/dynamic.PNG)
+![Dynamic_Filter](/readme_images/dynamic.PNG)
 
 - ✅  **Loop 참조 링크** : [Dynamic-Filter](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EUkFSyloe1ROsk3J9EBO028BwJV9i_jawwlfnwvROJjEDQ?e=tBHRxR&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHS0pBVkZTUzJEM0tSSExFVE9KNlJBRTVVM1AmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjdiNzdkYTA3LTZjZTItNGJkYi1hMDY3LTU3OGM4OTA5YTRmMyUyMiU3RA%3D%3D)
 
@@ -561,7 +561,7 @@ config = login_module.get_conf()
 login_module.login_check(config)
 ```
 →  **이 2줄을**  넣어야한다. 
-![login](/etc/readme_images/login.PNG)
+![login](/readme_images/login.PNG)
 
 #### 3. login 이후 권한별로 볼수 있게끔하는 예시코드
 ##### - ✏️ src/Pages/01_Firstpage/tabs/03_tab/third_tab.py 참조
@@ -623,7 +623,7 @@ color_palette2 = [rgb2hex(rgb) for rgb in palette2]
 
 - ✅**Streamlit 커뮤니티 링크:** [Hydralit Components](   https://discuss.streamlit.io/t/new-component-20-animated-loaders-updated-navbar-and-more-from-hydralit-components/17650)
 
-![loding](/etc/readme_images/loading.PNG)
+![loding](/readme_images/loading.PNG)
 
 #### 3. ICON 및 브라우저에 띄울 이름 설정
 ##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
@@ -638,6 +638,6 @@ def main():
     st.set_page_config(layout="wide", page_title = 'Write your Page Title' , page_icon=":memo:")
 ```
 
-![page_name](/etc/readme_images/page_name.PNG)
+![page_name](/readme_images/page_name.PNG)
 
 ---
