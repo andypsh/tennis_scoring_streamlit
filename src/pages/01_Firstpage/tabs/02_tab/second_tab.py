@@ -21,7 +21,7 @@ def run_anomaly_main(data_loader):
     col1, col2, col3, col4 = st.columns([8, 1, 1, 1])
 
     min_date, max_date = df_raw['bsymd'].min(), df_raw['bsymd'].max()
-    default_start_date = max_date - pd.DateOffset(months=3)
+
 
     today = pd.to_datetime("today")
     max_date = today

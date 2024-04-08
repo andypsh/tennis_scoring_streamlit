@@ -200,7 +200,7 @@ from st_pages import Page, show_pages, add_page_title
         ],default = 'tab1' , key =unique_key)
 ```
 - ️✏️ **id(필수수정)** , **title(필수수정)** , **description**(선택기능, **공백처리**[""]시 화면에 안보입니다.)
-- ✅  **Loop 참조 링크 ** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
+- ✅  **Loop 참조 링크** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 
 #### 2-2) "hydralit_components" 내 nav_bar 메서드 활용
 
@@ -254,7 +254,7 @@ chosen_id = hc.nav_bar(
     
 - ✅  **Loop 참조 링크** : [hydralit_components , nav_bar](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 ---
-## ⓒ  사용법 _4(Contents 반영하기)
+## ⓒ  사용법 _4(Layout 구조 반영하기)
 
 #### 1. LayOut 구조 잡기
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/first_tab.py 참조
@@ -338,10 +338,105 @@ with st.container():
             st.dataframe(df_raw.head(100))
     ```
     - ![st.container](/readme_images/container.PNG)
-#### 2. LayOut 구조 잡기
-##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/first_tab.py 참조
-    
-    
+#### 2. LayOut 구조 잡기-TIP
+##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/second_tab.py 참조
+- ![Layout2](/readme_images/Layout2.PNG)
+```python
+left_col, right_col = st.columns([6, 6])
+
+    with left_col:
+        st.subheader('Second Left col SubHeader')
+        st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
+        ########### [st.container() Layout 잡기] ##############
+
+        # st.container()의 파라미터는 하단 링크 참조
+        # https://docs.streamlit.io/library/api-reference/layout/st.container  
+
+        #############################################
+        with st.container(height=1450, border=None):
+            st.write('Contents')
+            st.write(df_raw.head(10))
+
+    with right_col:
+        with st.container() :
+            st.subheader('Right col Subheader')
+            st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)    
+            with st.container(height=400, border=None):
+                st.write('Contents2')
+        
+        with st.container() :
+            st.subheader('Right col Subheader2')
+            st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)  
+            with st.container(height=400, border=None):
+                st.write('Contents3')
+
+        with st.container() :
+            st.subheader('Right col Subheader3')
+            st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
+            with st.container(height=400, border=None):
+                st.write('Contents4')
+```
+- ✏️   **st.columns()** 활용하여, 열  Layout 구조를 정한뒤에 , **st.container()** 의 height 파라미터 활용하여 행에 대한 구조를 짠다.  
+- 🚨 st.columns() 활용법 : [st.columns](https://docs.streamlit.io/develop/api-reference/layout/st.columns)
+- 🚨 st.container()활용법: [st.container](https://docs.streamlit.io/library/api-reference/layout/st.container)
+
+## ⓒ  사용법 _5(내 DATA 에 Filter 적용하기)
+#### 1. DynamicFilter 사용하기
+##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/third_tab.py 참조
+
+```python
+with st.container():
+
+    ########### [DynamicFilter(andy) 하이퍼파라미터 부여방법] ##############
+
+    # 1. Filter를 위치시킬 layout 설정을 우선 먼저한다. ex) name_1 , name_2,col_space1, col_space1_2 = st.columns([3, 3, 5.5 , 2.5])v
+    # 2. dictionary 형태로 인자들을 받아온다. 
+    #    └ {필터적용할 '열' 명 : ('화면에 표시할 이름' , 해당 필터를 위치시킬 위치 변수)} 
+    # 3. DynamicFilters 클래스 불러오기.
+    #    └ DynamicFilters(데이터 , filters = [필터 적용할 '열' 명 리스트] , 필터 key 값)
+    # 자세한 설명은 하단 Loop 참조
+    # Loop > 전략적 데이터 분석을 위한 현대적인 분석환경과 프레임워크 > 분석과제 수행 Framework > 기술문서 > streamlit > 기능 > Dynamic Filter 참조
+
+    #################################################################
+    col_frst1 , col_frst2 ,col_frst3, col_frst4 = st.columns([3, 3, 5.5 , 2.5])
+    col_second1, col_second2, col_second3 , col_second4= st.columns([3,3,3 ,5])
+    col_thrd1, col_thrd2, col_thrd3 ,col_thrd4 , col_thrd5 = st.columns([3,3,3 , 3, 2])
+    col_fourth1, col_fourth2, col_fourth3, col_fourth4 = st.columns([3,3,3,5])
+    col_fifth1 , col_fifth2 = st.columns([3, 11])
+
+
+    custom_layout_first = {
+    'plant_division': ('사업장/OEM', col_frst1),
+    'wname1': ('사업소', col_frst2),
+    'lcls_nm': ('대분류', col_second1),
+    'mcls_nm': ('중분류', col_second2),
+    'scls_nm': ('소분류', col_second3),
+    'prdha1_nm' : ('PH1' , col_thrd1),
+    'prdha2_nm': ('PH2', col_thrd2),
+    'prdha3_nm': ('PH3', col_thrd3),
+    'maktx': ('자재', col_thrd4),
+    'unsati_cause_nm': ('불만원인', col_fourth1),
+    'buy_way_nm': ('구입경로', col_fourth2),
+    'buy_place': ('구입처', col_fourth3),
+    'claim_grd_cd' : ('Claim Grade' , col_fifth1)
+    }
+
+    dynamic_filters = DynamicFilters(data, filters= ['plant_division', 'wname1' , 'lcls_nm' ,'mcls_nm' , 'scls_nm' ,'prdha1_nm', 'prdha2_nm' , 'prdha3_nm' ,'maktx' ,'unsati_cause_nm' ,'buy_way_nm' , 'buy_place' ,'claim_grd_cd'], filters_name = 'filters1')
+    # ※ num_columns 값 무시
+    dynamic_filters.display_filters(location="columns", num_columns=3 , gap="large"  ,custom_layout_definitions = custom_layout_first )
+    self.dynamic_filter_df = dynamic_filters.filter_df()
+```
+ - ① **st.columns()** 활용하여 Filter 위치 지정. 
+ - ②  key : value  의 딕셔너리 형태로, {filter  적용할  **'열'**  : **'표시될  이름'** ,  **'위치'**    }
+ - ③  display_filters() :  화면에  표시 하는  메서드
+ - ④  filter_df () :  **내 DATA 에 Filter 적용**
+![Dynamic_Filter](/readme_images/dynamic.PNG)
+
+- ✅  **Loop 참조 링크** : [Dynamic-Filter](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EUkFSyloe1ROsk3J9EBO028BwJV9i_jawwlfnwvROJjEDQ?e=tBHRxR&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHS0pBVkZTUzJEM0tSSExFVE9KNlJBRTVVM1AmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjdiNzdkYTA3LTZjZTItNGJkYi1hMDY3LTU3OGM4OTA5YTRmMyUyMiU3RA%3D%3D)
+
+
+
+
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크
 | ------ | ------ | ------ |

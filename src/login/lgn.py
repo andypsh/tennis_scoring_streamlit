@@ -29,7 +29,7 @@ def login_check(config):
     name, authentication_status, username = authenticator.login('main')
     st.session_state['authentication_status'] = authentication_status
     if st.session_state['authentication_status']:
-        st.session_state['logout2'] = authenticator.logout()
+        st.session_state['logout'] = authenticator.logout()
     elif st.session_state['authentication_status'] is False:
         st.error('Username/password is incorrect')
         st.stop()

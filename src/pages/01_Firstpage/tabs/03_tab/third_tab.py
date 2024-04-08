@@ -42,17 +42,7 @@ class FirstContents:
     # 하단 링크 참조
     # https://discuss.streamlit.io/t/new-component-dynamic-multi-select-filters/49595
 
-    ###########################################################
-    def initialize_dynamic_filters(self, data):
-        # 'dynamic_filters_instance'가 세션 상태에 없으면 초기화 실행
-        if 'dynamic_filters_instance' not in st.session_state:
-            st.session_state.dynamic_filters_instance = DynamicFilters(data, filters=[
-                'plant_division', 'wname1', 'lcls_nm', 'mcls_nm', 'scls_nm',
-                'prdha1_nm', 'prdha2_nm', 'prdha3_nm', 'maktx', 'unsati_cause_nm',
-                'buy_way_nm', 'buy_place', 'claim_grd_cd'
-            ], filters_name='filters1')
-
-    
+    ###########################################################    
     def setup_state(self , data_loader):
         
         plant_list = ['공주공장', '남원공장', '논산1공장', '부산공장', '삼해상사(김포)', '삼해상사(부안1)', '씨푸드_성남', '씨푸드_음성', '씨푸드_이천', '양산공장', '영등포공장', '인천1)당', '인천2)유', '인천3공장', '인천냉동식품', '진천)B2B', '진천)B2B생산', '진천)두부', '진천)육가공', '진천BC']
@@ -119,7 +109,12 @@ class FirstContents:
 
 ######################################################################################################################
 ######################################################################################################################
+            ########### [날짜에 대한 NULL 값 처리로직] ##############
 
+            # 원본 DATA 의 날짜가 비어(NULL)있을 경우 채워넣는 코드.
+            # ※ 지우셔도 무방합니다.
+                                
+            ########################################
 
             date_range = pd.date_range(start=start_date, end=end_date, freq='D')
             df_date_range = pd.DataFrame(date_range, columns=['bsymd'])
@@ -134,9 +129,10 @@ class FirstContents:
             choices = ['사업장', 'OEM']
 
             data['plant_division'] = np.select(conditions, choices, default='Not Specified')
+############################################################################################################################################################
+############################################################################################################################################################
             with st.container():
-############################################################################################################################################################
-############################################################################################################################################################
+
                 ########### [DynamicFilter(andy) 하이퍼파라미터 부여방법] ##############
 
                 # 1. Filter를 위치시킬 layout 설정을 우선 먼저한다. ex) name_1 , name_2,col_space1, col_space1_2 = st.columns([3, 3, 5.5 , 2.5])v
@@ -148,31 +144,31 @@ class FirstContents:
                 # Loop > 전략적 데이터 분석을 위한 현대적인 분석환경과 프레임워크 > 분석과제 수행 Framework > 기술문서 > streamlit > 기능 > Dynamic Filter 참조
 
                 #################################################################
-                name_1 , name_2,col_space1, col_space1_2 = st.columns([3, 3, 5.5 , 2.5])
-                col_quick_select1, col_quick_select2, col_quick_select3 , col_space2= st.columns([3,3,3 ,5])
-                col_ph_select1, col_ph_select2, col_ph_select3 ,col_maktx_select3 , col_space3_1 = st.columns([3,3,3 , 3, 2])
-                col_cause, col_buy_way, col_buy_place, col4_1 = st.columns([3,3,3,5])
-                col_grade , col_grade_space = st.columns([3, 11])
+                col_frst1 , col_frst2 ,col_frst3, col_frst4 = st.columns([3, 3, 5.5 , 2.5])
+                col_second1, col_second2, col_second3 , col_second4= st.columns([3,3,3 ,5])
+                col_thrd1, col_thrd2, col_thrd3 ,col_thrd4 , col_thrd5 = st.columns([3,3,3 , 3, 2])
+                col_fourth1, col_fourth2, col_fourth3, col_fourth4 = st.columns([3,3,3,5])
+                col_fifth1 , col_fifth2 = st.columns([3, 11])
 
 
                 custom_layout_first = {
-                'plant_division': ('사업장/OEM', name_1),
-                'wname1': ('사업소', name_2),
-                'lcls_nm': ('대분류', col_quick_select1),
-                'mcls_nm': ('중분류', col_quick_select2),
-                'scls_nm': ('소분류', col_quick_select3),
-                'prdha1_nm' : ('PH1' , col_ph_select1),
-                'prdha2_nm': ('PH2', col_ph_select2),
-                'prdha3_nm': ('PH3', col_ph_select3),
-                'maktx': ('자재', col_maktx_select3),
-                'unsati_cause_nm': ('불만원인', col_cause),
-                'buy_way_nm': ('구입경로', col_buy_way),
-                'buy_place': ('구입처', col_buy_place),
-                'claim_grd_cd' : ('Claim Grade' , col_grade)
+                'plant_division': ('사업장/OEM', col_frst1),
+                'wname1': ('사업소', col_frst2),
+                'lcls_nm': ('대분류', col_second1),
+                'mcls_nm': ('중분류', col_second2),
+                'scls_nm': ('소분류', col_second3),
+                'prdha1_nm' : ('PH1' , col_thrd1),
+                'prdha2_nm': ('PH2', col_thrd2),
+                'prdha3_nm': ('PH3', col_thrd3),
+                'maktx': ('자재', col_thrd4),
+                'unsati_cause_nm': ('불만원인', col_fourth1),
+                'buy_way_nm': ('구입경로', col_fourth2),
+                'buy_place': ('구입처', col_fourth3),
+                'claim_grd_cd' : ('Claim Grade' , col_fifth1)
                 }
 
                 dynamic_filters = DynamicFilters(data, filters= ['plant_division', 'wname1' , 'lcls_nm' ,'mcls_nm' , 'scls_nm' ,'prdha1_nm', 'prdha2_nm' , 'prdha3_nm' ,'maktx' ,'unsati_cause_nm' ,'buy_way_nm' , 'buy_place' ,'claim_grd_cd'], filters_name = 'filters1')
-
+                # ※ num_columns 값 무시
                 dynamic_filters.display_filters(location="columns", num_columns=3 , gap="large"  ,custom_layout_definitions = custom_layout_first )
                 self.dynamic_filter_df = dynamic_filters.filter_df()
 ############################################################################################################################################################
