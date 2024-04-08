@@ -168,7 +168,7 @@ EX) 추후에 기술 되어질, **Loading 되어지는 모습**을 이쁘게 하
 ```python
 @st.cache_resource(ttl = 7200,show_spinner  = False)
 ```
-![package 설치](/readme_images/setup_cfg.PNG)
+![Cache](/readme_images/cache.PNG)
 ---
 ## ⓓ  사용법 _2(PAGE 형식  갖추기)
 #### 1. SidebarMenu Tree 형태 , src/main.py 참조

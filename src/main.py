@@ -27,10 +27,7 @@ def main():
     #####################################################config = login_module.get_conf()
         config = login_module.get_conf()
         login_module.login_check(config)
-    # df = pd.DataFrame(np.empty((3, 3))*np.nan, columns=['A', 'B', 'C'])
-    # df.iloc[0,1] = 22
-    # st.write(df)
-    # st.stop()
+
     with hc.HyLoader('Now doing loading',hc.Loaders.standard_loaders,index=[3,0,5]):
         #####################################################
         if st.session_state.get('authentication_status'):
@@ -51,12 +48,12 @@ def main():
                     Page("pages/04_Fourthpage/fourth_main.py" , "Fourth_page" , ":horse:")
                 ]
             )
-            # st.write(st.session_state)
+
 
         else:
             st.header('로그인하세요!')
 
 
 if __name__ == "__main__":
-    # 로그인 성공 후 메인 함수 실행
+
     main()  
