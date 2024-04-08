@@ -456,7 +456,7 @@ with st.container():
 ```
  - ① **st.columns()** 활용하여 Filter 위치 지정. 
  - ②  key : value  의 딕셔너리 형태로, {filter  적용할  **'열'**  : **'표시될  이름'** ,  **'위치'**    }
- - ③  display_filters() :  화면에  표시 하는  메서드
+ - ③  display_filters() :  화면에  Filter가  적용된  DataFrame 표시 하는 메서드
  - ④  filter_df () :  **내 DATA 에 Filter 적용**
 ![Dynamic_Filter](/etc/readme_images/dynamic.PNG)
 
