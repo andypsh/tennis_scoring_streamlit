@@ -6,9 +6,9 @@
     - 240405 Andy 수정
 ---
 ## 아이콘 표시
-✏️ : **직접 수정해야할 사항**
-✅  : **Loop 링크**
-🚨 : **주의 사항**
+- ✏️ : **직접 수정해야할 사항**
+- ✅  : **Loop 링크**
+- 🚨 : **주의 사항**
 ---
 ### ⓐ 템플릿 다운 받기
 
@@ -338,10 +338,49 @@ with st.container():
             st.dataframe(df_raw.head(100))
     ```
     - ![st.container](/readme_images/container.PNG)
-#### 2. LayOut 구조 잡기
-##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/first_tab.py 참조
-    
-    
+#### 2. LayOut 구조 잡기-TIP
+##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/second_tab.py 참조
+- ![Layout2](/readme_images/Layout2.PNG)
+```python
+left_col, right_col = st.columns([6, 6])
+
+    with left_col:
+        st.subheader('Second Left col SubHeader')
+        st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
+        ########### [st.container() Layout 잡기] ##############
+
+        # st.container()의 파라미터는 하단 링크 참조
+        # https://docs.streamlit.io/library/api-reference/layout/st.container  
+
+        #############################################
+        with st.container(height=1450, border=None):
+            st.write('Contents')
+            st.write(df_raw.head(10))
+
+    with right_col:
+        with st.container() :
+            st.subheader('Right col Subheader')
+            st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)    
+            with st.container(height=400, border=None):
+                st.write('Contents2')
+        
+        with st.container() :
+            st.subheader('Right col Subheader2')
+            st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)  
+            with st.container(height=400, border=None):
+                st.write('Contents3')
+
+        with st.container() :
+            st.subheader('Right col Subheader3')
+            st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
+            with st.container(height=400, border=None):
+                st.write('Contents4')
+```
+- ✏️   **st.columns()** 활용하여, 열  Layout 구조를 정한뒤에 , **st.container()** 의 height 파라미터 활용하여 행에 대한 구조를 짠다.  
+- 🚨 st.columns() 활용법 : [st.columns](https://docs.streamlit.io/develop/api-reference/layout/st.columns)
+- 🚨 st.container()활용법: [st.container](https://docs.streamlit.io/library/api-reference/layout/st.container)
+
+
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크
 | ------ | ------ | ------ |

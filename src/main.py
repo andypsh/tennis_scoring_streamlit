@@ -6,6 +6,8 @@ import sys
 import datetime
 import extra_streamlit_components as stx
 import hydralit_components as hc
+import pandas as pd
+import numpy as np
 #################[Local Path]#################
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -18,7 +20,6 @@ def main():
     
 
     st.set_page_config(layout="wide", page_title = 'Write Your Page name' , page_icon=":memo:")
-    print("aa")
     with st.sidebar:
     ################## [login_module] ##################
 
@@ -28,10 +29,11 @@ def main():
     #####################################################config = login_module.get_conf()
         config = login_module.get_conf()
         login_module.login_check(config)
-
-    
+    # df = pd.DataFrame(np.empty((3, 3))*np.nan, columns=['A', 'B', 'C'])
+    # df.iloc[0,1] = 22
+    # st.write(df)
+    # st.stop()
     with hc.HyLoader('Now doing loading',hc.Loaders.standard_loaders,index=[3,0,5]):
-
         #####################################################
         if st.session_state.get('authentication_status'):
                 

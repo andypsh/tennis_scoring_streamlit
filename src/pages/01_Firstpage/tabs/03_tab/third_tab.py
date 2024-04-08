@@ -10,6 +10,7 @@ from matplotlib.colors import rgb2hex
 import seaborn as sns
 import os
 import sys
+from datetime import datetime
 
 #################[Local Path]#################
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -88,6 +89,7 @@ class FirstContents:
         # https://docs.streamlit.io/library/api-reference/widgets/st.date_input
             
         #############################################
+            today = datetime.today().date()
             max_date = today
             default_start_date1 = max_date - pd.DateOffset(months=3)
             with col_date_left1:
