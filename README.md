@@ -381,7 +381,7 @@ left_col, right_col = st.columns([6, 6])
 - ✏️   **st.columns()** 활용하여, 열  Layout 구조를 정한뒤에 , **st.container()** 의 height 파라미터 활용하여 행에 대한 구조를 짠다.  
 - 🚨 st.columns() 활용법 : [st.columns](https://docs.streamlit.io/develop/api-reference/layout/st.columns)
 - 🚨 st.container()활용법: [st.container](https://docs.streamlit.io/library/api-reference/layout/st.container)
-
+---
 ## ⓒ  사용법 _5(내 DATA 에 Filter 적용하기)
 #### 1. DynamicFilter 사용하기
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/third_tab.py 참조
@@ -474,6 +474,7 @@ choices = ['사업장', 'OEM']
 
 data['plant_division'] = np.select(conditions, choices, default='Not Specified')
 ```
+---
 ## ⓒ  사용법 _6(Login 기능 , Streamlit _Authenticator 활용)
 #### 1. config.yaml 파일 생성하기
 ##### - ✏️ src/.streamlit/config.yaml 참조
@@ -557,7 +558,7 @@ if 'name' in st.session_state:
 
 
 - ✅  **Loop 참조 링크** : [Streamlit Authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=oDgMSv&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D)
-
+---
 ## ⓒ  사용법 _7(기타  기능)
 #### 1. 차트내 색상 지정
 ##### - ✏️ src/Pages/01_Firstpage/tabs/03_tab/third_tab.py 참조
@@ -582,10 +583,38 @@ color_palette2 = [rgb2hex(rgb) for rgb in palette2]
 ```
 ① **sns.color_pallete("팔렛트 이름",rgb로 변환시 갯수 )** :
 → Seaborn 라이브러리의 color_palette 함수를 사용하여 "tab20"이라는 미리 정의된 색상 팔레트를 가져옵니다.  Seaborn은 "tab20" 팔레트의 색상을 반복하여 **총 40가지** 색상을 생성
+
 ② **color_palette = [rgb2hex(rgb) for rgb in palette]** : 
 →  palette 리스트의 각 RGB 색상을 HEX 형식으로 변환
 
 - ✅  **Loop 참조 링크** : [색상 지정](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Ebll3Ugm72xGvxmEl1_H2PUBlCQheUH3ao89ZJb-a5_1og?e=2tBYg6&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTlpNWE9VUUpYUE5SREw2R01FUzVQNFBXSFYmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmQ1NzZlZTdkLTdlY2UtNGM4NC05NzM1LTk3OGIxY2IzODBlZiUyMiU3RA%3D%3D)
+
+#### 2. Data 로딩 표시
+##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
+
+```
+        with hc.HyLoader('Now Data loading',hc.Loaders.standard_loaders,index=[3,0,5]):
+            with st.container():
+```
+
+- ✅**Streamlit 커뮤니티 링크:** [Hydralit Components](   https://discuss.streamlit.io/t/new-component-20-animated-loaders-updated-navbar-and-more-from-hydralit-components/17650)
+
+![loding](/readme_images/loding.PNG)
+
+#### 3. ICON 및 브라우저에 띄울 이름 설정
+##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
+```
+def main():
+
+    ################### [st.set_page_config] ####################
+
+    # page_title : Page Title 지정
+    # page_icon : emoji 지정 
+    #############################################################
+    st.set_page_config(layout="wide", page_title = 'Write your Page Title' , page_icon=":memo:")
+```
+
+![page_name](/readme_images/page_name.PNG)
 ## ⓓ 기능
 | 기능 | 기술명  | Loop 링크
 | ------ | ------ | ------ |
