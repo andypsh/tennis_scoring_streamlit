@@ -18,7 +18,7 @@ class get_databricks_data :
         self.dm_trend_data = None
     #################[Resource 불러오기]###################
         
-    #cache_resource(ttl 변경)
+    # cache_resource(ttl 변경)
     # table 명 변경
     # databricks 경로 변경
     # ds_databricks 내 모듈 'select_all' or 'select_query' 사용
@@ -33,7 +33,7 @@ class get_databricks_data :
 
     #################[Resource 불러오기_ setup_resource 메서드]###################
         
-    #예시용
+    # 예시용
     # 03_tab/third_tab.py 에서 해당 메서드 활용하여 인스턴스 생성.
 
     ######################################################
