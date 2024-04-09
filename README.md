@@ -229,6 +229,7 @@ from st_pages import Page, show_pages, add_page_title
         ],default = 'tab1' , key =unique_key)
 ```
 - ️✏️ **id(필수수정)** , **title(필수수정)** , **description**(선택기능, **공백처리**[""]시 화면에 안보입니다.)
+-![TabBarItem](/etc/readme_images/tabbaritem.PNG)
 - ✅  **Loop 참조 링크** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 
 #### 2-2) "hydralit_components" 내 nav_bar 메서드 활용
