@@ -4,11 +4,15 @@
     - 240404 Andy 수정
 - Ver 0.2
     - 240405 Andy 수정
+- ver 0.3
+    - 240409 Andy 수정 
+
 ---
 ## 아이콘 표시
-- ✏️ : **직접 수정해야할 사항**
-- ✅  : **Loop 링크**
-- 🚨 : **주의 사항**
+### - ✏️ : **직접 수정해야할 사항**
+> (ctrl+F 로 연필 표시부분 찾으면 빠른 수정 가능.)
+### - ✅  : **Loop , Streamlit 커뮤니티 링크**
+### - 🚨 : **주의 사항**
 ---
 ### ⓐ 템플릿 다운 받기
 
@@ -25,21 +29,36 @@
   pip install . 
   ```
 - setup.cfg 가 있는 **폴더 Tree**로 이동 이후에 "**pip install .**" 실행해주세요.
-    ![setup.cfg 위치](/readme_images/setup.PNG)
+    ![setup.cfg 위치](/etc/readme_images/setup.PNG)
 
 #### 2. "**pip install .**" 를 시행하였으나, 아래와 같은 오류가 발생시 "**하단 Loop 참고하여 Pypi 설정**" 
 >``` ignored the following versions that require a different python version : 0.55.2 Requires-Python<3.5 " ```
 - ✅ **LOOP 참고 링크** : [CJ PYPI 설정방법](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EStqSnylB_tBiKJQx9SrrhUBZyiI0eoavncavkS1T_M3ug?e=SBBg0h&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHSkxOSkZIWkpJSDdOQVlSSVNRWTdLS1hMUVYmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjg1YmZmZWZiLTUyMzAtNGVmOS05MmVlLTYyZjIxYTUxODJiMiUyMiU3RA%3D%3D) 
 
 #### 3. 이후 "**pip install .**" 재 시행시 **템플릿 관련 패키지 설치 완료**
-![package 설치](/readme_images/setup_cfg.PNG)
+![package 설치](/etc/readme_images/setup_cfg.PNG)
 
 ---
-## ⓒ  사용법 _1 (Resource 갖고오기)
+## ⓒ 기능요약 
+| 기능 | 기술명  | Loop 링크
+| ------ | ------ | ------ |
+| login | Streamlit_Authenticator |[streamlit_authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=7NL8vf&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D) | |
+| GitHub | Git Push/Merge/Pull |[Git Branch 다루기](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eee0lnt2irFAun5oKqVO4fsBid-Dhx28dz2ny0flcXT1OA?e=sEmldr&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHUEhXU0xIVzVVS1dGQUxVN1RJRktTVTVZUDMmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhhMCUyMiU3RA%3D%3D)
+| Page 구성하기 | SideBarMenu Tree |[SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=u4Hcpy&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
+| Tab 구성하기  | hydralit_components , extra_streamlit_components  |[Tab 기능](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=NkckXg&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
+| 유기적인 필터  | DynamicFilter | [DynamicFilter](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EUkFSyloe1ROsk3J9EBO028BwJV9i_jawwlfnwvROJjEDQ?e=ZpGz93&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHS0pBVkZTUzJEM0tSSExFVE9KNlJBRTVVM1AmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjdiNzdkYTA3LTZjZTItNGJkYi1hMDY3LTU3OGM4OTA5YTRmMyUyMiU3RA%3D%3D)
+| 차트 색상 지정  | Seaborn 활용 | [Seaborn pallette](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Ebll3Ugm72xGvxmEl1_H2PUBlCQheUH3ao89ZJb-a5_1og?e=KJQx44&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTlpNWE9VUUpYUE5SREw2R01FUzVQNFBXSFYmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmQ1NzZlZTdkLTdlY2UtNGM4NC05NzM1LTk3OGIxY2IzODBlZiUyMiU3RA%3D%3D)
+| CLASS 구조 이해하기  | Class | [Class구조 이해하기](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EfBj7SbgO6dJgBeO7X0ph3oB1Iq324lXdM21fj7lwl0WbA?e=YZeeMe&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHUFFNUFdTTllCM1U1RVlBRjRPNVY2U1RCMzImYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjJiMmVlMmFiLTlkZmUtNGFiYS04N2I2LTlhMmEwYjMzNjc2YSUyMiU3RA%3D%3D)
+|모듈, 라이브러리, 메서드 용어|  모듈,라이브러리,메서드 | [용어 정리](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EfBj7SbgO6dJgBeO7X0ph3oB1Iq324lXdM21fj7lwl0WbA?e=YZeeMe&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHUFFNUFdTTllCM1U1RVlBRjRPNVY2U1RCMzImYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjJiMmVlMmFiLTlkZmUtNGFiYS04N2I2LTlhMmEwYjMzNjc2YSUyMiU3RA%3D%3D)
+
+
+---
+
+## ⓓ 사용법 _1 (Resource 갖고오기)
 #####  🚨 ️폴더 Tree 둘러보기
 
-<img src="/readme_images/folder_Tree1.PNG" width="300" height="500"></img>
-![폴더Tree2](/readme_images/folder_Tree.PNG)
+<img src="/etc/readme_images/folder_Tree1.PNG" width="300" height="500"></img>
+![폴더Tree2](/etc/readme_images/folder_Tree.PNG)
 #### 1. **resource/databricks.py** 내 "**get_dm_clm_proc**" 메서드 코드 변경
 
 ```python
@@ -87,7 +106,7 @@ class get_databricks_data :
             return df_filtered
 ```
 #### 3. resource/databricks.py내 'load_all_data' 메서드는 페이지를 실행할때 쓰이는 databiricks의 DATA를 한번에 불러올수 있게하는 메서드 입니다.
-```
+```python
     def load_all_data(self):
         self.dm_clm_proc_data = self.get_dm_clm_proc()
         self.dm_trend_data = self.setup_data(return_full_df=True)
@@ -145,8 +164,18 @@ def run_sum_main(data_loader):
 ```
 - dm_clm_proc_data 메서드를 tab에서 불러왔다.
 - 이미 main.py에서 데이터를 불러오면서 **CASCHE 처리가 완료** 되어있기 때문에, 빠르게 데이터를 볼수 있다.
+
+#### 6. Cache_resource 사용하기
+
+- ✅ **Loop 참고링크** : [Cache 사용법](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/ETo-vd9MXvRGiroB8sCfiowBxuU3l2U0LvqI66YpqhdI5w?e=eoNLTq&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHSjJIMjY1NlRDNjZSRElWT1FCNkxBSjdDVU0mYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODhkNCUyMiU3RA%3D%3D)
+
+EX) 추후에 기술 되어질, **Loading 되어지는 모습**을 이쁘게 하기위해 파라미터를 수정하였다.
+```python
+@st.cache_resource(ttl = 7200,show_spinner  = False)
+```
+![Cache](/etc/readme_images/cache.PNG)
 ---
-## ⓒ  사용법 _2(PAGE 형식  갖추기)
+## ⓓ  사용법 _2(PAGE 형식  갖추기)
 #### 1. SidebarMenu Tree 형태 , src/main.py 참조
 ```python
 from st_pages import Page, show_pages, add_page_title
@@ -167,10 +196,10 @@ from st_pages import Page, show_pages, add_page_title
             )
 ```
 - ✏️**Page('구동할 파일', '이름', '이모티콘')**
-- ![SideMenu Tree](/readme_images/sidemenuTree.PNG)
+- ![SideMenu Tree](/etc/readme_images/sidemenuTree.PNG)
 - ✅ **Loop 참고링크** : [SideBarMenu Tree](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EdCGG07rf55Oh9wVNcGdb8YBO3uajjdplNfXE8VacERoTQ?e=STfg3j&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHT1FRWU5VNTIzN1RaSElQWEFWR1hBWjIzNkcmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjZhZGYzN2ExLTNkOGMtNGYzNS1iZGNjLTA3NDk1MjU4NTBlNCUyMiU3RA%3D%3D)
 ---
-## ⓒ  사용법 _3(TAB 형식 갖추기)
+## ⓓ  사용법 _3(TAB 형식 갖추기)
 
 #### 1. TAB의 경우 2가지 형식을 구현했습니다. 원하시는 TAB을 사용하시면 됩니다.
 🚨 기본 **st.tabs** 의 경우 TAB별로 ID 부여가 불가하여, **속도 저하**의 원인이 될수 있습니다.
@@ -200,6 +229,7 @@ from st_pages import Page, show_pages, add_page_title
         ],default = 'tab1' , key =unique_key)
 ```
 - ️✏️ **id(필수수정)** , **title(필수수정)** , **description**(선택기능, **공백처리**[""]시 화면에 안보입니다.)
+-![TabBarItem](/etc/readme_images/tabbaritem.PNG)
 - ✅  **Loop 참조 링크** : [TabBarItemData](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 
 #### 2-2) "hydralit_components" 내 nav_bar 메서드 활용
@@ -237,7 +267,7 @@ chosen_id = hc.nav_bar(
     sticky_mode='pinned', #jumpy or not-jumpy, but sticky or pinned
 )
 ```
-![SubMenu ITEM](/readme_images/submenuitem.PNG)
+![SubMenu ITEM](/etc/readme_images/submenuitem.PNG)
 - ✏️  menu_data 변수 수정(딕셔너리 형태) 
     - **id**(필수) , icon(선택) , **label**(필수 , 화면에 표시할 문구)
     - submenu를 구성하기 위해서는 딕셔너리 내에서 다시 선언
@@ -254,7 +284,7 @@ chosen_id = hc.nav_bar(
     
 - ✅  **Loop 참조 링크** : [hydralit_components , nav_bar](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Eb-W87ideFxDrTGo2imrIv0Br8kvgZsMytQwlsLfEzYDBA?e=wOCIyM&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTjdTM1ozUkhMWUxSQjIyTU5JM0lVMldJWDUmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjBmNmZhMTg5LWM1NTUtNDhjNi1iODAwLTA2ZWU2OWU3YjUzNSUyMiU3RA%3D%3D)
 ---
-## ⓒ  사용법 _4(Layout 구조 반영하기)
+## ⓓ  사용법 _4(Layout 구조 반영하기)
 
 #### 1. LayOut 구조 잡기
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/first_tab.py 참조
@@ -317,7 +347,7 @@ with st.container():
         st.markdown("<hr style='border-top: 3px solid black; margin-top: 20px; margin-bottom: 20px'/>", unsafe_allow_html=True)
     ```
     - **st.columns() 메서드를 활용하여 열 Layout을 잡은뒤 st.container() 사용 추천**
-    - ![LayOut](/readme_images/Layout.PNG)
+    - ![LayOut](/etc/readme_images/Layout.PNG)
     - **st.container()** & **st.columns()** 활용
     
     - **st.container()** 의 경우 내부 파라미터로 크기,높이,테두리를 설정할 수 있다.
@@ -337,10 +367,10 @@ with st.container():
             st.write('Contents2')
             st.dataframe(df_raw.head(100))
     ```
-    - ![st.container](/readme_images/container.PNG)
+    - ![st.container](/etc/readme_images/container.PNG)
 #### 2. LayOut 구조 잡기-TIP
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/second_tab.py 참조
-- ![Layout2](/readme_images/Layout2.PNG)
+- ![Layout2](/etc/readme_images/Layout2.PNG)
 ```python
 left_col, right_col = st.columns([6, 6])
 
@@ -379,8 +409,8 @@ left_col, right_col = st.columns([6, 6])
 - ✏️   **st.columns()** 활용하여, 열  Layout 구조를 정한뒤에 , **st.container()** 의 height 파라미터 활용하여 행에 대한 구조를 짠다.  
 - 🚨 st.columns() 활용법 : [st.columns](https://docs.streamlit.io/develop/api-reference/layout/st.columns)
 - 🚨 st.container()활용법: [st.container](https://docs.streamlit.io/library/api-reference/layout/st.container)
-
-## ⓒ  사용법 _5(내 DATA 에 Filter 적용하기)
+---
+## ⓓ  사용법 _5(내 DATA 에 Filter 적용하기)
 #### 1. DynamicFilter 사용하기
 ##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/third_tab.py 참조
 
@@ -428,200 +458,190 @@ with st.container():
 ```
  - ① **st.columns()** 활용하여 Filter 위치 지정. 
  - ②  key : value  의 딕셔너리 형태로, {filter  적용할  **'열'**  : **'표시될  이름'** ,  **'위치'**    }
- - ③  display_filters() :  화면에  표시 하는  메서드
+ - ③  display_filters() :  화면에  Filter가  적용된  DataFrame 표시 하는 메서드
  - ④  filter_df () :  **내 DATA 에 Filter 적용**
-![Dynamic_Filter](/readme_images/dynamic.PNG)
+![Dynamic_Filter](/etc/readme_images/dynamic.PNG)
 
 - ✅  **Loop 참조 링크** : [Dynamic-Filter](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EUkFSyloe1ROsk3J9EBO028BwJV9i_jawwlfnwvROJjEDQ?e=tBHRxR&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHS0pBVkZTUzJEM0tSSExFVE9KNlJBRTVVM1AmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMjdiNzdkYTA3LTZjZTItNGJkYi1hMDY3LTU3OGM4OTA5YTRmMyUyMiU3RA%3D%3D)
 
+#### 2. 일반 Filter 사용하기
+##### - ✏️ src/pages/01_Firstpage/tabs/01_tab/third_tab.py 참조
+- 예시 코드(어떻게 쓰이는지만 파악하시면 됩니다.)
+- **pandas**를 활용하여 Filter에 대한 변수를 활용하여 **DataFrame을 수정** 하시면 됩니다. 
+```python
+default_start_date1 = max_date - pd.DateOffset(months=3)
+with col_date_left1:
+    start_date = st.date_input('Start date:', default_start_date1, key = 'start_date_input')
+    self.start_date = start_date
 
+with col_date_left2:
+    end_date = st.date_input('End date:', today, key = 'end_date_input')
 
+    self.end_date = end_date
 
-## ⓓ 기능
-| 기능 | 기술명  | Loop 링크
-| ------ | ------ | ------ |
-| login | Streamlit_Authenticator |[streamlit_authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=7NL8vf&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D) | |
-| GitHub | Git Push/Merge/Pull |
-| Page 구성하기 | SideBarMenu Tree |
-| Tab 구성하기  | hydralit_components |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+data = self.df
 
-## Features
+########### [날짜에 대한 NULL 값 처리로직] ##############
 
-- Import a HTML file and watch it magically convert to Markdown
-- Drag and drop images (requires your Dropbox account be linked)
-- Import and save files from GitHub, Dropbox, Google Drive and One Drive
-- Drag and drop markdown and HTML files into Dillinger
-- Export documents as Markdown, HTML and PDF
+# 원본 DATA 의 날짜가 비어(NULL)있을 경우 채워넣는 코드.
+# ※ 지우셔도 무방합니다.
+                    
+########################################
 
-Markdown is a lightweight markup language based on the formatting conventions
-that people naturally use in email.
-As [John Gruber] writes on the [Markdown site][df1]
+date_range = pd.date_range(start=start_date, end=end_date, freq='D')
+df_date_range = pd.DataFrame(date_range, columns=['bsymd'])
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+data = pd.merge(df_date_range, data, on=['bsymd'], how='left')
+data.dropna(subset=['voc_id' , 'rece_dttm'] , inplace= True)
 
-This text you see here is *actually- written in Markdown! To get a feel
-for Markdown's syntax, type some text into the left window and
-watch the results in the right.
+conditions = [
+    data['wname1'].isin(plant_list),  # wname1의 값이 plant_list 내에 있는 경우
+    data['wname1'].isin(oem_list)     # wname1의 값이 oem_list 내에 있는 경우
+]
+choices = ['사업장', 'OEM']
 
-## Tech
-
-Dillinger uses a number of open source projects to work properly:
-
-- [AngularJS] - HTML enhanced for web apps!
-- [Ace Editor] - awesome web-based text editor
-- [markdown-it] - Markdown parser done right. Fast and easy to extend.
-- [Twitter Bootstrap] - great UI boilerplate for modern web apps
-- [node.js] - evented I/O for the backend
-- [Express] - fast node.js network app framework [@tjholowaychuk]
-- [Gulp] - the streaming build system
-- [Breakdance](https://breakdance.github.io/breakdance/) - HTML
-to Markdown converter
-- [jQuery] - duh
-
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
-
-## Installation
-
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
-
-Install the dependencies and devDependencies and start the server.
-
-```sh
-cd dillinger
-npm i
-node app
+data['plant_division'] = np.select(conditions, choices, default='Not Specified')
+```
+---
+## ⓓ  사용법 _6(Login 기능 , Streamlit _Authenticator 활용)
+#### 1. config.yaml 파일 생성하기
+##### - ✏️ src/.streamlit/config.yaml 참조
+```
+credentials:
+  usernames:
+    andy:
+      name: andy
+      password: test # To be replaced with hashed password
+    busan:
+        name: busan
+        password: test # To be replaced with hashed password
+    user01 :
+        name : user01
+        password : "1234" # 숫자는 큰 따옴표 처리
+cookie:
+  expiry_days: 1
+  key: random_signature_key # Must be string
+  name: random_cookie_name
+preauthorized:
+  emails:
+  - sunghyuk.park@cj.net
+```
+① **ID , Password 지정**
+```
+    지정할 ID:
+      name: ID를 사용하는 사람 이름
+      password: password (숫자의 경우에는 큰 따옴표("")처리) 
+```
+② **쿠키 설정**(**exipiry_days** 이외 값  변경 X)
+```
+cookie:
+  expiry_days: 1
+  key: random_signature_key # Must be string
+  name: random_cookie_name
 ```
 
-For production environments...
+#### 2. 각 페이지의 main.py내에 login 관련 메서드 적용하기
+##### - src/main.py 참조
+```python
+login_dir = os.path.join(current_dir + '/login/')
+sys.path.append(login_dir)
+login_module = importlib.import_module("lgn")
+def main():
+    with st.sidebar:
+    ################## [login_module] ##################
+    
+    # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
+    # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+    
+    #####################################################
+        config = login_module.get_conf()
+        login_module.login_check(config)
 
-```sh
-npm install --production
-NODE_ENV=production node app
 ```
 
-## Plugins
+>  🚨 Login 기능을 사용하기 위해서는, **각 페이지의 main.py** 내에 
+```python
+config = login_module.get_conf()
+login_module.login_check(config)
+```
+→  **이 2줄을**  넣어야한다. 
+![login](/etc/readme_images/login.PNG)
 
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
+#### 3. login 이후 권한별로 볼수 있게끔하는 예시코드
+##### - ✏️ src/Pages/01_Firstpage/tabs/03_tab/third_tab.py 참조
+```python
+########### [로그인 코드] ##############
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+# session_state 내에서 name의 key 값의 value 값에 login username이 지정
 
-## Development
+########################################
+if 'name' in st.session_state:
+    current_user = st.session_state['name']
+    if current_user == 'busan':
+        data = data[data['wname1'] == '부산공장']
+    elif current_user == 'jincheon':
+        data = data[data['wname1'].isin(['진천BC', '진천)두부', '진천선물세트', '진천)B2B', '진천)육가공', '진천)B2B생산'])]
+```
+→  ID 에 따라  **DataFrame을 Filter** 처리 하였다. 
 
-Want to contribute? Great!
 
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
+- ✅  **Loop 참조 링크** : [Streamlit Authenticator](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/EXb2JNORODNErAV4z6LA-aMBvDeA5N3OGO1vtFmNaPW9Tg?e=oDgMSv&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTFc2WVNOSEVKWUdOQ0tZQkxZWjZSTUI2TkQmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmZjNjQ0M2RjLTczYzAtNGU4ZC05ZWU0LTBkNmY3NWUyODg2ZiUyMiU3RA%3D%3D)
+---
+## ⓓ  사용법 _7(기타  기능)
+#### 1. 차트내 색상 지정
+##### - ✏️ src/Pages/01_Firstpage/tabs/03_tab/third_tab.py 참조
+```python
+import seaborn as sns
+from matplotlib.colors import rgb2hex
 
-Open your favorite Terminal and run these commands.
+########### [차트내 색깔 적용] ##############
 
-First Tab:
+# seaborn 내 color_palette 활용
+# https://seaborn.pydata.org/generated/seaborn.color_palette.html
+    
+#############################################
+# # 조합된 팔레트에서 색상 선택
+# # 필요하다면 팔레트의 색상을 반복하거나 추가하여 100개를 만듭니다.
 
-```sh
-node app
+palette = sns.color_palette("tab20", 40)
+color_palette = [rgb2hex(rgb) for rgb in palette]
+palette2 = sns.color_palette("Dark2", 40)
+color_palette2 = [rgb2hex(rgb) for rgb in palette2]
+
+```
+① **sns.color_pallete("팔렛트 이름",rgb로 변환시 갯수 )** :
+→ Seaborn 라이브러리의 color_palette 함수를 사용하여 "tab20"이라는 미리 정의된 색상 팔레트를 가져옵니다.  Seaborn은 "tab20" 팔레트의 색상을 반복하여 **총 40가지** 색상을 생성
+
+② **color_palette = [rgb2hex(rgb) for rgb in palette]** : 
+→  palette 리스트의 각 RGB 색상을 HEX 형식으로 변환
+
+- ✅  **Loop 참조 링크** : [색상 지정](https://cjworld.sharepoint.com/:fl:/g/contentstorage/CSP_80efb4a4-591c-46ab-b2c7-56d8114f0b8c/Ebll3Ugm72xGvxmEl1_H2PUBlCQheUH3ao89ZJb-a5_1og?e=2tBYg6&nav=cz0lMkZjb250ZW50c3RvcmFnZSUyRkNTUF84MGVmYjRhNC01OTFjLTQ2YWItYjJjNy01NmQ4MTE0ZjBiOGMmZD1iJTIxcExUdmdCeFpxMGF5eDFiWUVVOExqTjNheXg2QVc4Vk1zMGNxdlV3b3FQTjgwaWtQUDFKeVQ3cGVvV2tfNmRZVSZmPTAxN1hWUTRHTlpNWE9VUUpYUE5SREw2R01FUzVQNFBXSFYmYz0lMkYmYT1Mb29wQXBwJnA9JTQwZmx1aWR4JTJGbG9vcC1wYWdlLWNvbnRhaW5lciZ4PSU3QiUyMnclMjIlM0ElMjJUMFJUVUh4amFuZHZjbXhrTG5Ob1lYSmxjRzlwYm5RdVkyOXRmR0loY0V4VWRtZENlRnB4TUdGNWVERmlXVVZWT0V4cVRqTmhlWGcyUVZjNFZrMXpNR054ZGxWM2IzRlFUamd3YVd0UVVERktlVlEzY0dWdlYydGZObVJaVlh3d01UZFlWbEUwUjBsSFRWcExUVmhDUTBWVVFrTmFVREpSVWtFM1JVeEdNMHhaJTIyJTJDJTIyaSUyMiUzQSUyMmQ1NzZlZTdkLTdlY2UtNGM4NC05NzM1LTk3OGIxY2IzODBlZiUyMiU3RA%3D%3D)
+
+#### 2. Data 로딩 표시
+##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
+
+```python
+        with hc.HyLoader('Now Data loading',hc.Loaders.standard_loaders,index=[3,0,5]):
+            with st.container():
 ```
 
-Second Tab:
+- ✅**Streamlit 커뮤니티 링크:** [Hydralit Components](   https://discuss.streamlit.io/t/new-component-20-animated-loaders-updated-navbar-and-more-from-hydralit-components/17650)
 
-```sh
-gulp watch
+![loding](/etc/readme_images/loading.PNG)
+
+#### 3. ICON 및 브라우저에 띄울 이름 설정
+##### - ✏️ src/Pages/01_Firstpage/first_main.py 참조
+```python
+def main():
+
+    ################### [st.set_page_config] ####################
+
+    # page_title : Page Title 지정
+    # page_icon : emoji 지정 
+    #############################################################
+    st.set_page_config(layout="wide", page_title = 'Write your Page Title' , page_icon=":memo:")
 ```
 
-(optional) Third:
+![page_name](/etc/readme_images/page_name.PNG)
 
-```sh
-karma test
-```
-
-#### Building for source
-
-For production release:
-
-```sh
-gulp build --prod
-```
-
-Generating pre-built zip archives for distribution:
-
-```sh
-gulp build dist --prod
-```
-
-## Docker
-
-Dillinger is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8080, so change this within the
-Dockerfile if necessary. When ready, simply use the Dockerfile to
-build the image.
-
-```sh
-cd dillinger
-docker build -t <youruser>/dillinger:${package.json.version} .
-```
-
-This will create the dillinger image and pull in the necessary dependencies.
-Be sure to swap out `${package.json.version}` with the actual
-version of Dillinger.
-
-Once done, run the Docker image and map the port to whatever you wish on
-your host. In this example, we simply map port 8000 of the host to
-port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8000:8080 --restart=always --cap-add=SYS_ADMIN --name=dillinger <youruser>/dillinger:${package.json.version}
-```
-
-> Note: `--capt-add=SYS-ADMIN` is required for PDF rendering.
-
-Verify the deployment by navigating to your server address in
-your preferred browser.
-
-```sh
-127.0.0.1:8000
-```
-
-## License
-
-MIT
-
-**Free Software, Hell Yeah!**
-
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [AngularJS]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
-
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
+---

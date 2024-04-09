@@ -17,7 +17,6 @@ def run_anomaly_main(data_loader):
     # get_databricks_data 인스턴스내 dm_clm_proc_data 함수를 갖고 온다.
     #############################################
     df_raw = data_loader.dm_clm_proc_data
-    df_raw 
     col1, col2, col3, col4 = st.columns([8, 1, 1, 1])
 
     min_date, max_date = df_raw['bsymd'].min(), df_raw['bsymd'].max()
