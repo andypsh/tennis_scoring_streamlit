@@ -1,3 +1,50 @@
 [build-system]
-requires = [ "setuptools>=41", "wheel", "setuptools-git-versioning" ]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "streamlit_starter_pack"
+version = "0.0.2"
+description = "CJ Tennis Club Streamlit Dashboard"
+requires-python = ">=3.9.18"
+license = {text = "MIT License"}
+authors = [{name = "Data Science"}]
+dependencies = [
+    "click",
+    "numpy",
+    "matplotlib",
+    "pandas",
+    "scipy",
+    "streamlit==1.54.0",
+    "streamlit-aggrid",
+    "seaborn",
+#    "streamlit-dynamic-filters_andy==0.0.3",
+    "boto3",
+    "altair==4.2.2",
+    "plotly==5.18.0",
+    "statsmodels",
+    "openpyxl",
+#    "ds-dbconn==0.0.4",
+    "twine",
+    "build",
+    "streamlit_extras",
+    "streamlit_authenticator",
+    "extra_streamlit_components",
+    "st_tabs",
+    "st-pages",
+    "hydralit_components",
+    "streamlit_login_auth_ui"
+]
+
+[project.scripts]
+streamlit_starter_pack = "streamlit_starter_pack.scripts:streamlit_starter_pack"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+streamlit_starter_pack = ["VERSION", "static/**/*", "static/**/.*", "static/.**/*", "static/.**/.*"]
