@@ -1,121 +1,123 @@
+from datetime import datetime
 import streamlit as st
+from st_pages import hide_pages
 import os
 import sys
 import importlib
-import warnings
 import extra_streamlit_components as stx
-import base64
-import json
 import hydralit_components as hc
-# FutureWarning을 무시하도록 설정
-warnings.filterwarnings("ignore")
 
 #################[Module PATH 지정]###################
-
-# 현재 python 파일과 여려 모듈간 연결을 위한 path 지정
-
-######################################################
-
 current_dir = os.path.dirname(os.path.realpath(__file__))
-first_tab_path = os.path.join(current_dir + '/tabs/01_tab/')
-second_tab_path = os.path.join(current_dir + '/tabs/02_tab/')
-third_tab_path = os.path.join(current_dir + '/tabs/03_tab/')
-resource_path = os.path.join('../../resource/')
-login_dir = os.path.join('../../../login/')
+first_tab_path = os.path.join(current_dir, 'tabs', '01_tab')
+second_tab_path = os.path.join(current_dir, 'tabs', '02_tab')
+third_tab_path = os.path.join(current_dir, 'tabs', '03_tab')
+resource_path = os.path.abspath(os.path.join(current_dir, '../../resource/'))
+login_dir = os.path.abspath(os.path.join(current_dir, '../../../login/'))
 
+for p in [first_tab_path, second_tab_path, third_tab_path, resource_path, login_dir]:
+    if p not in sys.path:
+        sys.path.append(p)
 
-sys.path.append(first_tab_path)
-sys.path.append(second_tab_path)
-sys.path.append(third_tab_path)
-sys.path.append(resource_path)
-sys.path.append(login_dir)
-
-
-resource_module = importlib.import_module("resource.databricks")
-get_databricks_data = getattr(resource_module, 'get_databricks_data')
 login_module = importlib.import_module("lgn")
 
+
 ######################################################
 
-def load_and_run_module(module_name, function_name , *args):
-    # 모듈 동적 임포트
+def load_and_run_module(module_name, function_name, *args):
     module = importlib.import_module(module_name)
-    # 모듈 내 함수 실행
+    importlib.reload(module)
     function_to_run = getattr(module, function_name)
     return function_to_run(*args)
 
-def main():
 
-    ################### [st.set_page_config] ####################
+# --- 실제 실행부 ---
 
-    # page_title : Page Title 지정
-    # page_icon : emoji 지정 
-    #############################################################
-    st.set_page_config(layout="wide", page_title = 'Write your Page Title' , page_icon=":memo:")
-    with st.sidebar:
+# 1. ULTIMATE 모바일 뷰 차단 & 풀사이즈 밀착 CSS [cite: 2026-02-16]
+st.markdown("""
+    <style>
+        /* 상단 헤더 공간 제거 */
+        header[data-testid="stHeader"] {
+            display: none !important;
+        }
 
-    ################## [login_module] ##################
+        /* 메인 컨테이너 모든 여백 제거 및 가로 100% 강제 */
+        .main .block-container {
+            max-width: 100% !important;
+            padding-top: 0rem !important;
+            padding-bottom: 0rem !important;
+            padding-left: 0rem !important;
+            padding-right: 0rem !important;
+            margin: 0rem !important;
+        }
 
-    # login_module 내 get_conf() 함수를 통해 로그인 정보를 갖고 온다. 
-    # 사이드바에서 로그인 체크 함수를 호출하고 로그인 상태를 확인한다
+        /* [핵심] 모바일 모드(세션 스택) 강제 차단 및 가로 유지 */
+        .stCustomComponentV1 {
+            width: 100% !important;
+            margin-top: -3.7rem !important; 
+            display: flex !important;
+            justify-content: center !important;
+        }
 
-    #####################################################
+        /* Hydralit 내부 요소가 세로로 꺾이지 않게 강제 설정 */
+        iframe[title="hydralit_components.nav_bar.nav_bar"] {
+            min-width: 1000px !important; /* 최소 가로폭을 강제하여 꺾임 방지 */
+            width: 100% !important;
+        }
 
-        config = login_module.get_conf()
-        login_module.login_check(config)
-        ################## [stx.tab_bar] ###################
+        /* 본문 내용 여백 */
+        .stVerticalBlock {
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
+            gap: 0rem !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-        # id : 각 TAB 별로 부여할 ID
-        # title : TAB 이름 부여
-        # description : TAB 설명 부여
-        # default : TAB에 대한 default값 지정
-        # key : 고유한 key 값 지정
-    
-        ####################################################
-    if st.session_state.get('authentication_status'):
-        unique_key = "tab_bar_" + str(os.getpid())
-        
-        chosen_id = stx.tab_bar(data=[
-        stx.TabBarItemData(id="tab1", title="01.TAB", description="description"),
-        stx.TabBarItemData(id="tab2", title="02.TAB", description="description"),
-        stx.TabBarItemData(id="tab3", title="03.TAB", description="description")
-        ],default = 'tab1' , key =unique_key)
-        ################## [hydralit components] ###################
+with st.sidebar:
+    config = login_module.get_conf()
+    login_module.login_check(config)
 
-        # 하단 링크 참조
-        # https://github.com/TangleSpace/hydralit_components?tab=readme-ov-file
-    
-        ####################################################
-        with hc.HyLoader('Now Data loading',hc.Loaders.standard_loaders,index=[3,0,5]):
-            with st.container():
-                
-                ########### [데이터 갖고 오기] ##############
-                
-                # data_loader : get_databricks_data 클래스의 인스턴스를 참조하는 변수
-                # data_loader는 get_databricks_data 인스턴스내 참조되어있는 메서드 load_all_data 갖고 온다.
-                #############################################
-                data_loader = get_databricks_data()
-                data_loader.load_all_data()
-                ####################################################
+if st.session_state.get('authentication_status'):
+    # 메뉴 데이터 [cite: 2026-01-27]
+    menu_data = [
+        {'id': 'tab1', 'icon': "fas fa-users", 'label': "조편성/대진표"},
+        {'id': 'tab2', 'icon': "fas fa-edit", 'label': "결과 입력"},
+        {'icon': "fa-solid fa-radar", 'label': "상세 현황",
+         'submenu': [{'id': 'subid11', 'icon': "fa fa-paperclip", 'label': "승점표"},
+                     {'id': 'subid12', 'icon': ":book:", 'label': "득실차"},
+                     {'id': 'subid13', 'icon': "fa fa-database", 'label': "Raw Data"}]},
+        {'icon': "far fa-chart-bar", 'label': "통계"},
+        {'id': 'tab3', 'icon': "fas fa-user-shield", 'label': "운영진 확인"},
+        {'id': 'Logout', 'icon': "fas fa-sign-out-alt", 'label': "Logout"}
+    ]
 
+    # [COLOR] 클릭 시 흰색 배경 + 검정 글자 [cite: 2026-02-16]
+    over_theme = {
+        'txc_inactive': 'white',
+        'menu_background': 'black',
+        'txc_active': 'black',  # 클릭 시 글자색: 검정
+        'option_active': 'white'  # 클릭 시 배경색: 흰색
+    }
 
-                ########### [동적모듈로딩 방식 활용하여 TAB별 불러오기] ##############
-                
-                # chosen_id = "TAB ID"
-                # load_and_run_module("TAB 이름" , "TAB 내 실행할 모듈 이름" ,  "resource를 갖고오는 클래스 인스턴스 변수")
+    chosen_id = hc.nav_bar(
+        menu_definition=menu_data,
+        first_select=0,
+        override_theme=over_theme,
+        key='prelim_sub_nav',
+        hide_streamlit_markers=True,
+        sticky_nav=True,
+        sticky_mode='pinned',
+    )
 
-                ##################################################S##################
-
-                if chosen_id == "tab1":
-                    load_and_run_module("first_tab", "run_sum_main",data_loader)
-                elif chosen_id == "tab2":
-                    load_and_run_module("second_tab", "run_anomaly_main" ,data_loader)
-                elif chosen_id == "tab3":
-                    load_and_run_module("third_tab", "FirstContents" ,data_loader)
-    else:
-        st.header('로그인 하세요!')
-
-
-    
-if __name__ == "__main__":
-    main()  
+    with hc.HyLoader('페이지 로딩 중...', hc.Loaders.standard_loaders, index=[3, 0, 5]):
+        with st.container():
+            if chosen_id == 'tab1':
+                load_and_run_module("first_tab", "run_tab_content")
+            elif chosen_id == 'tab2':
+                load_and_run_module("second_tab", "run_anomaly_main")
+            elif chosen_id == 'Logout':
+                st.session_state.clear()
+                st.rerun()
+else:
+    st.header('🔐 로그인이 필요한 서비스입니다.')
