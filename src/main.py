@@ -55,7 +55,7 @@ if auth_status:
     # 로그인 성공 시 페이지 구성
     pages = [
         # st.Page(home_view, title="Home", icon="🏠", default=True),
-        st.Page("pages/01_Firstpage/first_main.py", title="대진표 확인", icon="🎾"),
+        st.Page("pages/01_Firstpage/first_page.py", title="대진표 확인", icon="🎾"),
         st.Page("pages/02_Secondpage/second_main.py", title="경기 기록", icon="📚")
     ]
 else:
