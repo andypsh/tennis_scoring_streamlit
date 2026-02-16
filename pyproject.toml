@@ -18,6 +18,7 @@ dependencies = [
     "streamlit==1.54.0",
     "streamlit-aggrid",
     "seaborn",
+     "st-gsheets-connection",
 #    "streamlit-dynamic-filters_andy==0.0.3",
     "boto3",
     "altair==4.2.2",
