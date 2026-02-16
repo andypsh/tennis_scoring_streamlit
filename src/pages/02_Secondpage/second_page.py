@@ -1,31 +1,33 @@
 import streamlit as st
 import pandas as pd
-import sqlite3
+from streamlit_gsheets import GSheetsConnection
 import ast
 
-# --- DB Helper ---
-DB_FILE = "tennis_data.db"
-def save_to_db(df):
-    conn = sqlite3.connect(DB_FILE)
-    save_df = df.copy()
-    for col in ['남단_선수', '남복_선수', '여복_선수']:
-        save_df[col] = save_df[col].apply(lambda x: str(x) if isinstance(x, list) else x)
-    save_df.to_sql('matches', conn, if_exists='replace', index=True, index_label='idx')
-    conn.commit()
-    conn.close()
+# --- 1. 구글 시트 연동 헬퍼 (SQLite 대체) --- ㅡㅡ^
+def get_gsheets_conn():
+    return st.connection("gsheets", type=GSheetsConnection)
 
-def load_from_db():
+def load_from_gsheets():
+    conn = get_gsheets_conn()
     try:
-        conn = sqlite3.connect(DB_FILE)
-        df = pd.read_sql('SELECT * FROM matches', conn).set_index('idx')
-        conn.close()
+        df = conn.read(ttl="5s")
         for col in ['남단_선수', '남복_선수', '여복_선수']:
             if col in df.columns:
                 df[col] = df[col].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) and x.startswith('[') else x)
         return df
     except: return pd.DataFrame()
 
-# --- [저장 확인 팝업창] ---
+def save_to_gsheets(df):
+    if df.empty: return
+    conn = get_gsheets_conn()
+    save_df = df.copy()
+    for col in ['남단_선수', '남복_선수', '여복_선수']:
+        if col in save_df.columns:
+            save_df[col] = save_df[col].apply(lambda x: str(x) if isinstance(x, list) else x)
+    conn.update(data=save_df)
+    st.success("✅ 구글 시트에 실시간 저장되었습니다!")
+
+# --- 2. 저장 확인 팝업창 (구글 시트 저장 로직으로 교체) ---
 @st.dialog("📝 경기 결과 최종 확인")
 def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
     curr = st.session_state.match_data.loc[idx]
@@ -35,34 +37,39 @@ def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
     st.divider()
 
     c1, c2 = st.columns(2)
-    if c1.button("✅ 물리 DB 저장", use_container_width=True):
+    if c1.button("✅ 구글 시트 저장", use_container_width=True):
         # 1. 세션 업데이트
         st.session_state.match_data.at[idx, f"{m_type}_홈"] = v_h
         st.session_state.match_data.at[idx, f"{m_type}_어웨이"] = v_a
         st.session_state.match_data.at[idx, f"{m_type}_선수"] = [l_h, l_a]
         st.session_state.match_data.at[idx, '확정'] = finalized
-        # 2. 물리 DB 동기화 ㅡㅡ^
-        save_to_db(st.session_state.match_data)
-        st.success("데이터베이스에 영구 저장되었습니다!")
+        # 2. 구글 시트 동기화 ㅡㅡ^
+        save_to_gsheets(st.session_state.match_data)
         st.rerun()
     if c2.button("❌ 취소", use_container_width=True): st.rerun()
 
-# --- [메인 입력 섹션] ---
+# --- 3. UI 및 데이터 로드 ---
 st.header("📝 실시간 경기 스코어보드 입력")
 st.markdown("<hr style='border-top: 3px solid black; margin-top: 10px; margin-bottom: 20px'/>", unsafe_allow_html=True)
 
-# 물리 DB 최신화 ㅡㅡ^
-db_data = load_from_db()
-if not db_data.empty: st.session_state.match_data = db_data
+# 최신 구글 시트 데이터 로드
+st.session_state.match_data = load_from_gsheets()
 
-if 'match_data' not in st.session_state or 'player_db' not in st.session_state or 'groups' not in st.session_state:
-    st.warning("⚠️ FIRST_PAGE에서 설정을 먼저 완료해 주세요."); st.stop()
+# 🚨 [에러 방어] 데이터 존재 여부 체크 (Specialist님을 위한 핵심 로직 ㅡㅡ^)
+if 'match_data' not in st.session_state or st.session_state.player_db is None:
+    st.error("❌ 명단 데이터가 없습니다! FIRST_PAGE에서 엑셀 업로드를 먼저 해주세요.")
+    st.stop()
 
-# (필터 및 대진 선택 로직 유지)
-available_groups = ["전체"] + list(st.session_state.groups.keys())
+# --- 4. 필터 및 대진 선택 ---
+available_groups = ["전체"] + list(st.session_state.groups.keys()) if st.session_state.groups else ["전체"]
 f_group = st.radio("조 필터:", available_groups, horizontal=True)
 m_df = st.session_state.match_data
 if f_group != "전체": m_df = m_df[m_df['조'] == f_group]
+
+if m_df.empty:
+    st.warning("선택한 조에 경기 데이터가 없습니다.")
+    st.stop()
+
 opts = [f"[{r['조']}] {r['홈']} vs {r['어웨이']}" for _, r in m_df.iterrows()]
 sel_raw = st.selectbox("대진 선택:", range(len(opts)), format_func=lambda x: opts[x])
 real_idx = m_df.index[sel_raw]
@@ -71,7 +78,7 @@ curr_match = st.session_state.match_data.loc[real_idx]
 st.markdown("---")
 m_type = st.radio("🔢 종목 선택:", ["남단", "남복", "여복"], horizontal=True)
 
-# 중복 방지 및 라인업 필터링 (Specialist님 수정본 유지) ㅡㅡ^
+# --- 5. 선수 필터링 및 입력 ---
 used_h, used_a = [], []
 for mt in ["남단", "남복", "여복"]:
     if mt != m_type:
@@ -79,6 +86,7 @@ for mt in ["남단", "남복", "여복"]:
         if isinstance(lineup, list) and len(lineup) == 2:
             used_h.extend(lineup[0]); used_a.extend(lineup[1])
 
+# 여기서 copy() 에러 방어가 완료되었습니다 ㅡㅡ^
 pdb = st.session_state.player_db.copy()
 pdb['소속'] = pdb['소속'].astype(str).str.strip()
 pdb['성별'] = pdb['성별'].astype(str).str.strip()
