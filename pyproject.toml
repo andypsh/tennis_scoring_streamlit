@@ -3,10 +3,10 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "streamlit_starter_pack"
-version = "0.0.2"
+name = "cj_tennis_club"
+version = "1.0.0"
 description = "CJ Tennis Club Streamlit Dashboard"
-requires-python = ">=3.9.18"
+requires-python = ">=3.13.00"
 license = {text = "MIT License"}
 authors = [{name = "Data Science"}]
 dependencies = [

@@ -55,8 +55,12 @@ if auth_status:
     # 로그인 성공 시 페이지 구성
     pages = [
         # st.Page(home_view, title="Home", icon="🏠", default=True),
-        st.Page("pages/01_Firstpage/first_page.py", title="대진표 확인", icon="🎾"),
-        st.Page("pages/02_Secondpage/second_main.py", title="경기 기록", icon="📚")
+        st.Page("pages/01_Firstpage/first_page.py", title="예선 조별순위", icon="🎾"),
+        st.Page("pages/02_Secondpage/second_page.py", title="예선 점수 입력", icon="💯"),
+        st.Page("pages/03_Thirdpage/third_page.py", title="본선 대진표", icon="🆚"),
+        st.Page("pages/04_Fourthpage/fourth_page.py", title="선수 등록", icon="📚")
+        #
+        # st.Page("pages/02_Secondpage/second_page.py", title="경기 기록", icon="📚")
     ]
 else:
     # 로그인 전: 로그인 페이지만 노출
