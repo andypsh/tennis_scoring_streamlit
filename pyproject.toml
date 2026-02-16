@@ -6,39 +6,27 @@ build-backend = "setuptools.build_meta"
 name = "cj_tennis_club"
 version = "1.0.0"
 description = "CJ Tennis Club Streamlit Dashboard"
-requires-python = ">=3.13.00"
+# 3.13 대신 안정적인 3.11 이상으로 설정 ㅡㅡ^
+requires-python = ">=3.11"
 license = {text = "MIT License"}
 authors = [{name = "Data Science"}]
 dependencies = [
-    "click",
+    "streamlit==1.54.0",
+    "pandas",
     "numpy",
     "matplotlib",
-    "pandas",
-    "scipy",
-    "streamlit==1.54.0",
-    "streamlit-aggrid",
     "seaborn",
-     "st-gsheets-connection",
-#    "streamlit-dynamic-filters_andy==0.0.3",
-    "boto3",
-    "altair==4.2.2",
-    "plotly==5.18.0",
-    "statsmodels",
+    "plotly",
+    "st-gsheets-connection",
     "openpyxl",
-#    "ds-dbconn==0.0.4",
-    "twine",
-    "build",
+    # 아래는 꼭 필요한 컴포넌트만 남겼습니다 ㅡㅡ^
+    "streamlit-aggrid",
     "streamlit_extras",
-    "streamlit_authenticator",
     "extra_streamlit_components",
-    "st_tabs",
-    "st-pages",
-    "hydralit_components",
-    "streamlit_login_auth_ui"
+    "streamlit-pages",
+    "streamlit_authenticator"
+    # altair, twine, build 등은 충돌 방지를 위해 삭제/자동설정 유도
 ]
-
-[project.scripts]
-streamlit_starter_pack = "streamlit_starter_pack.scripts:streamlit_starter_pack"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -46,6 +34,3 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.setuptools.package-data]
-streamlit_starter_pack = ["VERSION", "static/**/*", "static/**/.*", "static/.**/*", "static/.**/.*"]
