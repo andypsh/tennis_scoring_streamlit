@@ -7,28 +7,32 @@ import os
 
 @st.cache_resource()
 def get_conf():
-    """
-    로컬에 파일이 있으면 YAML을 읽고, 없으면 Secrets를 읽는 하이브리드 로직 ㅡㅡ^
-    """
     config_path = os.path.join('.streamlit', 'config.yaml')
 
-    # 1. 로컬 환경 체크: 파일이 존재하는지 먼저 확인
+    # 1. 로컬 환경 (YAML 파일 존재 시)
     if os.path.exists(config_path):
         with open(config_path) as file:
             config = yaml.load(file, Loader=SafeLoader)
         return config
 
-    # 2. 클라우드 환경 체크: 파일이 없으면 Secrets에서 가져옴 ㅡㅡ^
+    # 2. 클라우드 환경 (Secrets 사용 시) ㅡㅡ^
     elif "credentials" in st.secrets:
-        # st.secrets를 딕셔너리 형태로 변환하여 반환
-        return {
-            "credentials": st.secrets["credentials"],
-            "cookie": st.secrets["cookie"],
-            "preauthorized": st.secrets["preauthorized"]
+        # 핵심: st.secrets는 수정 불가하므로 '진짜 딕셔너리'로 깊은 복사를 해야 합니다.
+        # 아래처럼 수동으로 딕셔너리를 생성하면 수정 가능한 객체가 됩니다.
+        config = {
+            "credentials": {
+                "usernames": {
+                    username: dict(user_info)
+                    for username, user_info in st.secrets["credentials"]["usernames"].items()
+                }
+            },
+            "cookie": dict(st.secrets["cookie"]),
+            "preauthorized": dict(st.secrets["preauthorized"]) if "preauthorized" in st.secrets else {"emails": []}
         }
+        return config
 
     else:
-        st.error("❌ 설정 파일(YAML) 또는 Secrets 정보를 찾을 수 없습니다.")
+        st.error("❌ 설정 정보를 찾을 수 없습니다.")
         return None
 
 
@@ -36,7 +40,7 @@ def login_check(config):
     if config is None:
         return False
 
-    # Authenticate 객체 생성 (로컬/클라우드 공용)
+    # 이제 config는 일반 딕셔너리이므로 라이브러리가 맘껏 수정해도 에러가 안 납니다! ㅡㅡ^
     authenticator = stauth.Authenticate(
         config['credentials'],
         config['cookie']['name'],
