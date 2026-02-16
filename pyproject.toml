@@ -1,3 +1,7 @@
+# Poetry에게 "이건 앱이니까 나를 패키지로 빌드하지 마"라고 알려주는 설정입니다 ㅡㅡ^
+[tool.poetry]
+package-mode = false
+
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
