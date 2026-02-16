@@ -2,7 +2,7 @@ credentials:
   usernames:
     andy:
       name: andy
-      password: test # To be replaced with hashed password
+      password: "1234" # To be replaced with hashed password
     busan:
         name: busan
         password: test # To be replaced with hashed password

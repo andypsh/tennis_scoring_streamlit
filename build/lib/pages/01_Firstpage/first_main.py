@@ -94,10 +94,10 @@ def main():
                 # data_loader : get_databricks_data 클래스의 인스턴스를 참조하는 변수
                 # data_loader는 get_databricks_data 인스턴스내 참조되어있는 메서드 load_all_data 갖고 온다.
                 #############################################
-                data_loader = get_databricks_data()
-                data_loader.load_all_data()
+                # data_loader = get_databricks_data()
+                # data_loader.load_all_data()
                 ####################################################
-
+                data_loader = None
 
                 ########### [동적모듈로딩 방식 활용하여 TAB별 불러오기] ##############
                 
