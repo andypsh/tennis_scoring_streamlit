@@ -36,9 +36,10 @@ if 'player_db' not in st.session_state: st.session_state.player_db = None
 if 'groups' not in st.session_state: st.session_state.groups = {}
 if 'match_data' not in st.session_state: st.session_state.match_data = pd.DataFrame()
 if 'mode' not in st.session_state: st.session_state.mode = "토너먼트 (조별 예선)"
-if 'role' not in st.session_state: st.session_state.role = "Public"  # 기본 권한은 공개(Public)
+if 'role' not in st.session_state: st.session_state.role = "Public"
+if 'num_groups' not in st.session_state: st.session_state.num_groups = 2  # 조 개수 저장용 추가 ㅡㅡ^
 
-# --- 3. 사이드바 로그인 시스템 (다중 계정 대응) ㅡㅡ^ ---
+# --- 3. 사이드바 로그인 시스템 ---
 with st.sidebar:
     st.title("🔐 사용자 인증")
     if st.session_state.role == "Public":
@@ -46,12 +47,10 @@ with st.sidebar:
         input_pw = st.text_input("비밀번호", type="password")
 
         if st.button("로그인"):
-            # 1. 관리자 체크
             if input_user == st.secrets["auth"]["admin_user"] and \
                     input_pw == st.secrets["auth"]["admin_password"]:
                 st.session_state.role = "Admin"
                 st.rerun()
-            # 2. 일반인 계정 체크
             elif input_user == st.secrets["auth"]["general_user"] and \
                     input_pw == st.secrets["auth"]["general_password"]:
                 st.session_state.role = "User"
@@ -64,7 +63,7 @@ with st.sidebar:
             st.session_state.role = "Public"
             st.rerun()
 
-# --- 4. 메인 화면: 관리자(Admin) 전용 설정 구역 ---
+# --- 4. 메인 화면 ---
 st.header("🏆 대회 실시간 운영 센터")
 
 if st.session_state.role == "Admin":
@@ -84,7 +83,12 @@ if st.session_state.role == "Admin":
 
         if "토너먼트" in st.session_state.mode:
             with st.expander("⚖️ 2단계: 조 편성 (중복 차단)", expanded=st.session_state.match_data.empty):
-                num_groups = st.selectbox("조 개수:", [2, 3, 4, 5])
+                # [핵심 수정] 조 개수 선택 시 기존 세션 값을 index로 불러옴 ㅡㅡ^
+                group_opts = [2, 3, 4, 5]
+                num_groups = st.selectbox("조 개수:", group_opts,
+                                          index=group_opts.index(st.session_state.num_groups))
+                st.session_state.num_groups = num_groups  # 변경 즉시 세션에 저장
+
                 group_names = [f"{chr(65 + i)}조" for i in range(num_groups)]
                 temp_groups = {}
                 already_selected = []
@@ -149,7 +153,6 @@ if not st.session_state.match_data.empty:
                         unsafe_allow_html=True)
             df_res = calculate_standings(st.session_state.match_data, gn)
             if not df_res.empty:
-                # 색깔 강조 유지 ㅡㅡ^
                 st.dataframe(df_res.style.highlight_max(subset=['승점'], color='#D1E7DD').highlight_min(subset=['패'],
                                                                                                       color='#F8D7DA'),
                              use_container_width=True, hide_index=True)
