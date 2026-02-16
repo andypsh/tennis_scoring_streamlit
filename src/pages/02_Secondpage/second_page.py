@@ -16,7 +16,7 @@ def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
         st.session_state.match_data.at[idx, f"{m_type}_어웨이"] = v_a
         st.session_state.match_data.at[idx, f"{m_type}_선수"] = [l_h, l_a]
         st.session_state.match_data.at[idx, '확정'] = finalized
-        st.success("성공적으로 저장되었습니다!")
+        st.success("성공적으로 저장 및 순위에 반영되었습니다!")
         st.rerun()
 
     if c2.button("❌ 취소", use_container_width=True):
@@ -26,14 +26,13 @@ def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
 st.header("📝 실시간 경기 스코어보드 입력")
 st.markdown("<hr style='border-top: 3px solid black; margin-top: 10px; margin-bottom: 20px'/>", unsafe_allow_html=True)
 
-# 0. 데이터 존재 여부 체크 (groups 포함)
+# 0. 데이터 존재 여부 체크
 if 'match_data' not in st.session_state or 'player_db' not in st.session_state or 'groups' not in st.session_state:
     st.warning("⚠️ FIRST_PAGE에서 명단 업로드 및 조 편성을 먼저 완료해 주세요.")
     st.stop()
 
-# 1. 조 필터 연동 (FIRST_PAGE의 groups 정보 사용) ㅡㅡ^
+# 1. 조 필터 연동
 available_groups = ["전체"] + list(st.session_state.groups.keys())
-
 filter_col1, filter_col2 = st.columns([1, 2])
 with filter_col1:
     f_group = st.radio("조 필터:", available_groups, horizontal=True)
@@ -54,37 +53,59 @@ curr_match = st.session_state.match_data.iloc[real_idx]
 st.markdown("---")
 m_type = st.radio("🔢 종목 선택:", ["남단", "남복", "여복"], horizontal=True)
 
-# 4. 중복 출전 방지 로직
+# 4. 중복 출전 방지 로직 (강화됨) ㅡㅡ^
 used_h, used_a = [], []
 for match_name in ["남단", "남복", "여복"]:
     if match_name != m_type:
-        lineup = curr_match.get(f"{match_name}_선수", [])
-        if lineup and len(lineup) == 2:
+        lineup = curr_match.get(f"{match_name}_선수")
+        # NaN이나 빈 값이 아닌 리스트 형태일 때만 중복 체크에 포함
+        if isinstance(lineup, list) and len(lineup) == 2:
             used_h.extend(lineup[0]); used_a.extend(lineup[1])
 
-# 5. 라인업 입력
-pdb = st.session_state.player_db
-gender = "남" if m_type in ["남단", "남복"] else "여"
+# --- 5. 라인업 입력 (필터링 강화 섹션) --- ㅡㅡ^
+pdb = st.session_state.player_db.copy()
+# 데이터 전처리: 모든 텍스트 컬럼의 양끝 공백 제거
+pdb['소속'] = pdb['소속'].astype(str).str.strip()
+pdb['성별'] = pdb['성별'].astype(str).str.strip()
+
+gender_query = "남" if m_type in ["남단", "남복"] else "여"
 p_count = 1 if m_type == "남단" else 2
 
-h_pool = [p for p in pdb[(pdb['소속']==curr_match['홈']) & (pdb['성별']==gender)]['이름'].tolist() if p not in used_h]
-a_pool = [p for p in pdb[(pdb['소속']==curr_match['어웨이']) & (pdb['성별']==gender)]['이름'].tolist() if p not in used_a]
+# [수정 핵심] DT솔루션팀답게 contains와 strip으로 유연하게 매칭 ㅡㅡ^
+# 1. 소속 팀 매칭 (공백 제거 후 비교)
+# 2. 성별 매칭 ('남' 또는 '남자' 모두 걸리게 contains 사용)
+h_filtered = pdb[
+    (pdb['소속'] == curr_match['홈'].strip()) &
+    (pdb['성별'].str.contains(gender_query))
+]['이름'].tolist()
+
+a_filtered = pdb[
+    (pdb['소속'] == curr_match['어웨이'].strip()) &
+    (pdb['성별'].str.contains(gender_query))
+]['이름'].tolist()
+
+# 3. 중복 출전 선수 제외
+h_pool = [p for p in h_filtered if p not in used_h]
+a_pool = [p for p in a_filtered if p not in used_a]
 
 l_col, r_col = st.columns(2)
 with l_col:
     st.markdown(f'<div style="background-color:#f0f2f6; padding:10px; border-radius:10px; text-align:center;"><b>🏠 {curr_match["홈"]}</b></div>', unsafe_allow_html=True)
-    sel_h = st.multiselect("선수 명단", h_pool, max_selections=p_count, key=f"h_l_{real_idx}_{m_type}")
+    if not h_pool: st.warning("⚠️ 선택 가능한 남성 선수가 없습니다.")
+    sel_h = st.multiselect(f"선수 명단 ", h_pool, max_selections=p_count, key=f"h_l_{real_idx}_{m_type}")
     sc_h = st.number_input("세트 스코어", 0, 6, key=f"h_s_{real_idx}_{m_type}")
 
 with r_col:
     st.markdown(f'<div style="background-color:#f0f2f6; padding:10px; border-radius:10px; text-align:center;"><b>🚀 {curr_match["어웨이"]}</b></div>', unsafe_allow_html=True)
-    sel_a = st.multiselect("선수 명단 ", a_pool, max_selections=p_count, key=f"a_l_{real_idx}_{m_type}")
+    if not a_pool: st.warning("⚠️ 선택 가능한 남성 선수가 없습니다.")
+    sel_a = st.multiselect(f"선수 명단 ", a_pool, max_selections=p_count, key=f"a_l_{real_idx}_{m_type}")
     sc_a = st.number_input("세트 스코어 ", 0, 6, key=f"a_s_{real_idx}_{m_type}")
 
-is_final = st.checkbox("이 매치를 최종 결과로 확정합니다.", value=curr_match['확정'])
-
+# 저장 버튼
+st.markdown("<br>", unsafe_allow_html=True)
 if st.button("💾 경기 데이터 저장하기", use_container_width=True):
     if len(sel_h) == p_count and len(sel_a) == p_count:
-        confirm_save_dialog(real_idx, m_type, sc_h, sc_a, sel_h, sel_a, is_final)
+        # 무조건 확정(True) 상태로 저장
+        confirm_save_dialog(real_idx, m_type, sc_h, sc_a, sel_h, sel_a, True)
     else:
         st.error(f"❌ {m_type} 인원 수({p_count}명)를 정확히 선택하세요.")

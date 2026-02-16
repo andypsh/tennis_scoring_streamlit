@@ -27,96 +27,98 @@ st.markdown("""
             font-weight: 800;
             color: #1E1E1E;
             margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
     </style>
 """, unsafe_allow_html=True)
 
 # --- 2. 세션 상태 초기화 ---
+if 'player_db' not in st.session_state: st.session_state.player_db = None
 if 'groups' not in st.session_state: st.session_state.groups = {}
 if 'match_data' not in st.session_state: st.session_state.match_data = pd.DataFrame()
-if 'mode' not in st.session_state: st.session_state.mode = "토너먼트"
+if 'mode' not in st.session_state: st.session_state.mode = "토너먼트 (조별 예선)"
+if 'role' not in st.session_state: st.session_state.role = "Public"  # 기본 권한은 공개(Public)
 
-# --- 3. 대회 모드 및 선수 등록 ---
-st.header("🏆 대회/교류전 운영 본부")
+# --- 3. 사이드바 로그인 시스템 (다중 계정 대응) ㅡㅡ^ ---
+with st.sidebar:
+    st.title("🔐 사용자 인증")
+    if st.session_state.role == "Public":
+        input_user = st.text_input("아이디")
+        input_pw = st.text_input("비밀번호", type="password")
 
-st.session_state.mode = st.radio("대회 유형을 선택하세요:", ["토너먼트 (조별 예선)", "교류전 (2개 팀 맞대결)"], horizontal=True)
-
-with st.expander("📂 1단계: 선수 명단 엑셀 업로드", expanded=True):
-    uploaded_file = st.file_uploader("필수 컬럼: 이름, 소속, 성별, 구력", type=['xlsx', 'xls'])
-    if uploaded_file is not None:
-        df_players = pd.read_excel(uploaded_file)
-        if all(col in df_players.columns for col in ['이름', '소속', '성별', '구력']):
-            st.session_state.player_db = df_players
-            st.success(f"✅ {len(df_players)}명의 선수가 등록되었습니다.")
-        else:
-            st.error("❌ 엑셀 컬럼 확인 필요: 이름, 소속, 성별, 구력")
-
-# --- 4. 모드별 조 편성 및 대진 생성 ---
-if 'player_db' in st.session_state:
-    all_teams = sorted(st.session_state.player_db['소속'].unique().tolist())
-
-    if st.session_state.mode == "토너먼트 (조별 예선)":
-        with st.expander("⚖️ 2단계: 조 편성 (중복 선택 방지)", expanded=True):
-            num_groups = st.selectbox("조 개수 선택:", [2, 3, 4, 5], index=0)
-            group_names = [f"{chr(65 + i)}조" for i in range(num_groups)]
-
-            temp_groups = {}
-            already_selected = []
-
-            # 세로로 주르륵 배치하며 필터링 적용
-            for g_name in group_names:
-                # 이미 선택된 팀을 제외한 옵션 생성
-                available_options = [t for t in all_teams if t not in already_selected]
-
-                selected = st.multiselect(
-                    f"📍 {g_name} 팀 선택 (남은 팀: {len(available_options)}개)",
-                    options=available_options,
-                    key=f"select_{g_name}"
-                )
-                temp_groups[g_name] = selected
-                already_selected.extend(selected)  # 선택된 팀 목록 업데이트
-                st.markdown("---")
-
-            if st.button("🚀 토너먼트 대진표 생성"):
-                matches = []
-                for gn, gt in temp_groups.items():
-                    for i in range(len(gt)):
-                        for j in range(i + 1, len(gt)):
-                            matches.append(
-                                {"조": gn, "홈": gt[i], "어웨이": gt[j], "남단_홈": 0, "남단_어웨이": 0, "남복_홈": 0, "남복_어웨이": 0,
-                                 "여복_홈": 0, "여복_어웨이": 0, "남단_선수": [], "남복_선수": [], "여복_선수": [], "확정": False})
-                st.session_state.match_data = pd.DataFrame(matches)
-                st.session_state.groups = temp_groups
+        if st.button("로그인"):
+            # 1. 관리자 체크
+            if input_user == st.secrets["auth"]["admin_user"] and \
+                    input_pw == st.secrets["auth"]["admin_password"]:
+                st.session_state.role = "Admin"
                 st.rerun()
-
+            # 2. 일반인 계정 체크
+            elif input_user == st.secrets["auth"]["general_user"] and \
+                    input_pw == st.secrets["auth"]["general_password"]:
+                st.session_state.role = "User"
+                st.rerun()
+            else:
+                st.error("계정 정보가 일치하지 않습니다.")
     else:
-        with st.expander("🤝 2단계: 교류전 팀 및 경기 수 설정", expanded=True):
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                team_h = st.selectbox("홈 팀 선택:", all_teams, key="h_team")
-            with c2:
-                team_a = st.selectbox("어웨이 팀 선택:", [t for t in all_teams if t != team_h], key="a_team")
-            with c3:
-                match_count = st.number_input("총 대결 횟수(단체전 수):", 1, 10, 1)
+        st.write(f"✅ **{st.session_state.role}** 권한으로 접속 중")
+        if st.button("로그아웃"):
+            st.session_state.role = "Public"
+            st.rerun()
 
-            if st.button("🚀 교류전 대진표 생성"):
-                matches = []
-                for i in range(1, match_count + 1):
-                    matches.append(
-                        {"조": f"{i}회차", "홈": team_h, "어웨이": team_a, "남단_홈": 0, "남단_어웨이": 0, "남복_홈": 0, "남복_어웨이": 0,
-                         "여복_홈": 0, "여복_어웨이": 0, "남단_선수": [], "남복_선수": [], "여복_선수": [], "확정": False})
-                st.session_state.match_data = pd.DataFrame(matches)
-                st.session_state.groups = {"교류전": [team_h, team_a]}
-                st.rerun()
+# --- 4. 메인 화면: 관리자(Admin) 전용 설정 구역 ---
+st.header("🏆 대회 실시간 운영 센터")
+
+if st.session_state.role == "Admin":
+    st.markdown("### ⚙️ 대회 관리 설정 (andy 전용)")
+    st.session_state.mode = st.radio("대회 유형 설정:", ["토너먼트 (조별 예선)", "교류전 (2개 팀 맞대결)"],
+                                     index=0 if "토너먼트" in st.session_state.mode else 1, horizontal=True)
+
+    with st.expander("📂 1단계: 선수 명단 엑셀 업로드", expanded=(st.session_state.player_db is None)):
+        uploaded_file = st.file_uploader("명단 업로드", type=['xlsx', 'xls'])
+        if uploaded_file is not None:
+            df_p = pd.read_excel(uploaded_file)
+            st.session_state.player_db = df_p
+            st.success("✅ 명단 로드 완료")
+
+    if st.session_state.player_db is not None:
+        all_teams = sorted(st.session_state.player_db['소속'].unique().tolist())
+
+        if "토너먼트" in st.session_state.mode:
+            with st.expander("⚖️ 2단계: 조 편성 (중복 차단)", expanded=st.session_state.match_data.empty):
+                num_groups = st.selectbox("조 개수:", [2, 3, 4, 5])
+                group_names = [f"{chr(65 + i)}조" for i in range(num_groups)]
+                temp_groups = {}
+                already_selected = []
+
+                for g_name in group_names:
+                    available = [t for t in all_teams if t not in already_selected]
+                    prev = st.session_state.groups.get(g_name, [])
+                    options_show = sorted(list(set(available + prev)))
+
+                    selected = st.multiselect(f"📍 {g_name} 팀 선택", options=options_show, default=prev,
+                                              key=f"sel_{g_name}")
+                    temp_groups[g_name] = selected
+                    already_selected.extend(selected)
+
+                if st.button("🚀 대진표 생성 및 대회 시작"):
+                    matches = []
+                    for gn, gt in temp_groups.items():
+                        for i in range(len(gt)):
+                            for j in range(i + 1, len(gt)):
+                                matches.append(
+                                    {"조": gn, "홈": gt[i], "어웨이": gt[j], "남단_홈": 0, "남단_어웨이": 0, "남복_홈": 0, "남복_어웨이": 0,
+                                     "여복_홈": 0, "여복_어웨이": 0, "남단_선수": [], "남복_선수": [], "여복_선수": [], "확정": False})
+                    st.session_state.match_data = pd.DataFrame(matches)
+                    st.session_state.groups = temp_groups
+                    st.rerun()
+elif st.session_state.role == "User":
+    st.info("👋 **cheiljedang_a**님 환영합니다. 현재 순위표 조회 권한이 활성화되었습니다.")
+else:
+    st.info("ℹ️ 현재 실시간 순위 조회 모드입니다. 관리 정보 수정은 로그인 후 가능합니다.")
 
 st.divider()
 
-# --- 5. 결과 입력 및 순위표 섹션 ---
+# --- 5. 실시간 순위 현황 (누구나 볼 수 있음) ---
 if not st.session_state.match_data.empty:
-
     def calculate_standings(df_matches, target_group):
         if target_group not in st.session_state.groups: return pd.DataFrame()
         group_teams = st.session_state.groups[target_group]
@@ -128,47 +130,26 @@ if not st.session_state.match_data.empty:
                 is_home = (row['홈'] == team)
                 h_wins = (row['남단_홈'] > row['남단_어웨이']) + (row['남복_홈'] > row['남복_어웨이']) + (row['여복_홈'] > row['여복_어웨이'])
                 a_wins = (row['남단_어웨이'] > row['남단_홈']) + (row['남복_어웨이'] > row['남복_홈']) + (row['여복_어웨이'] > row['여복_홈'])
-                current_gd = (row['남단_홈'] - row['남단_어웨이']) + (row['남복_홈'] - row['남복_어웨이']) + (
-                            row['여복_홈'] - row['여복_어웨이'])
-                gd += current_gd if is_home else -current_gd
+                c_gd = (row['남단_홈'] - row['남단_어웨이']) + (row['남복_홈'] - row['남복_어웨이']) + (row['여복_홈'] - row['여복_어웨이'])
+                gd += c_gd if is_home else -c_gd
                 if h_wins == a_wins:
-                    d += 1;
-                    pts += 1
+                    d += 1; pts += 1
                 elif (h_wins > a_wins and is_home) or (a_wins > h_wins and not is_home):
-                    w += 1;
-                    pts += 3
+                    w += 1; pts += 3
                 else:
                     l += 1
             standings.append({"팀명": team, "경기": len(m), "승": w, "무": d, "패": l, "승점": pts, "득실": gd})
         return pd.DataFrame(standings).sort_values(by=["승점", "득실"], ascending=False).reset_index(drop=True)
 
 
-    st.subheader("📊 실시간 순위 현황")
-    g_names = list(st.session_state.groups.keys())
-
-    for gn in g_names:
+    st.subheader("📊 실시간 조별 순위 (Live)")
+    for gn in st.session_state.groups.keys():
         with st.container():
-            st.markdown(f"""
-                <div class="group-card">
-                    <div class="group-title">
-                        <span>📍 {gn} 순위 상황</span>
-                    </div>
-                </div>
-            """, unsafe_allow_html=True)
-
+            st.markdown(f'<div class="group-card"><div class="group-title">📍 {gn} 현황</div></div>',
+                        unsafe_allow_html=True)
             df_res = calculate_standings(st.session_state.match_data, gn)
             if not df_res.empty:
-                st.dataframe(
-                    df_res.style.highlight_max(subset=['승점'], color='#D1E7DD')
-                    .highlight_min(subset=['패'], color='#F8D7DA'),
-                    use_container_width=True,
-                    hide_index=True,
-                    column_config={
-                        "팀명": st.column_config.TextColumn("팀명", width="medium"),
-                        "승점": st.column_config.NumberColumn("승점 🔥"),
-                        "득실": st.column_config.NumberColumn("득실(GD)")
-                    }
-                )
-            else:
-                st.info(f"{gn}의 진행 중인 경기가 없습니다.")
-            st.write("")
+                # 색깔 강조 유지 ㅡㅡ^
+                st.dataframe(df_res.style.highlight_max(subset=['승점'], color='#D1E7DD').highlight_min(subset=['패'],
+                                                                                                      color='#F8D7DA'),
+                             use_container_width=True, hide_index=True)
