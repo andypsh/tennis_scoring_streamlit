@@ -1,111 +1,106 @@
 import streamlit as st
 import pandas as pd
+import sqlite3
+import ast
+
+# --- DB Helper ---
+DB_FILE = "tennis_data.db"
+def save_to_db(df):
+    conn = sqlite3.connect(DB_FILE)
+    save_df = df.copy()
+    for col in ['남단_선수', '남복_선수', '여복_선수']:
+        save_df[col] = save_df[col].apply(lambda x: str(x) if isinstance(x, list) else x)
+    save_df.to_sql('matches', conn, if_exists='replace', index=True, index_label='idx')
+    conn.commit()
+    conn.close()
+
+def load_from_db():
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        df = pd.read_sql('SELECT * FROM matches', conn).set_index('idx')
+        conn.close()
+        for col in ['남단_선수', '남복_선수', '여복_선수']:
+            if col in df.columns:
+                df[col] = df[col].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) and x.startswith('[') else x)
+        return df
+    except: return pd.DataFrame()
 
 # --- [저장 확인 팝업창] ---
 @st.dialog("📝 경기 결과 최종 확인")
 def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
-    curr = st.session_state.match_data.iloc[idx]
+    curr = st.session_state.match_data.loc[idx]
     st.write(f"### ⚔️ {m_type} 결과 확인")
     st.write(f"**{curr['홈']}**: {', '.join(l_h)} ({v_h}점)")
     st.write(f"**{curr['어웨이']}**: {', '.join(l_a)} ({v_a}점)")
     st.divider()
 
     c1, c2 = st.columns(2)
-    if c1.button("✅ 데이터 저장", use_container_width=True):
+    if c1.button("✅ 물리 DB 저장", use_container_width=True):
+        # 1. 세션 업데이트
         st.session_state.match_data.at[idx, f"{m_type}_홈"] = v_h
         st.session_state.match_data.at[idx, f"{m_type}_어웨이"] = v_a
         st.session_state.match_data.at[idx, f"{m_type}_선수"] = [l_h, l_a]
         st.session_state.match_data.at[idx, '확정'] = finalized
-        st.success("성공적으로 저장 및 순위에 반영되었습니다!")
+        # 2. 물리 DB 동기화 ㅡㅡ^
+        save_to_db(st.session_state.match_data)
+        st.success("데이터베이스에 영구 저장되었습니다!")
         st.rerun()
-
-    if c2.button("❌ 취소", use_container_width=True):
-        st.rerun()
+    if c2.button("❌ 취소", use_container_width=True): st.rerun()
 
 # --- [메인 입력 섹션] ---
 st.header("📝 실시간 경기 스코어보드 입력")
 st.markdown("<hr style='border-top: 3px solid black; margin-top: 10px; margin-bottom: 20px'/>", unsafe_allow_html=True)
 
-# 0. 데이터 존재 여부 체크
+# 물리 DB 최신화 ㅡㅡ^
+db_data = load_from_db()
+if not db_data.empty: st.session_state.match_data = db_data
+
 if 'match_data' not in st.session_state or 'player_db' not in st.session_state or 'groups' not in st.session_state:
-    st.warning("⚠️ FIRST_PAGE에서 명단 업로드 및 조 편성을 먼저 완료해 주세요.")
-    st.stop()
+    st.warning("⚠️ FIRST_PAGE에서 설정을 먼저 완료해 주세요."); st.stop()
 
-# 1. 조 필터 연동
+# (필터 및 대진 선택 로직 유지)
 available_groups = ["전체"] + list(st.session_state.groups.keys())
-filter_col1, filter_col2 = st.columns([1, 2])
-with filter_col1:
-    f_group = st.radio("조 필터:", available_groups, horizontal=True)
-
+f_group = st.radio("조 필터:", available_groups, horizontal=True)
 m_df = st.session_state.match_data
-if f_group != "전체":
-    m_df = m_df[m_df['조'] == f_group]
+if f_group != "전체": m_df = m_df[m_df['조'] == f_group]
+opts = [f"[{r['조']}] {r['홈']} vs {r['어웨이']}" for _, r in m_df.iterrows()]
+sel_raw = st.selectbox("대진 선택:", range(len(opts)), format_func=lambda x: opts[x])
+real_idx = m_df.index[sel_raw]
+curr_match = st.session_state.match_data.loc[real_idx]
 
-# 2. 대진 선택
-m_opts = [f"[{r['조']}] {r['홈']} vs {r['어웨이']}" for _, r in m_df.iterrows()]
-with filter_col2:
-    selected_idx_raw = st.selectbox("진행할 대진을 선택하세요:", range(len(m_opts)), format_func=lambda x: m_opts[x])
-
-real_idx = m_df.index[selected_idx_raw]
-curr_match = st.session_state.match_data.iloc[real_idx]
-
-# 3. 종목 선택
 st.markdown("---")
 m_type = st.radio("🔢 종목 선택:", ["남단", "남복", "여복"], horizontal=True)
 
-# 4. 중복 출전 방지 로직 (강화됨) ㅡㅡ^
+# 중복 방지 및 라인업 필터링 (Specialist님 수정본 유지) ㅡㅡ^
 used_h, used_a = [], []
-for match_name in ["남단", "남복", "여복"]:
-    if match_name != m_type:
-        lineup = curr_match.get(f"{match_name}_선수")
-        # NaN이나 빈 값이 아닌 리스트 형태일 때만 중복 체크에 포함
+for mt in ["남단", "남복", "여복"]:
+    if mt != m_type:
+        lineup = curr_match.get(f"{mt}_선수")
         if isinstance(lineup, list) and len(lineup) == 2:
             used_h.extend(lineup[0]); used_a.extend(lineup[1])
 
-# --- 5. 라인업 입력 (필터링 강화 섹션) --- ㅡㅡ^
 pdb = st.session_state.player_db.copy()
-# 데이터 전처리: 모든 텍스트 컬럼의 양끝 공백 제거
 pdb['소속'] = pdb['소속'].astype(str).str.strip()
 pdb['성별'] = pdb['성별'].astype(str).str.strip()
-
 gender_query = "남" if m_type in ["남단", "남복"] else "여"
 p_count = 1 if m_type == "남단" else 2
 
-# [수정 핵심] DT솔루션팀답게 contains와 strip으로 유연하게 매칭 ㅡㅡ^
-# 1. 소속 팀 매칭 (공백 제거 후 비교)
-# 2. 성별 매칭 ('남' 또는 '남자' 모두 걸리게 contains 사용)
-h_filtered = pdb[
-    (pdb['소속'] == curr_match['홈'].strip()) &
-    (pdb['성별'].str.contains(gender_query))
-]['이름'].tolist()
-
-a_filtered = pdb[
-    (pdb['소속'] == curr_match['어웨이'].strip()) &
-    (pdb['성별'].str.contains(gender_query))
-]['이름'].tolist()
-
-# 3. 중복 출전 선수 제외
+h_filtered = pdb[(pdb['소속'] == curr_match['홈'].strip()) & (pdb['성별'].str.contains(gender_query))]['이름'].tolist()
+a_filtered = pdb[(pdb['소속'] == curr_match['어웨이'].strip()) & (pdb['성별'].str.contains(gender_query))]['이름'].tolist()
 h_pool = [p for p in h_filtered if p not in used_h]
 a_pool = [p for p in a_filtered if p not in used_a]
 
 l_col, r_col = st.columns(2)
 with l_col:
-    st.markdown(f'<div style="background-color:#f0f2f6; padding:10px; border-radius:10px; text-align:center;"><b>🏠 {curr_match["홈"]}</b></div>', unsafe_allow_html=True)
-    if not h_pool: st.warning("⚠️ 선택 가능한 남성 선수가 없습니다.")
-    sel_h = st.multiselect(f"선수 명단 ", h_pool, max_selections=p_count, key=f"h_l_{real_idx}_{m_type}")
-    sc_h = st.number_input("세트 스코어", 0, 6, key=f"h_s_{real_idx}_{m_type}")
-
+    st.markdown(f"**🏠 {curr_match['홈']}**")
+    sel_h = st.multiselect(f"선수 (총 {len(h_pool)}명)", h_pool, max_selections=p_count, key=f"h_{real_idx}_{m_type}")
+    sc_h = st.number_input("세트 스코어", 0, 6, key=f"sh_{real_idx}_{m_type}")
 with r_col:
-    st.markdown(f'<div style="background-color:#f0f2f6; padding:10px; border-radius:10px; text-align:center;"><b>🚀 {curr_match["어웨이"]}</b></div>', unsafe_allow_html=True)
-    if not a_pool: st.warning("⚠️ 선택 가능한 남성 선수가 없습니다.")
-    sel_a = st.multiselect(f"선수 명단 ", a_pool, max_selections=p_count, key=f"a_l_{real_idx}_{m_type}")
-    sc_a = st.number_input("세트 스코어 ", 0, 6, key=f"a_s_{real_idx}_{m_type}")
+    st.markdown(f"**🚀 {curr_match['어웨이']}**")
+    sel_a = st.multiselect(f"선수 (총 {len(a_pool)}명)", a_pool, max_selections=p_count, key=f"a_{real_idx}_{m_type}")
+    sc_a = st.number_input("세트 스코어 ", 0, 6, key=f"sa_{real_idx}_{m_type}")
 
-# 저장 버튼
-st.markdown("<br>", unsafe_allow_html=True)
 if st.button("💾 경기 데이터 저장하기", use_container_width=True):
     if len(sel_h) == p_count and len(sel_a) == p_count:
-        # 무조건 확정(True) 상태로 저장
         confirm_save_dialog(real_idx, m_type, sc_h, sc_a, sel_h, sel_a, True)
-    else:
-        st.error(f"❌ {m_type} 인원 수({p_count}명)를 정확히 선택하세요.")
+    else: st.error(f"❌ {p_count}명을 선택하세요.")
