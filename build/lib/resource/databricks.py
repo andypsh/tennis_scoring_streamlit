@@ -28,8 +28,8 @@ class get_databricks_data :
     def get_dm_clm_proc(_self):
 
         table = 'dm_clm_proc'
-        df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
-        return df_raw
+        # df_raw = ds_databricks.select_all("*", "b10g000565.cis_ano." + f"{table}")
+        return None
 
     #################[Resource 불러오기_ setup_resource 메서드]###################
         
@@ -37,25 +37,25 @@ class get_databricks_data :
     # 03_tab/third_tab.py 에서 해당 메서드 활용하여 인스턴스 생성.
 
     ######################################################
-    @st.cache_resource(ttl = 7200,show_spinner  = False)
-    def setup_data(_self, return_full_df = False):
-        table = 'dm_trend_all_filter'
- 
-        df = ds_databricks.select_query(f"select * from b10g000565.cis_ano.{table}")
-        df['bsymd'] = pd.to_datetime(df['bsymd'])
-        df.dropna(subset=['voc_id', 'rece_dttm'], inplace=True)
-        if return_full_df:
-            
-            return df
-        else:
-            df_filtered = df[['bsymd', 'wname1', 'maktx', 'prdha1_nm', 'prdha2_nm', 'prdha3_nm', 
-                'lcls_nm', 'mcls_nm', 'scls_nm', 'making_ymd', 'expiry_ymd', 
-                'lotno', 'buy_way_nm', 'voc_id_count' , 'claim_grd_cd']]
-            st.write(df_filtered.tail(10))
-            return df_filtered
-    
-
-    def load_all_data(self):
-        self.dm_clm_proc_data = self.get_dm_clm_proc()
-        self.dm_trend_data = self.setup_data(return_full_df=True)
-
+    # @st.cache_resource(ttl = 7200,show_spinner  = False)
+    # def setup_data(_self, return_full_df = False):
+    #     table = 'dm_trend_all_filter'
+    #
+    #     df = ds_databricks.select_query(f"select * from b10g000565.cis_ano.{table}")
+    #     df['bsymd'] = pd.to_datetime(df['bsymd'])
+    #     df.dropna(subset=['voc_id', 'rece_dttm'], inplace=True)
+    #     if return_full_df:
+    #
+    #         return df
+    #     else:
+    #         df_filtered = df[['bsymd', 'wname1', 'maktx', 'prdha1_nm', 'prdha2_nm', 'prdha3_nm',
+    #             'lcls_nm', 'mcls_nm', 'scls_nm', 'making_ymd', 'expiry_ymd',
+    #             'lotno', 'buy_way_nm', 'voc_id_count' , 'claim_grd_cd']]
+    #         st.write(df_filtered.tail(10))
+    #         return df_filtered
+    #
+    #
+    # def load_all_data(self):
+    #     self.dm_clm_proc_data = self.get_dm_clm_proc()
+    #     self.dm_trend_data = self.setup_data(return_full_df=True)
+    #

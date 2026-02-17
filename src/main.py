@@ -1,6 +1,8 @@
 import numpy as np
 import sys
 import os
+import streamlit as st
+import streamlit_authenticator as stauth  # 추가 ㅡㅡ^
 
 # [NumPy 2.x Patch] 최상단 고정
 try:
@@ -12,11 +14,10 @@ except ImportError:
     mock_module.isin = np.isin
     sys.modules["numpy.lib.arraysetops"] = mock_module
 
-import streamlit as st
-import importlib
-
 # 1. 최상단 설정
-st.set_page_config(layout="wide", page_title='CJ Tennis Scoring System', page_icon="🎾")
+if 'config_set' not in st.session_state:
+    st.set_page_config(layout="wide", page_title='CJ Tennis Scoring System', page_icon="🎾")
+    st.session_state.config_set = True
 
 # 2. 경로 및 모듈 로드
 current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -31,13 +32,12 @@ except Exception as e:
     st.stop()
 
 
-# --- [홈 화면: 모바일용 바로가기 버튼 추가] --- ㅡㅡ^
+# --- [홈 화면] ---
 def home_view():
     st.header('🏠 CJ Tennis 운영 허브')
     st.info('3월 8일 장충 테니스 대회 (50인) 운영 시스템입니다.')
 
     st.markdown("### 🧭 빠른 페이지 이동 (모바일용)")
-    # 모바일에서는 한 줄에 하나씩, PC에서는 나란히 보이게 구성 ㅡㅡ^
     c1, c2 = st.columns(2)
     with c1:
         if st.button("🎾 예선 조별순위 보기", use_container_width=True, icon="📈"):
@@ -60,7 +60,31 @@ def login_page_view():
 auth_status = st.session_state.get('authentication_status')
 
 if auth_status:
-    # 로그인 성공 시: Home을 포함한 전체 메뉴 구성 ㅡㅡ^
+    # [권한 설정] secrets.toml 기반 Role 부여 ㅡㅡ^
+    current_user = st.session_state.get('username')
+    admin_users = [st.secrets["auth"]["admin_user"], st.secrets["auth"]["admin_user2"]]
+
+    if current_user in admin_users:
+        st.session_state.role = "Admin"
+    else:
+        st.session_state.role = "User"
+
+    # [사이드바 로그아웃 구현] lgn 모듈 대신 직접 Authenticator 생성 ㅡㅡ^
+    config = login_module.get_conf()
+    authenticator = stauth.Authenticate(
+        config['credentials'],
+        config['cookie']['name'],
+        config['cookie']['key'],
+        config['cookie']['expiry_days']
+    )
+
+    with st.sidebar:
+        st.markdown(f"### 👤 {st.session_state.get('name')}님")
+        st.info(f"접속 권한: **{st.session_state.role}**")
+        authenticator.logout('로그아웃', 'sidebar')
+        st.divider()
+
+    # 메뉴 구성
     pages = [
         st.Page(home_view, title="대회 홈", icon="🏠", default=True),
         st.Page("pages/01_Firstpage/first_page.py", title="예선 조별순위", icon="🎾"),
@@ -69,7 +93,6 @@ if auth_status:
         st.Page("pages/04_Fourthpage/fourth_page.py", title="선수 등록", icon="📚")
     ]
 else:
-    # 로그인 전: 오직 로그인 페이지만!
     pages = [st.Page(login_page_view, title="Login", icon="🔒")]
 
 # 4. 내비게이션 실행
@@ -77,7 +100,4 @@ try:
     pg = st.navigation(pages)
     pg.run()
 except Exception as e:
-    # 렌더링 에러 시 세부 정보 출력 (디버깅용) ㅡㅡ^
     st.error(f"❌ 시스템 렌더링 오류: {e}")
-    if "NoneType" in str(e):
-        st.info("💡 팁: 각 페이지 파일 내부의 st.set_page_config를 모두 지워주세요. main.py에서 한 번만 설정해야 합니다.")
