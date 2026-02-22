@@ -50,7 +50,7 @@ with st.expander("📋 대회 상세 모집 요강 (필독)", expanded=True):
         - 💡 예: [제당 vs 올네] 단식 출전 선수 → [제당 vs 올영] 복식 출전 (**가능**)
     * **여복 특례:** 여성 부족 시 **구력 1.5년 이하 남성**에 한해 출전 가능
 
-    ### 5. 결과 입력 및 ID (PW: 1234)
+    ### 5. 결과 입력 및 ID (PW: 팀장님들께 공유)
     * 제일제당: `cheiljedang_a` / 올리브영: `oliveyoung` / 올리브네트웍스: `ons`
     * ENM 엔터: `enment` / ENM 커머스: `enmcms` / 대한통운: `daetong`
 
