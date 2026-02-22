@@ -65,27 +65,61 @@ if 'num_groups' not in st.session_state: st.session_state.num_groups = 2
 st.session_state.match_data = load_from_gsheets()
 
 # --- 4. 사이드바 (로그인 시스템 - 관리자 2명 대응) ---
+# with st.sidebar:
+#     st.title("🔐 사용자 인증")
+#     if st.session_state.role == "Public":
+#         input_user = st.text_input("아이디")
+#         input_pw = st.text_input("비밀번호", type="password")
+#         if st.button("로그인"):
+#             # Secrets에 설정된 2개 관리자 계정 체크
+#             is_admin1 = (input_user == st.secrets["auth"]["admin_user"] and
+#                          input_pw == st.secrets["auth"]["admin_password"])
+#             is_admin2 = (input_user == st.secrets["auth"]["admin_user2"] and
+#                          input_pw == st.secrets["auth"]["admin2_password"])
+#
+#             if is_admin1 or is_admin2:
+#                 st.session_state.role = "Admin"
+#                 st.rerun()
+#             elif input_user == st.secrets["auth"]["general_user"] and \
+#                     input_pw == st.secrets["auth"]["general_password"]:
+#                 st.session_state.role = "User"
+#                 st.rerun()
+#             else:
+#                 st.error("정보가 일치하지 않습니다.")
+#     else:
+#         st.write(f"✅ **{st.session_state.role}** 접속 중")
+#         if st.button("로그아웃"):
+#             st.session_state.role = "Public"
+#             st.rerun()
+# --- 4. 사이드바 (로그인 시스템 - 계열사별 계정 통합 대응) ---
 with st.sidebar:
     st.title("🔐 사용자 인증")
     if st.session_state.role == "Public":
         input_user = st.text_input("아이디")
         input_pw = st.text_input("비밀번호", type="password")
+
         if st.button("로그인"):
-            # Secrets에 설정된 2개 관리자 계정 체크
+            # 1. 관리자 계정 체크
             is_admin1 = (input_user == st.secrets["auth"]["admin_user"] and
                          input_pw == st.secrets["auth"]["admin_password"])
             is_admin2 = (input_user == st.secrets["auth"]["admin_user2"] and
                          input_pw == st.secrets["auth"]["admin2_password"])
 
+            # 2. 계열사 일반 유저 리스트 정의
+            affiliate_users = ["cheiljedang_a", "oliveyoung", "ons", "enment", "enmcms", "daetong"]
+
             if is_admin1 or is_admin2:
                 st.session_state.role = "Admin"
                 st.rerun()
-            elif input_user == st.secrets["auth"]["general_user"] and \
-                    input_pw == st.secrets["auth"]["general_password"]:
+
+            # 3. 입력된 아이디가 계열사 리스트에 있고, 비밀번호가 해당 아이디의 설정값과 일치하는지 확인
+            elif input_user in affiliate_users and input_pw == st.secrets["auth"].get(input_user):
                 st.session_state.role = "User"
+                st.session_state.username = input_user  # 로그인한 계열사명을 세션에 저장 (선택사항)
                 st.rerun()
+
             else:
-                st.error("정보가 일치하지 않습니다.")
+                st.error("정보가 일치하지 않거나 등록되지 않은 ID입니다.")
     else:
         st.write(f"✅ **{st.session_state.role}** 접속 중")
         if st.button("로그아웃"):
