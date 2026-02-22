@@ -90,7 +90,7 @@ if auth_status:
         st.Page("pages/01_Firstpage/first_page.py", title="예선 조별순위", icon="🎾"),
         st.Page("pages/02_Secondpage/second_page.py", title="예선 점수 입력", icon="💯"),
         st.Page("pages/03_Thirdpage/third_page.py", title="본선 대진표", icon="🆚"),
-        st.Page("pages/04_Fourthpage/fourth_page.py", title="선수 등록", icon="📚")
+        st.Page("pages/04_Fourthpage/fourth_page.py", title="모집요강", icon="📚")
     ]
 else:
     pages = [st.Page(login_page_view, title="Login", icon="🔒")]
