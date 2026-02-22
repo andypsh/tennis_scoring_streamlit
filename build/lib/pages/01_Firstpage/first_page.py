@@ -92,31 +92,44 @@ st.session_state.match_data = load_from_gsheets()
 #             st.session_state.role = "Public"
 #             st.rerun()
 # --- 4. 사이드바 (로그인 시스템 - 계열사별 계정 통합 대응) ---
+# --- 4. 사이드바 (로그인 시스템 - 끝판왕 버전) ---
 with st.sidebar:
     st.title("🔐 사용자 인증")
     if st.session_state.role == "Public":
-        input_user = st.text_input("아이디")
-        input_pw = st.text_input("비밀번호", type="password")
+        # 입력값에서 앞뒤 공백 제거
+        input_user = st.text_input("아이디").strip()
+        input_pw = st.text_input("비밀번호", type="password").strip()
 
         if st.button("로그인"):
-            # 1. 관리자 계정 체크
-            is_admin1 = (input_user == st.secrets["auth"]["admin_user"] and
-                         input_pw == st.secrets["auth"]["admin_password"])
-            is_admin2 = (input_user == st.secrets["auth"]["admin_user2"] and
-                         input_pw == st.secrets["auth"]["admin2_password"])
+            # secrets.toml의 [auth] 섹션 데이터 가져오기
+            auth_info = st.secrets.get("auth", {})
 
-            # 2. 계열사 일반 유저 리스트 정의
-            affiliate_users = ["cheiljedang_a", "oliveyoung", "ons", "enment", "enmcms", "daetong"]
+            # 1. 관리자 체크
+            is_admin1 = (input_user == auth_info.get("admin_user") and input_pw == auth_info.get("admin_password"))
+            is_admin2 = (input_user == auth_info.get("admin_user2") and input_pw == auth_info.get("admin2_password"))
 
             if is_admin1 or is_admin2:
                 st.session_state.role = "Admin"
                 st.rerun()
 
-            # 3. 입력된 아이디가 계열사 리스트에 있고, 비밀번호가 해당 아이디의 설정값과 일치하는지 확인
-            elif input_user in affiliate_users and input_pw == st.secrets["auth"].get(input_user):
-                st.session_state.role = "User"
-                st.session_state.username = input_user  # 로그인한 계열사명을 세션에 저장 (선택사항)
-                st.rerun()
+            # 2. 일반 계열사 체크 (auth 섹션에 ID가 있고, 비번이 맞으면 통과)
+            elif input_user in auth_info and input_pw == auth_info.get(input_user):
+                # 관리자 설정용 키값(admin_user 등)은 제외하고 일반 유저로 승인
+                if "admin" not in input_user:
+                    st.session_state.role = "User"
+                    st.session_state.username = input_user
+                    st.rerun()
+                else:
+                    st.error("잘못된 접근입니다.")
+
+            else:
+                st.error("아이디 또는 비밀번호가 틀렸습니다.")
+    else:
+        st.write(f"✅ **{st.session_state.role}** ({st.session_state.get('username', '관리자')}) 접속 중")
+        if st.button("로그아웃"):
+            st.session_state.role = "Public"
+            if 'username' in st.session_state: del st.session_state.username
+            st.rerun()
 
             else:
                 st.error("정보가 일치하지 않거나 등록되지 않은 ID입니다.")
