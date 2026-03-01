@@ -67,28 +67,55 @@ if 'groups' not in st.session_state or len(st.session_state.groups) != 2:
 
 
 def get_live_rankings():
-    if 'match_data' not in st.session_state: return None
+    if 'match_data' not in st.session_state or 'player_db' not in st.session_state: return None
     df_m = st.session_state.match_data
+    pdb = st.session_state.player_db  # 선수 DB 참조 ㅡㅡ^
     g_names = sorted(list(st.session_state.groups.keys()))
     res = []
+
     for gn in g_names:
         for team in st.session_state.groups[gn]:
-            m = df_m[((df_m['홈'] == team) | (df_m['어웨이'] == team)) & (df_m['확정'])]
+            # 1. 확정된 경기 필터링 (다양한 TRUE 형태 대응) ㅡㅡ^
+            m = df_m[((df_m['홈'] == team) | (df_m['어웨이'] == team)) &
+                     (df_m['확정'].astype(str).str.upper().isin(['TRUE', '1']))]
+
             pts, gd = 0, 0
             for _, row in m.iterrows():
                 is_h = (row['홈'] == team)
+                # 종목별 승패 판정
                 s_w = (int(row['남단_홈']) > int(row['남단_어웨이'])) if is_h else (int(row['남단_어웨이']) > int(row['남단_홈']))
                 m_w = (int(row['남복_홈']) > int(row['남복_어웨이'])) if is_h else (int(row['남복_어웨이']) > int(row['남복_홈']))
                 w_w = (int(row['여복_홈']) > int(row['여복_어웨이'])) if is_h else (int(row['여복_어웨이']) > int(row['여복_홈']))
+
+                # 3판 2선승제 승점 부여 ㅡㅡ^
                 if (int(s_w) + int(m_w) + int(w_w)) >= 2: pts += 3
-                # 득실 정수 계산 ㅡㅡ^
-                diff = (int(row['남단_홈']) - int(row['남단_어웨이'])) + (int(row['남복_홈']) - int(row['남복_어웨이'])) + (
-                            int(row['여복_홈']) - int(row['여복_어웨이']))
+
+                # 득실 계산
+                diff = (int(row['남단_홈']) - int(row['남단_어웨이'])) + \
+                       (int(row['남복_홈']) - int(row['남복_어웨이'])) + \
+                       (int(row['여복_홈']) - int(row['여복_어웨이']))
                 gd += diff if is_h else -diff
-            res.append({"조": gn, "팀명": team, "승점": int(pts), "득실": int(gd)})
+
+            # 2. 합산 구력 계산 (문자열 추출 로직 적용) ㅡㅡ^
+            team_total_career = 0
+            if pdb is not None and '구력' in pdb.columns:
+                team_mask = pdb['소속'].astype(str).str.strip() == str(team).strip()
+                # 텍스트에서 숫자만 추출 (7년 -> 7, 0.5년 -> 0.5)
+                career_values = pdb[team_mask]['구력'].astype(str).str.extract(r'(\d+\.?\d*)')[0]
+                team_total_career = pd.to_numeric(career_values, errors='coerce').fillna(0).sum()
+
+            res.append({
+                "조": gn, "팀명": team, "승점": int(pts),
+                "득실": int(gd), "구력합계": float(team_total_career)
+            })
+
     df = pd.DataFrame(res)
-    r_a = df[df['조'] == g_names[0]].sort_values(by=["승점", "득실"], ascending=False).reset_index(drop=True)
-    r_b = df[df['조'] == g_names[1]].sort_values(by=["승점", "득실"], ascending=False).reset_index(drop=True)
+    # 3. 정렬 기준: 승점(내림) -> 득실(내림) -> 구력합계(오름차순) ㅡㅡ^
+    # 이제 승점과 득실이 같으면 구력이 낮은 팀이 A1, B1 등으로 먼저 배정됩니다.
+    r_a = df[df['조'] == g_names[0]].sort_values(by=["승점", "득실", "구력합계"], ascending=[False, False, True]).reset_index(
+        drop=True)
+    r_b = df[df['조'] == g_names[1]].sort_values(by=["승점", "득실", "구력합계"], ascending=[False, False, True]).reset_index(
+        drop=True)
 
     def get_t(df, idx, def_val):
         return df.iloc[idx]['팀명'] if len(df) > idx else def_val
@@ -124,36 +151,62 @@ if 'ko_data' not in st.session_state:
 # --- 5. [저장 확인 팝업창] ---
 @st.dialog("📝 본선 결과 최종 확인")
 def confirm_ko_save_dialog(idx, m_type_key, v_h, v_a, l_h, l_a, finalized):
-    m = st.session_state.ko_data.iloc[idx]
+    df_ko = st.session_state.ko_data
+    m = df_ko.iloc[idx]
+
     st.write(f"### ⚔️ {m['단계']} - {m_type_key} 결과 확인")
     st.write(f"**{m['H']}**: {', '.join(l_h)} ({v_h}점)")
     st.write(f"**{m['A']}**: {', '.join(l_a)} ({v_a}점)")
     st.divider()
 
-    if st.button("✅ 데이터 저장", use_container_width=True):
-        # 1. 세션 데이터 업데이트 ㅡㅡ^
-        st.session_state.ko_data.at[idx, f"{m_type_key}_H"] = int(v_h)
-        st.session_state.ko_data.at[idx, f"{m_type_key}_A"] = int(v_a)
-        st.session_state.ko_data.at[idx, f"{m_type_key}_선수"] = [l_h, l_a]
-        st.session_state.ko_data.at[idx, 'C'] = finalized
+    # 버튼을 나란히 배치하기 위해 컬럼 생성 ㅡㅡ^
+    c1, c2 = st.columns(2)
 
-        curr = st.session_state.ko_data.iloc[idx]
-        h_total = (int(curr['S_H']) > int(curr['S_A'])) + (int(curr['M_H']) > int(curr['M_A'])) + (
-                    int(curr['W_H']) > int(curr['W_A']))
-        a_total = (int(curr['S_A']) > int(curr['S_H'])) + (int(curr['M_A']) > int(curr['M_H'])) + (
-                    int(curr['W_A']) > int(curr['W_A']))  # 오타수정 h_total/a_total ㅡㅡ^
+    # [1] 저장 버튼 로직 ㅡㅡ^
+    if c1.button("✅ 저장", use_container_width=True):
+        df_ko.at[idx, f"{m_type_key}_H"] = int(v_h)
+        df_ko.at[idx, f"{m_type_key}_A"] = int(v_a)
+        df_ko.at[idx, f"{m_type_key}_선수"] = [l_h, l_a]
 
-        if h_total >= 2 or a_total >= 2:
-            winner = curr['H'] if h_total > a_total else curr['A']
-            st.session_state.ko_data.at[idx, 'W'] = winner
-            if idx == 0: st.session_state.ko_data.at[2, 'A'] = winner
-            if idx == 1: st.session_state.ko_data.at[3, 'A'] = winner
-            if idx == 2: st.session_state.ko_data.at[4, 'H'] = winner
-            if idx == 3: st.session_state.ko_data.at[4, 'A'] = winner
+        # 3개 종목 완료 여부 체크
+        m_types = ["S", "M", "W"]
+        is_all_filled = True
+        for t in m_types:
+            lineup = df_ko.at[idx, f"{t}_선수"]
+            if not isinstance(lineup, list) or len(lineup) < 2 or len(lineup[0]) == 0:
+                is_all_filled = False
+                break
 
-        # 2. 저장 버튼 클릭 시에만 구글 시트 연동 ㅡㅡ^
+        if is_all_filled:
+            curr = df_ko.iloc[idx]
+            h_wins = (int(curr['S_H']) > int(curr['S_A'])) + \
+                     (int(curr['M_H']) > int(curr['M_A'])) + \
+                     (int(curr['W_H']) > int(curr['W_A']))
+            a_wins = (int(curr['S_A']) > int(curr['S_H'])) + \
+                     (int(curr['M_A']) > int(curr['M_H'])) + \
+                     (int(curr['W_A']) > int(curr['W_H']))
+
+            winner = curr['H'] if h_wins > a_wins else curr['A']
+            df_ko.at[idx, 'W'] = winner
+            df_ko.at[idx, 'C'] = True
+
+            # 다음 라운드 진출 로직
+            if idx == 0:
+                df_ko.at[2, 'A'] = winner
+            elif idx == 1:
+                df_ko.at[3, 'A'] = winner
+            elif idx == 2:
+                df_ko.at[4, 'H'] = winner
+            elif idx == 3:
+                df_ko.at[4, 'A'] = winner
+
+        st.session_state.ko_data = df_ko
         save_ko_to_gsheets(st.session_state.ko_data)
         st.rerun()
+
+    # [2] 취소 버튼 로직 ㅡㅡ^
+    if c2.button("❌ 취소", use_container_width=True):
+        st.rerun()  # 아무 작업 없이 팝업창을 닫고 페이지를 새로고침합니다.
 
 
 # --- 6. 대진표 렌더링 ---
@@ -183,9 +236,9 @@ with col_f: st.write("<div style='height:40px'></div>", unsafe_allow_html=True);
 st.divider()
 st.subheader("📝 본선 경기 스코어보드 입력")
 
-if st.sidebar.button("🔄 본선 데이터 새로고침"):
-    st.session_state.ko_data = load_ko_data()
-    st.rerun()
+# if st.sidebar.button("🔄 본선 데이터 새로고침"):
+#     st.session_state.ko_data = load_ko_data()
+#     st.rerun()
 
 opts = [f"[{r['단계']}] {r['H']} vs {r['A']}" for _, r in st.session_state.ko_data.iterrows()]
 sel_idx = st.selectbox("진행할 대진을 선택하세요:", range(len(opts)), format_func=lambda x: opts[x])

@@ -83,6 +83,20 @@ if auth_status:
         st.info(f"접속 권한: **{st.session_state.role}**")
         authenticator.logout('로그아웃', 'sidebar')
         st.divider()
+        # 🔄 구글 시트 동기화 버튼 추가 ㅡㅡ^
+        st.write("")  # 간격 조절
+        if st.session_state.role == "Admin":
+            if st.button("🔄 구글 시트 전체 동기화", use_container_width=True, help="구글 시트의 최신 데이터를 강제로 불러옵니다."):
+                # 세션에 저장된 데이터 키값들 삭제
+                sync_keys = ['match_data', 'player_db', 'ko_data', 'groups']
+                for key in sync_keys:
+                    if key in st.session_state:
+                        del st.session_state[key]
+
+            st.toast("데이터 동기화 중... 잠시만 기다려주세요!")
+            st.rerun()
+
+            st.divider()
 
     # 메뉴 구성
     pages = [

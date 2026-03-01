@@ -356,7 +356,12 @@ if not st.session_state.match_data.empty:
         group_teams = st.session_state.groups[target_group]
         standings = []
         for team in group_teams:
-            m = df_matches[((df_matches['홈'] == team) | (df_matches['어웨이'] == team)) & (df_matches['확정'] == True)]
+            # m = df_matches[((df_matches['홈'] == team) | (df_matches['어웨이'] == team)) & (df_matches['확정'] == True)]
+
+            m = df_matches[
+                ((df_matches['홈'] == team) | (df_matches['어웨이'] == team)) &
+                (df_matches['확정'].isin([True, 1, "True", "TRUE", "1"]))
+                ]
             w, d, l, pts, gd = 0, 0, 0, 0, 0
             for _, row in m.iterrows():
                 is_home = (row['홈'] == team)

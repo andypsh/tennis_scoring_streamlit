@@ -80,6 +80,22 @@ if st.session_state.player_db is None or st.session_state.match_data.empty:
 
 
 # --- 5. 입력 및 저장 로직 ---
+#@st.dialog("📝 경기 결과 최종 확인")
+# def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
+#     curr = st.session_state.match_data.loc[idx]
+#     st.write(f"### ⚔️ {m_type} 결과 확인")
+#     st.write(f"**{curr['홈']}**: {', '.join(l_h)} ({v_h}점)")
+#     st.write(f"**{curr['어웨이']}**: {', '.join(l_a)} ({v_a}점)")
+#     st.divider()
+#
+#     c1, c2 = st.columns(2)
+#     if c1.button("✅ 저장", use_container_width=True):
+#         st.session_state.match_data.at[idx, f"{m_type}_홈"] = int(v_h)
+#         st.session_state.match_data.at[idx, f"{m_type}_어웨이"] = int(v_a)
+#         st.session_state.match_data.at[idx, f"{m_type}_선수"] = [l_h, l_a]
+#         save_to_gsheets(st.session_state.match_data)
+#         st.rerun()
+#     if c2.button("❌ 취소", use_container_width=True): st.rerun()
 @st.dialog("📝 경기 결과 최종 확인")
 def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
     curr = st.session_state.match_data.loc[idx]
@@ -90,13 +106,30 @@ def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
 
     c1, c2 = st.columns(2)
     if c1.button("✅ 저장", use_container_width=True):
+        # 현재 입력한 종목 데이터 업데이트 ㅡㅡ^
         st.session_state.match_data.at[idx, f"{m_type}_홈"] = int(v_h)
         st.session_state.match_data.at[idx, f"{m_type}_어웨이"] = int(v_a)
         st.session_state.match_data.at[idx, f"{m_type}_선수"] = [l_h, l_a]
+
+        # 모든 종목(남단, 남복, 여복)이 채워졌는지 검사 ㅡㅡ^
+        m_types = ["남단", "남복", "여복"]
+        is_all_filled = True
+        for t in m_types:
+            lineup = st.session_state.match_data.at[idx, f"{t}_선수"]
+            # 선수 명단 리스트의 첫 번째 요소(홈팀 선수)가 비어있는지 확인
+            if not isinstance(lineup, list) or len(lineup) < 2 or len(lineup[0]) == 0:
+                is_all_filled = False
+                break
+
+        # 3개 종목 다 입력됐다면 '확정' 열을 True(시트에서는 1)로 변경 ㅡㅡ^
+        if is_all_filled:
+            st.session_state.match_data.at[idx, "확정"] = True
+
         save_to_gsheets(st.session_state.match_data)
         st.rerun()
-    if c2.button("❌ 취소", use_container_width=True): st.rerun()
 
+    if c2.button("❌ 취소", use_container_width=True):
+        st.rerun()
 
 f_group = st.radio("조 필터:", ["전체"] + list(st.session_state.groups.keys()), horizontal=True)
 m_df = st.session_state.match_data.copy()

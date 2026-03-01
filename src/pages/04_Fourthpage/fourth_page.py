@@ -84,10 +84,10 @@ st.table(df_timetable)
 st.info("💡 12:40분부터는 본선 토너먼트가 시작됩니다. 예선 결과에 따라 대진이 자동 배정됩니다.")
 
 # --- 4. 선수 등록 ---
-st.divider()
-st.subheader("📥 선수 명단 일괄 등록")
-uploaded_file = st.file_uploader("명단 엑셀 업로드 (이름, 소속, 구력, 성별)", type=['xlsx', 'xls'])
-if uploaded_file:
-    df_players = pd.read_excel(uploaded_file)
-    st.session_state.player_db = df_players
-    st.success("선수 명단 배포 완료!")
+# st.divider()
+# st.subheader("📥 선수 명단 일괄 등록")
+# uploaded_file = st.file_uploader("명단 엑셀 업로드 (이름, 소속, 구력, 성별)", type=['xlsx', 'xls'])
+# if uploaded_file:
+#     df_players = pd.read_excel(uploaded_file)
+#     st.session_state.player_db = df_players
+#     st.success("선수 명단 배포 완료!")
