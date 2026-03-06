@@ -70,32 +70,15 @@ else:
 # --- 4. 화면 구성 ---
 st.header("📝 실시간 경기 스코어보드 입력")
 
-if st.sidebar.button("🔄 데이터 새로고침"):
-    st.session_state.match_data, st.session_state.player_db = load_data()
-    st.rerun()
+# if st.sidebar.button("🔄 데이터 새로고침"):
+#     st.session_state.match_data, st.session_state.player_db = load_data()
+#     st.rerun()
 
 if st.session_state.player_db is None or st.session_state.match_data.empty:
     st.error("❌ 데이터를 불러올 수 없습니다. FIRST_PAGE 설정을 확인하세요.")
     st.stop()
 
 
-# --- 5. 입력 및 저장 로직 ---
-#@st.dialog("📝 경기 결과 최종 확인")
-# def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
-#     curr = st.session_state.match_data.loc[idx]
-#     st.write(f"### ⚔️ {m_type} 결과 확인")
-#     st.write(f"**{curr['홈']}**: {', '.join(l_h)} ({v_h}점)")
-#     st.write(f"**{curr['어웨이']}**: {', '.join(l_a)} ({v_a}점)")
-#     st.divider()
-#
-#     c1, c2 = st.columns(2)
-#     if c1.button("✅ 저장", use_container_width=True):
-#         st.session_state.match_data.at[idx, f"{m_type}_홈"] = int(v_h)
-#         st.session_state.match_data.at[idx, f"{m_type}_어웨이"] = int(v_a)
-#         st.session_state.match_data.at[idx, f"{m_type}_선수"] = [l_h, l_a]
-#         save_to_gsheets(st.session_state.match_data)
-#         st.rerun()
-#     if c2.button("❌ 취소", use_container_width=True): st.rerun()
 @st.dialog("📝 경기 결과 최종 확인")
 def confirm_save_dialog(idx, m_type, v_h, v_a, l_h, l_a, finalized):
     curr = st.session_state.match_data.loc[idx]

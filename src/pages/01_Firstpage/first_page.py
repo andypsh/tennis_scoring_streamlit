@@ -271,24 +271,24 @@ if not st.session_state.match_data.empty:
 
         if not df_res.empty:
             # 화면에서는 구력을 보여주지 않음 ㅡㅡ^
-            # display_df = df_res.drop(columns=['구력합계'])
+            display_df = df_res.drop(columns=['구력합계'])
 
             st.dataframe(
-                df_res.style.highlight_max(subset=['승점'], color='#D1E7DD'),
+                display_df.style.highlight_max(subset=['승점'], color='#D1E7DD'),
                 use_container_width=True,
                 hide_index=True
             )
 
 
-    st.subheader("📊 실시간 조별 순위 (Live)")
-    for gn in sorted(st.session_state.groups.keys()):
-        st.markdown(f"#### 📍 {gn} 현황")
-        df_res = calculate_standings(st.session_state.match_data, gn)
-        if not df_res.empty:
-            # 득실 컬럼이 확실히 int형인지 보장 ㅡㅡ^
-            df_res['득실'] = df_res['득실'].astype(int)
-            st.dataframe(
-                df_res.style.highlight_max(subset=['승점'], color='#D1E7DD').highlight_min(subset=['패'], color='#F8D7DA'),
-                use_container_width=True, hide_index=True)
+    # st.subheader("📊 실시간 조별 순위 (Live)")
+    # for gn in sorted(st.session_state.groups.keys()):
+    #     st.markdown(f"#### 📍 {gn} 현황")
+    #     df_res = calculate_standings(st.session_state.match_data, gn)
+    #     if not df_res.empty:
+    #         # 득실 컬럼이 확실히 int형인지 보장 ㅡㅡ^
+    #         df_res['득실'] = df_res['득실'].astype(int)
+    #         st.dataframe(
+    #             df_res.style.highlight_max(subset=['승점'], color='#D1E7DD').highlight_min(subset=['패'], color='#F8D7DA'),
+    #             use_container_width=True, hide_index=True)
 else:
     st.info("📢 대진표 데이터가 없습니다.")
