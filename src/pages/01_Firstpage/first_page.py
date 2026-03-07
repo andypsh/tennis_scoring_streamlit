@@ -337,18 +337,17 @@ if not st.session_state.match_data.empty:
     #             hide_index=True
     #         )
     # 1. 자동 갱신을 위한 '프래그먼트' 함수 생성 ㅡㅡ^
-    @st.fragment(run_every=30)  # 30초마다 이 함수 안의 코드만 다시 실행!
+    # --- 수정 후 ---
+    # --- 수정 후 ---
+    @st.fragment(run_every=30)
     def show_live_rankings_area():
-        # 2. 핵심: 세션 데이터가 아니라 시트에서 "생으로" 새로 읽어옵니다.
         live_df = load_from_gsheets()
 
         if not live_df.empty:
+            # [순위표] (순위는 공정성을 위해 '확정'된 데이터로만 계산하는 calculate_standings 유지) ㅡㅡ^
             for gn in sorted(st.session_state.groups.keys()):
                 st.markdown(f"#### 📍 {gn} 현황 (실시간 업데이트 중)")
-
-                # 3. 방금 읽어온 따끈따끈한 live_df를 계산 함수에 넣습니다.
                 df_res = calculate_standings(live_df, gn)
-
                 if not df_res.empty:
                     display_df = df_res.drop(columns=['구력합계'])
                     st.dataframe(
@@ -356,8 +355,89 @@ if not st.session_state.match_data.empty:
                         use_container_width=True,
                         hide_index=True
                     )
-            # 언제 마지막으로 갱신됐는지 알려주면 사용자들이 안심합니다.
+
+            st.divider()
+            st.subheader("🔍 팀별 상세 매치 리포트")
+
+            all_teams_list = []
+            for teams in st.session_state.groups.values():
+                all_teams_list.extend(teams)
+            all_teams_list = sorted(list(set(all_teams_list)))
+
+            selected_team = st.selectbox("상세 결과를 보고 싶은 팀을 선택하세요:", options=["선택하세요"] + all_teams_list,
+                                         key="team_detail_select")
+
+            if selected_team != "선택하세요":
+                # 1. '확정' 여부 상관없이 해당 팀의 모든 경기 로드 ㅡㅡ^
+                team_matches = live_df[
+                    (live_df['홈'] == selected_team) | (live_df['어웨이'] == selected_team)
+                    ]
+
+                if not team_matches.empty:
+                    for _, row in team_matches.iterrows():
+                        is_home = (row['홈'] == selected_team)
+                        opp_team = row['어웨이'] if is_home else row['홈']
+                        is_confirmed = str(row['확정']).upper() in ['TRUE', '1', '1.0']
+
+                        status_badge = "✅ 종료" if is_confirmed else "🎾 진행 중"
+                        with st.expander(f"{status_badge} | {selected_team} vs {opp_team}", expanded=not is_confirmed):
+                            cols = st.columns(3)
+                            cats = [('남단', '남단_홈', '남단_어웨이', '남단_선수'),
+                                    ('남복', '남복_홈', '남복_어웨이', '남복_선수'),
+                                    ('여복', '여복_홈', '여복_어웨이', '여복_선수')]
+
+                            for i, (label, h_col, a_col, p_col) in enumerate(cats):
+                                with cols[i]:
+                                    h_s, a_s = int(row[h_col]), int(row[a_col])
+
+                                    # 2. 점수가 둘 다 0이면 '진행예정' 표시 ㅡㅡ^
+                                    if h_s == 0 and a_s == 0:
+                                        st.markdown(f"**{label}**")
+                                        st.info("진행예정")
+                                    else:
+                                        if h_s > a_s:
+                                            res = "승" if is_home else "패"
+                                        elif h_s < a_s:
+                                            res = "패" if is_home else "승"
+                                        else:
+                                            res = "무"
+                                        st.markdown(f"**{label} {res}**")
+                                        st.markdown(f"### {h_s if is_home else a_s} : {a_s if is_home else h_s}")
+
+                                    # 선수명 표시 로직
+                                    ps = row[p_col]
+                                    try:
+                                        h_names = ", ".join(ps[0]) if len(ps) > 0 and ps[0] else "미정"
+                                        a_names = ", ".join(ps[1]) if len(ps) > 1 and ps[1] else "미정"
+                                        st.caption(
+                                            f"{h_names if is_home else a_names} VS {a_names if is_home else h_names}")
+                                    except:
+                                        st.caption("선수 정보 미등록")
+                else:
+                    st.info(f"'{selected_team}' 팀의 매치업 정보가 없습니다.")
+
             st.caption(f"🕒 마지막 업데이트: {pd.Timestamp.now().strftime('%H:%M:%S')}")
+    # @st.fragment(run_every=30)  # 30초마다 이 함수 안의 코드만 다시 실행!
+    # def show_live_rankings_area():
+    #     # 2. 핵심: 세션 데이터가 아니라 시트에서 "생으로" 새로 읽어옵니다.
+    #     live_df = load_from_gsheets()
+    #
+    #     if not live_df.empty:
+    #         for gn in sorted(st.session_state.groups.keys()):
+    #             st.markdown(f"#### 📍 {gn} 현황 (실시간 업데이트 중)")
+    #
+    #             # 3. 방금 읽어온 따끈따끈한 live_df를 계산 함수에 넣습니다.
+    #             df_res = calculate_standings(live_df, gn)
+    #
+    #             if not df_res.empty:
+    #                 display_df = df_res.drop(columns=['구력합계'])
+    #                 st.dataframe(
+    #                     display_df.style.highlight_max(subset=['승점'], color='#D1E7DD'),
+    #                     use_container_width=True,
+    #                     hide_index=True
+    #                 )
+    #         # 언제 마지막으로 갱신됐는지 알려주면 사용자들이 안심합니다.
+    #         st.caption(f"🕒 마지막 업데이트: {pd.Timestamp.now().strftime('%H:%M:%S')}")
 
 
     # 4. 마지막에 이 함수를 호출해서 화면에 그려줍니다.
