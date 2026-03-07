@@ -87,12 +87,25 @@ if auth_status:
         # 🔄 구글 시트 동기화 버튼 (관리자 전용) ㅡㅡ^
         if st.session_state.role in ["Admin", "User"]:
             st.write("")
-            if st.button("🔄 구글 시트 전체 동기화", use_container_width=True, help="구글 시트의 최신 데이터를 강제로 불러옵니다."):
-                # 1. 세션에 저장된 데이터 키값들 삭제 ㅡㅡ^
+            # --- 수정 후 ---
+            if st.button("🔄 구글 시트 전체 동기화", use_container_width=True):
+                # 1. [핵심] 운영 서버 메모리에 저장된 모든 캐시를 강제로 비웁니다! ㅡㅡ^
+                st.cache_data.clear()
+
+                # 2. 내 세션에 저장된 데이터 키값들도 삭제
                 sync_keys = ['match_data', 'player_db', 'ko_data', 'groups']
                 for key in sync_keys:
                     if key in st.session_state:
                         del st.session_state[key]
+
+                st.toast("🔥 서버 캐시와 세션을 모두 초기화했습니다! 최신 시트 정보를 읽어옵니다.")
+                st.rerun()
+            # if st.button("🔄 구글 시트 전체 동기화", use_container_width=True, help="구글 시트의 최신 데이터를 강제로 불러옵니다."):
+            #     # 1. 세션에 저장된 데이터 키값들 삭제 ㅡㅡ^
+            #     sync_keys = ['match_data', 'player_db', 'ko_data', 'groups']
+            #     for key in sync_keys:
+            #         if key in st.session_state:
+            #             del st.session_state[key]
 
                 # 2. 버튼을 눌렀을 때만 작동하도록 안으로 이동! ㅡㅡ^
                 st.toast("데이터 동기화 완료! 최신 정보를 불러옵니다.")
