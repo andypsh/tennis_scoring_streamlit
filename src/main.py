@@ -85,7 +85,7 @@ if auth_status:
         st.divider()
 
         # 🔄 구글 시트 동기화 버튼 (관리자 전용) ㅡㅡ^
-        if st.session_state.role == "Admin":
+        if st.session_state.role in ["Admin", "User"]:
             st.write("")
             if st.button("🔄 구글 시트 전체 동기화", use_container_width=True, help="구글 시트의 최신 데이터를 강제로 불러옵니다."):
                 # 1. 세션에 저장된 데이터 키값들 삭제 ㅡㅡ^

@@ -24,7 +24,7 @@
 #
 #
 # def load_from_gsheets():
-#     conn = get_gsheets_conn()
+#     conn = get_gsㄱheets_conn()
 #     try:
 #         # 10초 캐싱으로 데이터 로드 (실시간성 확보)
 #         df = conn.read(ttl="10s")
@@ -275,7 +275,7 @@ with st.sidebar:
             is_admin2 = (input_user == auth.get("admin_user2") and input_pw == auth.get("admin2_password"))
 
             # 2. 일반 계열사 리스트 (ons 포함)
-            affiliates = ["cheiljedang_a", "oliveyoung", "ons", "enment", "enmcms", "daetong"]
+            affiliates = ["cheiljedang_a", "oliveyoung", "ons", "enment", "enmcms", "daetong_food"]
 
             if is_admin1 or is_admin2:
                 st.session_state.role = "Admin"

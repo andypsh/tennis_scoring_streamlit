@@ -271,8 +271,8 @@ if not st.session_state.match_data.empty:
 
         if not df_res.empty:
             # 화면에서는 구력을 보여주지 않음 ㅡㅡ^
-            display_df = df_res.drop(columns=['구력합계'])
-
+            # display_df = df_res.drop(columns=['구력합계'])
+            display_df = df_res.copy()
             st.dataframe(
                 display_df.style.highlight_max(subset=['승점'], color='#D1E7DD'),
                 use_container_width=True,
