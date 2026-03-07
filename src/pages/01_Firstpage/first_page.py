@@ -23,22 +23,43 @@ def get_gsheets_conn():
         st.stop()
 
 
+# def load_from_gsheets():
+#     conn = get_gsheets_conn()
+#     # Matches 탭에서 대진표 로드 ㅡㅡ^
+#     try:
+#         df = conn.read(worksheet="Matches", ttl=0)
+#         if not df.empty:
+#             for col in ['남단_선수', '남복_선수', '여복_선수']:
+#                 if col in df.columns:
+#                     df[col] = df[col].apply(
+#                         lambda x: ast.literal_eval(x) if isinstance(x, str) and x.startswith('[') else (
+#                             x if isinstance(x, list) else [])
+#                     )
+#         return df
+#     except:
+#         return pd.DataFrame()
 def load_from_gsheets():
     conn = get_gsheets_conn()
-    # Matches 탭에서 대진표 로드 ㅡㅡ^
     try:
+        # ttl=0을 줘도 운영 서버는 캐시를 잡을 때가 있으니 주의 ㅡㅡ^
         df = conn.read(worksheet="Matches", ttl=0)
-        if not df.empty:
-            for col in ['남단_선수', '남복_선수', '여복_선수']:
-                if col in df.columns:
-                    df[col] = df[col].apply(
-                        lambda x: ast.literal_eval(x) if isinstance(x, str) and x.startswith('[') else (
-                            x if isinstance(x, list) else [])
-                    )
-        return df
-    except:
-        return pd.DataFrame()
+        if df.empty: return pd.DataFrame()
 
+        for col in ['남단_선수', '남복_선수', '여복_선수']:
+            if col in df.columns:
+                def safe_eval(x):
+                    if not isinstance(x, str) or not x.strip(): return []
+                    try:
+                        # 시트의 ['A'], ['B'] 같은 비정상 포맷도 처리 시도 ㅡㅡ^
+                        return ast.literal_eval(x)
+                    except:
+                        return []
+                df[col] = df[col].apply(safe_eval)
+        return df
+    except Exception as e:
+        # ⭕ 운영 서버 화면에 에러를 표시해서 원인을 잡습니다!
+        st.error(f"⚠️ 시트 로드 에러 (URL이나 권한 확인 필요): {e}")
+        return pd.DataFrame()
 
 # Players 탭 로드 헬퍼 ㅡㅡ^
 def load_players_from_gsheets():
