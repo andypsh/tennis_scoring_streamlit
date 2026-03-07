@@ -56,10 +56,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- 2. 대회 요강 (정적 섹션) --- ㅡㅡ^
-st.title("🎾 제1회 CJ 계열사 대항 테니스 대회")
+st.title("🎾 제1회 CJ TENNIS 클럽 테니스 대회")
 
 with st.expander("📋 대회 상세 모집 요강 (필독)", expanded=False):
-    with st.expander("📋 대회 상세 모집 요강 (필독)", expanded=True):
+
 
         st.markdown("""
     
