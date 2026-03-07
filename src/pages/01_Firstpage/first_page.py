@@ -45,10 +45,10 @@ def load_from_gsheets():
         df = conn.read(worksheet="Matches", ttl=0)
 
         # 디버깅: 운영 서버에서만 잠깐 켜서 데이터 확인 ㅡㅡ^
-        with st.expander("🔍 [디버그] 구글 시트 원본 데이터 확인"):
-            st.write("현재 연결된 시트에서 가져온 쌩 데이터입니다:")
-            st.dataframe(df)
-            st.write(f"최근 로드 시간: {pd.Timestamp.now()}")
+        # with st.expander("🔍 [디버그] 구글 시트 원본 데이터 확인"):
+        #     st.write("현재 연결된 시트에서 가져온 쌩 데이터입니다:")
+        #     st.dataframe(df)
+        #     st.write(f"최근 로드 시간: {pd.Timestamp.now()}")
 
         if not df.empty:
             for col in ['남단_선수', '남복_선수', '여복_선수']:
