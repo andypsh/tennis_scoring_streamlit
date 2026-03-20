@@ -176,10 +176,14 @@ if current_role == "Admin":
                         others_selected = [t for t in all_selected_teams if t not in current_selected]
                         available_options = sorted([t for t in all_teams if t not in others_selected])
 
+                        # 💡 [핵심 추가] 현재 엑셀(available_options)에 존재하는 팀만 기본값으로 걸러냅니다.
+                        # 과거 세션에 남아있는 'ENM-CM-B' 같은 유령 데이터는 여기서 탈락합니다. ㅡㅡ^
+                        valid_default = [t for t in current_selected if t in available_options]
+
                         selected = st.multiselect(
                             f"📍 {g_name} 팀 선택",
                             options=available_options,
-                            default=current_selected,
+                            default=valid_default,  # 필터링된 안전한 리스트만 통과시킵니다
                             key=key
                         )
                         temp_groups[g_name] = selected
@@ -209,7 +213,8 @@ if not st.session_state.match_data.empty:
     def calculate_standings(df_matches, target_group):
         group_teams = st.session_state.groups.get(target_group, [])
         standings = []
-        pdb = st.session_state.player_db
+
+        # 교류전이므로 선수 구력 데이터(pdb)는 순위 산정에 사용하지 않습니다.
 
         # 전체 데이터의 '확정' 열을 숫자형으로 미리 변환 ㅡㅡ^
         df_matches['확정_val'] = pd.to_numeric(df_matches['확정'], errors='coerce').fillna(0)
@@ -218,22 +223,15 @@ if not st.session_state.match_data.empty:
             team_str = str(team).strip()
 
             # 1. 확정된 경기 필터링 강화 (숫자 1 혹은 1.0 등 모두 포함) ㅡㅡ^
-            # 홈/어웨이 팀 이름도 공백 제거 후 비교하도록 수정
             m = df_matches[
                 ((df_matches['홈'].astype(str).str.strip() == team_str) |
                  (df_matches['어웨이'].astype(str).str.strip() == team_str)) &
                 (df_matches['확정_val'] > 0)
                 ]
 
-            team_total_career = 0
-            # ... (구력 계산 로직은 동일) ...
-
-            w, d, l, pts, gd = 0, 0, 0, 0, 0
+            w, d, l, gd = 0, 0, 0, 0
             for _, row in m.iterrows():
                 is_home = (str(row['홈']).strip() == team_str)
-
-                # 점수 데이터 형변환 에러 방지 ㅡㅡ^
-                h_score = int(row['남단_홈']) + int(row['남복_홈']) + int(row['여복_홈'])  # 단순 합계 예시 (세부 승수 로직 적용 가능)
 
                 # 기존의 세부 종목별 승수 비교 로직 유지
                 h_wins = (int(row['남단_홈']) > int(row['남단_어웨이'])) + \
@@ -251,75 +249,84 @@ if not st.session_state.match_data.empty:
                 gd += c_gd if is_home else -c_gd
 
                 if h_wins == a_wins:
-                    d += 1;
-                    pts += 1
+                    d += 1
                 elif (h_wins > a_wins and is_home) or (a_wins > h_wins and not is_home):
-                    w += 1;
-                    pts += 3
+                    w += 1
                 else:
                     l += 1
 
             standings.append({
                 "팀명": team, "경기": int(len(m)), "승": int(w), "무": int(d), "패": int(l),
-                "승점": int(pts), "득실": int(gd), "구력합계": float(team_total_career)
+                "득실": int(gd)
             })
 
-        # 정렬 및 결과 반환
         df_result = pd.DataFrame(standings).sort_values(
-            by=["승점", "득실", "구력합계"],
-            ascending=[False, False, True]
+            by=["승", "무", "득실"],
+            ascending=[False, False, False]
         ).reset_index(drop=True)
 
         return df_result
-    # def calculate_standings(df_matches, target_group):
-    #     group_teams = st.session_state.groups.get(target_group, [])
-    #     standings = []
-    #     pdb = st.session_state.player_db
-    #
-    #     for team in group_teams:
-    #         # 1. 확정된 경기만 필터링 ㅡㅡ^
-    #         m = df_matches[((df_matches['홈'] == team) | (df_matches['어웨이'] == team)) &
-    #                        (df_matches['확정'].astype(str).str.upper().isin(['TRUE', '1']))]
-    #
-    #         # 2. 구력 합산 (텍스트에서 숫자만 추출) ㅡㅡ^
-    #         team_total_career = 0
-    #         if pdb is not None and '구력' in pdb.columns:
-    #             team_mask = pdb['소속'].astype(str).str.strip() == str(team).strip()
-    #             # '7년', '0.5년'에서 숫자(정수/소수점)만 추출하는 마법 ㅡㅡ^
-    #             career_values = pdb[team_mask]['구력'].astype(str).str.extract(r'(\d+\.?\d*)')[0]
-    #             team_career_numeric = pd.to_numeric(career_values, errors='coerce').fillna(0)
-    #             team_total_career = team_career_numeric.sum()
-    #
-    #         w, d, l, pts, gd = 0, 0, 0, 0, 0
-    #         for _, row in m.iterrows():
-    #             is_home = (row['홈'] == team)
-    #             h_wins = (int(row['남단_홈']) > int(row['남단_어웨이'])) + (int(row['남복_홈']) > int(row['남복_어웨이'])) + (
-    #                         int(row['여복_홈']) > int(row['여복_어웨이']))
-    #             a_wins = (int(row['남단_어웨이']) > int(row['남단_홈'])) + (int(row['남복_어웨이']) > int(row['남복_홈'])) + (
-    #                         int(row['여복_어웨이']) > int(row['여복_홈']))
-    #             c_gd = (int(row['남단_홈']) - int(row['남단_어웨이'])) + (int(row['남복_홈']) - int(row['남복_어웨이'])) + (
-    #                         int(row['여복_홈']) - int(row['여복_어웨이']))
-    #             gd += c_gd if is_home else -c_gd
-    #
-    #             if h_wins == a_wins:
-    #                 d += 1; pts += 1
-    #             elif (h_wins > a_wins and is_home) or (a_wins > h_wins and not is_home):
-    #                 w += 1; pts += 3
-    #             else:
-    #                 l += 1
-    #
-    #         standings.append({
-    #             "팀명": team, "경기": int(len(m)), "승": int(w), "무": int(d), "패": int(l),
-    #             "승점": int(pts), "득실": int(gd), "구력합계": float(team_total_career)
-    #         })
-    #
-    #     # 3. 정렬 (승점 내림 -> 득실 내림 -> 구력합계 오름차순) ㅡㅡ^
-    #     df_result = pd.DataFrame(standings).sort_values(
-    #         by=["승점", "득실", "구력합계"],
-    #         ascending=[False, False, True]
-    #     ).reset_index(drop=True)
-    #
-    #     return df_result
+
+    # 🌟 [추가] 개인별 승률 및 득실 계산 함수 ㅡㅡ^
+    def calculate_player_standings(df_matches):
+        player_stats = {}
+
+        # '확정' 처리된 데이터만 추출
+        df_matches['확정_val'] = pd.to_numeric(df_matches['확정'], errors='coerce').fillna(0)
+        df_confirmed = df_matches[df_matches['확정_val'] > 0]
+
+        cats = [('남단_홈', '남단_어웨이', '남단_선수'),
+                ('남복_홈', '남복_어웨이', '남복_선수'),
+                ('여복_홈', '여복_어웨이', '여복_선수')]
+
+        for _, row in df_confirmed.iterrows():
+            for h_col, a_col, p_col in cats:
+                h_s, a_s = int(row[h_col]), int(row[a_col])
+
+                # 경기를 치르지 않은 세트(점수가 둘 다 0)는 건너뜀
+                if h_s == 0 and a_s == 0:
+                    continue
+
+                h_gd = h_s - a_s
+                a_gd = a_s - h_s
+
+                if h_s > a_s:
+                    h_res, a_res = '승', '패'
+                elif h_s < a_s:
+                    h_res, a_res = '패', '승'
+                else:
+                    h_res, a_res = '무', '무'
+
+                ps = row[p_col]
+                h_players, a_players = [], []
+                if isinstance(ps, list):
+                    if len(ps) > 0 and isinstance(ps[0], list): h_players = ps[0]
+                    if len(ps) > 1 and isinstance(ps[1], list): a_players = ps[1]
+
+                # 홈팀 선수 전적 기록
+                for p in h_players:
+                    p = str(p).strip()
+                    if not p: continue
+                    if p not in player_stats: player_stats[p] = {"경기": 0, "승": 0, "무": 0, "패": 0, "득실": 0}
+                    player_stats[p]["경기"] += 1
+                    player_stats[p][h_res] += 1
+                    player_stats[p]["득실"] += h_gd
+
+                # 어웨이팀 선수 전적 기록
+                for p in a_players:
+                    p = str(p).strip()
+                    if not p: continue
+                    if p not in player_stats: player_stats[p] = {"경기": 0, "승": 0, "무": 0, "패": 0, "득실": 0}
+                    player_stats[p]["경기"] += 1
+                    player_stats[p][a_res] += 1
+                    player_stats[p]["득실"] += a_gd
+
+        df_players = pd.DataFrame([{"선수명": k, **v} for k, v in player_stats.items()])
+        if not df_players.empty:
+            df_players = df_players.sort_values(by=["승", "무", "득실"], ascending=[False, False, False]).reset_index(
+                drop=True)
+            df_players.index = df_players.index + 1  # 1위부터 보기 좋게 인덱스 조정
+        return df_players
 
 
     # --- 4. 화면 출력 (구력 컬럼 숨기기) ---
@@ -344,17 +351,31 @@ if not st.session_state.match_data.empty:
         live_df = load_from_gsheets()
 
         if not live_df.empty:
-            # [순위표] (순위는 공정성을 위해 '확정'된 데이터로만 계산하는 calculate_standings 유지) ㅡㅡ^
+            # --- 1. 팀 현황 ---
             for gn in sorted(st.session_state.groups.keys()):
                 st.markdown(f"#### 📍 {gn} 현황 (실시간 업데이트 중)")
                 df_res = calculate_standings(live_df, gn)
                 if not df_res.empty:
-                    display_df = df_res.drop(columns=['구력합계'])
                     st.dataframe(
-                        display_df.style.highlight_max(subset=['승점'], color='#D1E7DD'),
+                        df_res.style.highlight_max(subset=['승'], color='#D1E7DD'),
                         use_container_width=True,
                         hide_index=True
                     )
+
+            st.divider()
+
+            # --- 2. 🌟 참가자 개인 순위 ---
+            st.markdown("#### 🏅 참가자 개인 다승 순위")
+            df_players = calculate_player_standings(live_df)
+            if not df_players.empty:
+                st.dataframe(
+                    df_players.style.highlight_max(subset=['승'], color='#D1E7DD'),
+                    use_container_width=True
+                )
+            else:
+                st.info("아직 확정된 개인 경기 결과가 없습니다.")
+
+
 
             st.divider()
             st.subheader("🔍 팀별 상세 매치 리포트")
