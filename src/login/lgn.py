@@ -40,7 +40,6 @@ def login_check(config):
     if config is None:
         return False
 
-    # 이제 config는 일반 딕셔너리이므로 라이브러리가 맘껏 수정해도 에러가 안 납니다! ㅡㅡ^
     authenticator = stauth.Authenticate(
         config['credentials'],
         config['cookie']['name'],
@@ -48,13 +47,18 @@ def login_check(config):
         config['cookie']['expiry_days']
     )
 
-    # 로그인 위젯 호출
+    # 로그인 위젯 호출 (쿠키가 있으면 여기서 자동으로 세션을 True로 바꿔줍니다)
     authenticator.login(location='main')
 
     auth_status = st.session_state.get("authentication_status")
 
     if auth_status:
         st.session_state['logout_button'] = authenticator.logout('Logout', 'sidebar')
+
+        # ㅡㅡ^ 핵심 추가: 모바일 백그라운드 전환으로 세션이 초기화됐을 때,
+        # 쿠키로 자동 로그인은 성공했지만 네비게이션이 안 바뀌는 현상을 강제로 갱신합니다.
+        st.rerun()
+
         return True
     elif auth_status is False:
         st.error('ID 또는 비밀번호가 틀렸습니다.')
