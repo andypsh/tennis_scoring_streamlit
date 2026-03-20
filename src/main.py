@@ -34,8 +34,8 @@ except Exception as e:
 
 # --- [홈 화면] ---
 def home_view():
-    st.header('🏠 CJ Tennis 운영 허브')
-    st.info('3월 8일 장충 테니스 대회 (50인) 운영 시스템입니다.')
+    st.header('🏠 CJ Tennis CLUB')
+    st.info('3월 21일 CJ 교류전 운영 시스템입니다.')
 
     st.markdown("### 🧭 빠른 페이지 이동 (모바일용)")
     c1, c2 = st.columns(2)
