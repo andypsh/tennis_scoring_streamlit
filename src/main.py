@@ -34,19 +34,18 @@ except Exception as e:
 
 # --- [홈 화면] ---
 def home_view():
-    st.header('🏠 CJ Tennis CLUB')
-    st.info('3월 21일 CJ vs SKT 테니스 교류전(항공대) 운영 시스템입니다.')
+    st.header('🏠 CJ Tennis 운영 허브')
+    st.info('3월 8일 장충 테니스 대회 (50인) 운영 시스템입니다.')
 
     st.markdown("### 🧭 빠른 페이지 이동 (모바일용)")
     c1, c2 = st.columns(2)
     with c1:
-        if st.button("🎾 교류전 순위 보기", use_container_width=True, icon="📈"):
+        if st.button("🎾 순위 보기", use_container_width=True, icon="📈"):
             st.switch_page("pages/01_Firstpage/first_page.py")
         if st.button("💯 점수 입력하기", use_container_width=True, icon="📝"):
             st.switch_page("pages/02_Secondpage/second_page.py")
     with c2:
-        # if st.button("🆚 본선 대진표 확인", use_container_width=True, icon="🏆"):
-        #     st.switch_page("pages/03_Thirdpage/third_page.py")
+
         if st.button("📚 선수 명단 관리", use_container_width=True, icon="👥"):
             st.switch_page("pages/04_Fourthpage/fourth_page.py")
 
@@ -57,16 +56,6 @@ def login_page_view():
 
 
 # --- 3. 실행부 ---
-# 💡 [수정 포인트] 모바일 웹소켓 재연결 시 쿠키를 먼저 읽어올 수 있도록 Authenticator 생성을 최상단으로 분리합니다.
-config = login_module.get_conf()
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days']
-)
-
-# Authenticator가 쿠키를 확인하여 session_state를 자동으로 복구한 뒤에 상태를 가져옵니다.
 auth_status = st.session_state.get('authentication_status')
 
 if auth_status:
@@ -79,13 +68,20 @@ if auth_status:
     else:
         st.session_state.role = "User"
 
-    # (객체 생성 부분은 위로 이동했으므로 여기서는 바로 sidebar 작업을 진행합니다)
+    # [사이드바 로그아웃 구현] lgn 모듈 대신 직접 Authenticator 생성 ㅡㅡ^
+    config = login_module.get_conf()
+    authenticator = stauth.Authenticate(
+        config['credentials'],
+        config['cookie']['name'],
+        config['cookie']['key'],
+        config['cookie']['expiry_days']
+    )
+
     with st.sidebar:
         st.markdown(f"### 👤 {st.session_state.get('name')}님")
         st.info(f"접속 권한: **{st.session_state.role}**")
         authenticator.logout('로그아웃', 'sidebar')
         st.divider()
-
 
         # 🔄 구글 시트 동기화 버튼 (관리자 전용) ㅡㅡ^
         if st.session_state.role in ["Admin", "User"]:
@@ -121,7 +117,7 @@ if auth_status:
         st.Page(home_view, title="대회 홈", icon="🏠", default=True),
         st.Page("pages/01_Firstpage/first_page.py", title="순위", icon="🎾"),
         st.Page("pages/02_Secondpage/second_page.py", title="점수 입력", icon="💯"),
-        # st.Page("pages/03_Thirdpage/third_page.py", title="본선 대진표", icon="🆚"),
+
         st.Page("pages/04_Fourthpage/fourth_page.py", title="모집요강", icon="📚")
     ]
 else:

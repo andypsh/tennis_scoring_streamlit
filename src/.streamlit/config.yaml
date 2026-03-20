@@ -6,11 +6,11 @@ credentials:
     busan:
         name: busan
         password: test # To be replaced with hashed password
-    jincheon:
-        name: jincheon
-        password: test # To be replaced with hashed password
-    user01 :
-        name : user01
+    friday:
+        name: friday
+        password: "1234" # To be replaced with hashed password
+    cj :
+        name : cj
         password : "1234"
 cookie:
   expiry_days: 1
