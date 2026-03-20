@@ -182,7 +182,7 @@ def calculate_player_ranking(df):
         # '홈'팀(CJ)과 '어웨이'팀(FRIDAY)을 번갈아 처리 ㅡㅡ^
         for side in ['홈', '어웨이']:
             players = row[f'{side}_선수']
-            team_name = str(row[side]).strip()  # 시트에 적힌 'CJ' 또는 'FRIDAY'를 직접 가져옴 ㅡㅡ^
+            team_name = str(row[side]).strip()
 
             my_s = h_s if side == '홈' else a_s
             opp_s = a_s if side == '홈' else h_s
@@ -199,23 +199,25 @@ def calculate_player_ranking(df):
                 p = str(p).strip()
                 if not p: continue
 
-                # 선수별 통계 저장 (소속 정보 포함) ㅡㅡ^
+                # 선수별 통계 저장 (득점, 실점 추가) ㅡㅡ^
                 if p not in stats:
-                    stats[p] = {"소속": team_name, "경기": 0, "승": 0, "무": 0, "패": 0, "득실": 0}
+                    stats[p] = {"소속": team_name, "경기": 0, "승": 0, "무": 0, "패": 0, "득점": 0, "실점": 0, "득실": 0}
 
                 stats[p]["경기"] += 1
                 stats[p][res] += 1
+                stats[p]["득점"] += my_s   # 💡 내 점수 합계 ㅡㅡ^
+                stats[p]["실점"] += opp_s   # 💡 상대 점수 합계 ㅡㅡ^
                 stats[p]["득실"] += (my_s - opp_s)
 
     # 2. 데이터프레임 변환
     res_df = pd.DataFrame([{"선수명": k, **v} for k, v in stats.items()])
 
     if not res_df.empty:
-        # 컬럼 순서 고정 ㅡㅡ^
-        cols = ["선수명", "소속", "경기", "승", "무", "패", "득실"]
+        # 💡 요청하신 대로 득점, 실점을 득실 왼쪽에 배치 ㅡㅡ^
+        cols = ["선수명", "소속", "경기", "승", "무", "패", "득점", "실점", "득실"]
         res_df = res_df[cols]
-        # 승 -> 득실 -> 경기수(적은순) 순으로 정렬 ㅡㅡ^
-        return res_df.sort_values(by=["승", "득실", "경기"], ascending=[False, False, True]).reset_index(drop=True)
+        # 승 -> 득실 -> 득점(다득점) 순으로 정렬 ㅡㅡ^
+        return res_df.sort_values(by=["승", "득실", "득점"], ascending=[False, False, False]).reset_index(drop=True)
 
     return pd.DataFrame()
 
