@@ -4,11 +4,6 @@ import os
 import streamlit as st
 import streamlit_authenticator as stauth  # 추가 ㅡㅡ^
 
-
-
-# --- 3. 실행부 준비 (최상단 단일 인증 객체 생성) ---
-config = login_module.get_conf()
-authenticator = login_module.get_authenticator(config)
 # [NumPy 2.x Patch] 최상단 고정
 try:
     import numpy.lib.arraysetops as _unused
@@ -35,6 +30,10 @@ try:
 except Exception as e:
     st.error(f"❌ 모듈 로드 에러: {e}")
     st.stop()
+
+# --- 3. 실행부 준비 (최상단 단일 인증 객체 생성) ---
+config = login_module.get_conf()
+authenticator = login_module.get_authenticator(config)
 
 
 # --- [홈 화면] ---
@@ -91,6 +90,7 @@ if auth_status:
         # 🔄 구글 시트 동기화 버튼 (관리자 전용) ㅡㅡ^
         if st.session_state.role in ["Admin", "User"]:
             st.write("")
+            # --- 수정 후 ---
             if st.button("🔄 구글 시트 전체 동기화", use_container_width=True):
                 # 1. [핵심] 운영 서버 메모리에 저장된 모든 캐시를 강제로 비웁니다! ㅡㅡ^
                 st.cache_data.clear()
@@ -111,6 +111,7 @@ if auth_status:
         st.Page(home_view, title="대회 홈", icon="🏠", default=True),
         st.Page("pages/01_Firstpage/first_page.py", title="순위", icon="🎾"),
         st.Page("pages/02_Secondpage/second_page.py", title="점수 입력", icon="💯"),
+
         st.Page("pages/04_Fourthpage/fourth_page.py", title="모집요강", icon="📚")
     ]
 else:
