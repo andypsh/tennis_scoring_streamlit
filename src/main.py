@@ -4,6 +4,11 @@ import os
 import streamlit as st
 import streamlit_authenticator as stauth  # 추가 ㅡㅡ^
 
+
+
+# --- 3. 실행부 준비 (최상단 단일 인증 객체 생성) ---
+config = login_module.get_conf()
+authenticator = login_module.get_authenticator(config)
 # [NumPy 2.x Patch] 최상단 고정
 try:
     import numpy.lib.arraysetops as _unused
@@ -51,11 +56,19 @@ def home_view():
 
 
 def login_page_view():
-    config = login_module.get_conf()
-    login_module.login_check(config)
+    if authenticator:
+        # 로그인 위젯 렌더링 (여기서 내부적으로 쿠키 검증이 일어남)
+        authenticator.login(location='main')
+
+        auth_status = st.session_state.get("authentication_status")
+        if auth_status:
+            # 쿠키로 자동 로그인 되었거나 방금 로그인 성공한 경우
+            st.rerun()
+        elif auth_status is False:
+            st.error('ID 또는 비밀번호가 틀렸습니다.')
 
 
-# --- 3. 실행부 ---
+# --- 4. 실행부 ---
 auth_status = st.session_state.get('authentication_status')
 
 if auth_status:
@@ -68,15 +81,7 @@ if auth_status:
     else:
         st.session_state.role = "User"
 
-    # [사이드바 로그아웃 구현] lgn 모듈 대신 직접 Authenticator 생성 ㅡㅡ^
-    config = login_module.get_conf()
-    authenticator = stauth.Authenticate(
-        config['credentials'],
-        config['cookie']['name'],
-        config['cookie']['key'],
-        config['cookie']['expiry_days']
-    )
-
+    # [사이드바 로그아웃 구현] 이미 생성된 authenticator 재사용! ㅡㅡ^
     with st.sidebar:
         st.markdown(f"### 👤 {st.session_state.get('name')}님")
         st.info(f"접속 권한: **{st.session_state.role}**")
@@ -86,7 +91,6 @@ if auth_status:
         # 🔄 구글 시트 동기화 버튼 (관리자 전용) ㅡㅡ^
         if st.session_state.role in ["Admin", "User"]:
             st.write("")
-            # --- 수정 후 ---
             if st.button("🔄 구글 시트 전체 동기화", use_container_width=True):
                 # 1. [핵심] 운영 서버 메모리에 저장된 모든 캐시를 강제로 비웁니다! ㅡㅡ^
                 st.cache_data.clear()
@@ -99,16 +103,6 @@ if auth_status:
 
                 st.toast("🔥 서버 캐시와 세션을 모두 초기화했습니다! 최신 시트 정보를 읽어옵니다.")
                 st.rerun()
-            # if st.button("🔄 구글 시트 전체 동기화", use_container_width=True, help="구글 시트의 최신 데이터를 강제로 불러옵니다."):
-            #     # 1. 세션에 저장된 데이터 키값들 삭제 ㅡㅡ^
-            #     sync_keys = ['match_data', 'player_db', 'ko_data', 'groups']
-            #     for key in sync_keys:
-            #         if key in st.session_state:
-            #             del st.session_state[key]
-
-                # 2. 버튼을 눌렀을 때만 작동하도록 안으로 이동! ㅡㅡ^
-                st.toast("데이터 동기화 완료! 최신 정보를 불러옵니다.")
-                st.rerun()
 
             st.divider()
 
@@ -117,13 +111,12 @@ if auth_status:
         st.Page(home_view, title="대회 홈", icon="🏠", default=True),
         st.Page("pages/01_Firstpage/first_page.py", title="순위", icon="🎾"),
         st.Page("pages/02_Secondpage/second_page.py", title="점수 입력", icon="💯"),
-
         st.Page("pages/04_Fourthpage/fourth_page.py", title="모집요강", icon="📚")
     ]
 else:
     pages = [st.Page(login_page_view, title="Login", icon="🔒")]
 
-# 4. 내비게이션 실행
+# 5. 내비게이션 실행
 try:
     pg = st.navigation(pages)
     pg.run()
