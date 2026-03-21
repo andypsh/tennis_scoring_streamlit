@@ -2,8 +2,8 @@ import numpy as np
 import sys
 import os
 import streamlit as st
-import streamlit_authenticator as stauth  # 추가 ㅡㅡ^
 
+import streamlit.components.v1 as components # [탈출용] 컴포넌트 추가 ㅡㅡ^
 # [NumPy 2.x Patch] 최상단 고정
 try:
     import numpy.lib.arraysetops as _unused
@@ -31,7 +31,27 @@ except Exception as e:
     st.error(f"❌ 모듈 로드 에러: {e}")
     st.stop()
 
+
+# --- [카카오톡 인앱 브라우저 강제 탈출 함수] ---
+def escape_kakaotalk():
+    js_code = """
+    <script>
+    var userAgent = navigator.userAgent.toLowerCase();
+    // 접속한 브라우저가 카카오톡인지 확인
+    if (userAgent.indexOf("kakaotalk") > -1) {
+        var currentUrl = window.parent.location.href;
+        // 카카오톡 외부 브라우저(크롬/사파리) 호출 스키마로 현재 URL을 넘겨버림
+        window.parent.location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(currentUrl);
+    }
+    </script>
+    """
+    # 화면에 보이지 않는 0x0 사이즈로 스크립트만 몰래 실행
+    components.html(js_code, width=0, height=0)
+
+
 # --- 3. 실행부 준비 (최상단 단일 인증 객체 생성) ---
+escape_kakaotalk() # 앱이 켜지자마자 가장 먼저 검사해서 튕겨냄 ㅡㅡ^
+
 config = login_module.get_conf()
 authenticator = login_module.get_authenticator(config)
 
