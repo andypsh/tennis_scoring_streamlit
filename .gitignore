@@ -1,0 +1,26 @@
+# Claude Code
+.claude/worktrees/
+.claude/local-settings.json
+
+# Large media / personal photos
+박성혁/
+*.JPG
+*.jpg
+*.jpeg
+*.png
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Editor
+.vscode/
+.idea/
