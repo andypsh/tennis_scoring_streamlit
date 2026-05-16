@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { hasSupabase, supabase } from '@/lib/supabase'
+import { hasSupabase } from '@/lib/supabase'
 import {
   emptyScores,
   EVENT_KEYS,
@@ -11,6 +11,14 @@ import {
 } from '@/types/domain'
 import { generateKnockoutBracket, generateRoundRobin, evaluateBracketNode, propagateWinner } from '@/lib/bracket'
 import { evaluateMatch } from '@/lib/scoring'
+import {
+  ensureTournament,
+  pullSnapshot,
+  pushGroups,
+  pushMatches,
+  pushPlayers,
+  subscribeRealtime,
+} from '@/lib/sync'
 
 const STORAGE_KEY = 'cj_tennis_state_v1'
 
@@ -23,6 +31,9 @@ interface PersistedState {
   matches: Match[]
   bracket: BracketNode[]
   advancePerGroup: number
+  online: boolean
+  syncing: boolean
+  lastSyncedAt: string | null
 }
 
 function emptyState(): PersistedState {
@@ -35,8 +46,14 @@ function emptyState(): PersistedState {
     matches: [],
     bracket: [],
     advancePerGroup: 2,
+    online: false,
+    syncing: false,
+    lastSyncedAt: null,
   }
 }
+
+let unsubscribeRealtime: (() => void) | null = null
+let suppressRealtime = false
 
 export const useTournamentStore = defineStore('tournament', {
   state: (): PersistedState => emptyState(),
@@ -64,23 +81,68 @@ export const useTournamentStore = defineStore('tournament', {
   },
   actions: {
     async loadAll() {
-      if (hasSupabase && supabase) {
-        // TODO: 서버 동기화 — 1차에서는 로컬만 사용
-      }
+      // 로컬 캐시 먼저 적용 (오프라인에서도 빠르게 시작)
       const raw = localStorage.getItem(STORAGE_KEY)
       if (raw) {
         try {
-          const parsed = JSON.parse(raw) as PersistedState
-          this.$patch(parsed)
+          this.$patch(JSON.parse(raw) as PersistedState)
         } catch {
           /* ignore */
         }
       }
+
+      if (!hasSupabase) return
+
+      try {
+        this.syncing = true
+        const id = await ensureTournament()
+        this.tournamentId = id
+        const snap = await pullSnapshot()
+        if (snap) {
+          suppressRealtime = true
+          this.groups = snap.groups
+          this.players = snap.players
+          this.matches = snap.matches
+          this.bracket = snap.bracket
+          suppressRealtime = false
+        }
+        this.online = true
+        this.lastSyncedAt = new Date().toISOString()
+        this.persist()
+        unsubscribeRealtime?.()
+        unsubscribeRealtime = subscribeRealtime(this.tournamentId, {
+          onChange: () => {
+            if (suppressRealtime) return
+            this.refreshFromRemote()
+          },
+        })
+      } catch (e) {
+        console.warn('[sync] pull failed, falling back to local cache', e)
+        this.online = false
+      } finally {
+        this.syncing = false
+      }
+    },
+    async refreshFromRemote() {
+      if (!hasSupabase) return
+      const snap = await pullSnapshot()
+      if (!snap) return
+      suppressRealtime = true
+      this.tournamentId = snap.tournamentId
+      this.groups = snap.groups
+      this.players = snap.players
+      this.matches = snap.matches
+      this.bracket = snap.bracket
+      this.lastSyncedAt = new Date().toISOString()
+      suppressRealtime = false
+      this.persist()
     },
     persist() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.$state))
     },
     reset() {
+      unsubscribeRealtime?.()
+      unsubscribeRealtime = null
       this.$patch(emptyState())
       this.persist()
     },
@@ -97,12 +159,15 @@ export const useTournamentStore = defineStore('tournament', {
         .filter(p => p.name && p.team)
       this.players = players
       this.persist()
+      void this.flushRemote('players')
     },
     setGroups(groups: Group[]) {
       this.groups = groups.filter(g => g.teams.length > 0)
       this.matches = generateRoundRobin(this.tournamentId, this.groups)
       this.bracket = []
       this.persist()
+      void this.flushRemote('groups')
+      void this.flushRemote('matches')
     },
     updateMatchScore(matchId: string, event: EventKey, payload: { home: number; away: number; homePlayers: string[]; awayPlayers: string[]; finalized: boolean }) {
       const m = this.matches.find(x => x.id === matchId)
@@ -119,12 +184,14 @@ export const useTournamentStore = defineStore('tournament', {
       else if (awayWonEvents >= 2) m.winner = m.away
       else m.winner = null
       this.persist()
+      void this.flushRemote('matches')
     },
     generateBracket(opts: { advancePerGroup?: number } = {}) {
       const advancePerGroup = opts.advancePerGroup ?? this.advancePerGroup
       this.advancePerGroup = advancePerGroup
       this.bracket = generateKnockoutBracket(this.tournamentId, this.groups, this.matches, { advancePerGroup })
       this.persist()
+      void this.flushRemote('matches')
     },
     updateBracketScore(nodeId: string, event: EventKey, payload: { home: number; away: number; homePlayers: string[]; awayPlayers: string[]; finalized: boolean }) {
       const node = this.bracket.find(n => n.id === nodeId)
@@ -137,6 +204,7 @@ export const useTournamentStore = defineStore('tournament', {
       node.winner = winner
       if (winner) propagateWinner(this.bracket, node)
       this.persist()
+      void this.flushRemote('matches')
     },
     clearScores() {
       for (const m of this.matches) {
@@ -152,6 +220,25 @@ export const useTournamentStore = defineStore('tournament', {
         n.awayWins = 0
       }
       this.persist()
+      void this.flushRemote('matches')
+    },
+    async flushRemote(target: 'players' | 'groups' | 'matches') {
+      if (!hasSupabase || !this.tournamentId || this.tournamentId === 'local') return
+      try {
+        this.syncing = true
+        suppressRealtime = true
+        if (target === 'players') await pushPlayers(this.tournamentId, this.players)
+        if (target === 'groups') await pushGroups(this.tournamentId, this.groups)
+        if (target === 'matches') await pushMatches(this.tournamentId, this.matches, this.bracket)
+        this.online = true
+        this.lastSyncedAt = new Date().toISOString()
+      } catch (e) {
+        console.warn(`[sync] push ${target} failed`, e)
+        this.online = false
+      } finally {
+        suppressRealtime = false
+        this.syncing = false
+      }
     },
   },
 })

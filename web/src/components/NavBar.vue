@@ -2,9 +2,19 @@
 import { RouterLink, useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { useTournamentStore } from '@/stores/tournament'
+import { hasSupabase } from '@/lib/supabase'
 
 const route = useRoute()
 const auth = useAuthStore()
+const tournament = useTournamentStore()
+
+const syncStatus = computed(() => {
+  if (!hasSupabase) return { label: '로컬', color: 'bg-slate-100 text-slate-600' }
+  if (tournament.syncing) return { label: '동기화…', color: 'bg-amber-100 text-amber-700' }
+  if (tournament.online) return { label: '실시간', color: 'bg-emerald-100 text-emerald-700' }
+  return { label: '오프라인', color: 'bg-rose-100 text-rose-700' }
+})
 
 const tabs = [
   { to: '/standings', label: '조별순위', icon: '🏆' },
@@ -26,6 +36,10 @@ const isLogin = computed(() => route.path === '/login')
         <span class="font-bold text-slate-900">CJ Tennis</span>
       </RouterLink>
       <div class="flex items-center gap-2">
+        <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide" :class="syncStatus.color">
+          <span class="size-1.5 rounded-full" :class="tournament.online && hasSupabase ? 'bg-emerald-500 animate-pulse' : tournament.syncing ? 'bg-amber-500' : 'bg-slate-400'"></span>
+          {{ syncStatus.label }}
+        </span>
         <RouterLink v-if="!auth.isAuthed && !isLogin" to="/login" class="btn-secondary text-xs">로그인</RouterLink>
         <button v-else-if="auth.isAuthed" class="btn-ghost text-xs" @click="auth.signOut()">
           {{ auth.email || auth.role }} · 로그아웃
