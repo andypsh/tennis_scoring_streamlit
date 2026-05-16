@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import * as XLSX from 'xlsx'
 import { useTournamentStore } from '@/stores/tournament'
 import type { Player } from '@/types/domain'
+import { SEED_PLAYERS } from '@/data/seedPlayers'
 
 const store = useTournamentStore()
 const filter = ref('')
@@ -37,6 +38,10 @@ async function onFile(e: Event) {
   store.importPlayers(rows)
 }
 
+function loadSeed() {
+  store.importPlayers(SEED_PLAYERS as any)
+}
+
 function addManual() {
   const name = prompt('이름?')
   if (!name) return
@@ -65,6 +70,8 @@ function addManual() {
       <div class="mt-4 flex flex-wrap gap-2">
         <input ref="fileInput" type="file" accept=".xlsx,.xls,.csv" class="hidden" @change="onFile" />
         <button class="btn-primary" @click="pickFile">📂 엑셀 업로드</button>
+        <button class="btn-secondary" @click="loadSeed">🎾 CJ 50명 시드 로드</button>
+        <a href="/players-sample.csv" download class="btn-ghost text-xs underline">샘플 CSV ↓</a>
         <button class="btn-secondary" @click="addManual">+ 직접 추가</button>
         <button class="btn-ghost text-rose-600" @click="store.importPlayers([])" v-if="store.players.length">
           전체 삭제

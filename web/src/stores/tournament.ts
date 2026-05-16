@@ -22,6 +22,21 @@ import {
 
 const STORAGE_KEY = 'cj_tennis_state_v1'
 
+/**
+ * 엑셀 셀에서 숫자/문자 섞여 들어오는 값을 안전하게 number로 파싱.
+ * 예: 7, "7", "7년", "0.5년", "NTRP 3.5" → 7, 7, 7, 0.5, 3.5
+ */
+function parseNumeric(v: unknown): number | null {
+  if (typeof v === 'number' && Number.isFinite(v)) return v
+  if (typeof v === 'string') {
+    const m = v.match(/[\d.]+/)
+    if (!m) return null
+    const n = Number.parseFloat(m[0])
+    return Number.isFinite(n) ? n : null
+  }
+  return null
+}
+
 interface PersistedState {
   tournamentId: string
   tournamentName: string
@@ -146,15 +161,15 @@ export const useTournamentStore = defineStore('tournament', {
       this.$patch(emptyState())
       this.persist()
     },
-    importPlayers(rows: Array<Partial<Player> & { 이름?: string; 소속?: string; 성별?: string; 구력?: number; ntrp?: number }>) {
+    importPlayers(rows: Array<Partial<Player> & { 이름?: string; 소속?: string; 성별?: string | unknown; 구력?: number | string | unknown; ntrp?: number | string | unknown }>) {
       const players: Player[] = rows
         .map((r, idx) => ({
           id: `p_${Date.now()}_${idx}`,
           name: (r.name ?? r.이름 ?? '').toString().trim(),
           team: (r.team ?? r.소속 ?? '').toString().trim(),
           gender: ((r.gender ?? r.성별 ?? '남').toString().trim().startsWith('여') ? '여' : '남') as '남' | '여',
-          ntrp: typeof r.ntrp === 'number' ? r.ntrp : null,
-          career_years: typeof r.구력 === 'number' ? r.구력 : (typeof r.career_years === 'number' ? r.career_years : null),
+          ntrp: parseNumeric(r.ntrp),
+          career_years: parseNumeric(r.구력 ?? r.career_years),
         }))
         .filter(p => p.name && p.team)
       this.players = players
