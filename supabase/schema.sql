@@ -1,5 +1,5 @@
 -- CJ Tennis · Supabase 스키마
--- Postgres 17 / Supabase 기준. 모든 테이블 RLS 활성화 권장.
+-- Postgres 15+/Supabase. 모든 테이블 RLS 활성화. 반복 실행 안전(idempotent).
 
 create extension if not exists "uuid-ossp";
 
@@ -75,31 +75,58 @@ alter table players     enable row level security;
 alter table groups      enable row level security;
 alter table matches     enable row level security;
 
--- 데모: 인증된 사용자는 모두 읽기, admin 클레임만 쓰기.
--- 운영 시 더 세분화 필요.
-create policy if not exists "read all auth" on tournaments
-  for select using (auth.role() = 'authenticated');
-create policy if not exists "read all auth" on players
-  for select using (auth.role() = 'authenticated');
-create policy if not exists "read all auth" on groups
-  for select using (auth.role() = 'authenticated');
-create policy if not exists "read all auth" on matches
-  for select using (auth.role() = 'authenticated');
+-- 인증된 사용자: 읽기 허용 / admin 클레임: 쓰기 허용.
+-- Postgres CREATE POLICY는 IF NOT EXISTS 미지원 → DROP 후 재생성.
+drop policy if exists "read all auth" on tournaments;
+create policy "read all auth" on tournaments
+  for select to authenticated using (true);
+drop policy if exists "read all auth" on players;
+create policy "read all auth" on players
+  for select to authenticated using (true);
+drop policy if exists "read all auth" on groups;
+create policy "read all auth" on groups
+  for select to authenticated using (true);
+drop policy if exists "read all auth" on matches;
+create policy "read all auth" on matches
+  for select to authenticated using (true);
 
-create policy if not exists "admin write" on tournaments
-  for all using (auth.jwt() ->> 'role' = 'admin')
-  with check (auth.jwt() ->> 'role' = 'admin');
-create policy if not exists "admin write" on players
-  for all using (auth.jwt() ->> 'role' = 'admin')
-  with check (auth.jwt() ->> 'role' = 'admin');
-create policy if not exists "admin write" on groups
-  for all using (auth.jwt() ->> 'role' = 'admin')
-  with check (auth.jwt() ->> 'role' = 'admin');
-create policy if not exists "admin write" on matches
-  for all using (auth.jwt() ->> 'role' = 'admin')
-  with check (auth.jwt() ->> 'role' = 'admin');
+drop policy if exists "admin write" on tournaments;
+create policy "admin write" on tournaments
+  for all to authenticated
+  using (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin')
+  with check (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin');
+drop policy if exists "admin write" on players;
+create policy "admin write" on players
+  for all to authenticated
+  using (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin')
+  with check (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin');
+drop policy if exists "admin write" on groups;
+create policy "admin write" on groups
+  for all to authenticated
+  using (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin')
+  with check (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin');
+drop policy if exists "admin write" on matches;
+create policy "admin write" on matches
+  for all to authenticated
+  using (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin')
+  with check (coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin');
 
--- 실시간 게시 ----------------------------------------------------
-alter publication supabase_realtime add table matches;
-alter publication supabase_realtime add table players;
-alter publication supabase_realtime add table groups;
+-- 익명 데모 모드(앱이 아직 로그인 없이 동작): anon에게도 쓰기 임시 허용.
+-- 정식 출시 전 반드시 제거하고 인증 강제로 전환할 것.
+drop policy if exists "anon demo write" on tournaments;
+create policy "anon demo write" on tournaments for all to anon using (true) with check (true);
+drop policy if exists "anon demo write" on players;
+create policy "anon demo write" on players for all to anon using (true) with check (true);
+drop policy if exists "anon demo write" on groups;
+create policy "anon demo write" on groups for all to anon using (true) with check (true);
+drop policy if exists "anon demo write" on matches;
+create policy "anon demo write" on matches for all to anon using (true) with check (true);
+
+-- 실시간 게시 — 이미 추가돼 있을 수 있으므로 안전하게 처리
+do $$
+begin
+  begin alter publication supabase_realtime add table tournaments; exception when duplicate_object then null; end;
+  begin alter publication supabase_realtime add table matches;     exception when duplicate_object then null; end;
+  begin alter publication supabase_realtime add table players;     exception when duplicate_object then null; end;
+  begin alter publication supabase_realtime add table groups;      exception when duplicate_object then null; end;
+end$$;
