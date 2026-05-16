@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2732" height="2732" viewBox="0 0 2732 2732">
+  <rect width="2732" height="2732" fill="#16a34a"/>
+  <g transform="translate(1366 1300)">
+    <circle r="280" fill="#fde68a"/>
+    <path d="M -260 0 q 130 -300 520 0 q -130 300 -520 0 z" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <text x="1366" y="1820" text-anchor="middle" fill="#fff" font-family="-apple-system, system-ui, sans-serif" font-size="140" font-weight="900" letter-spacing="-4">CJ TENNIS</text>
+  <text x="1366" y="1920" text-anchor="middle" fill="#bbf7d0" font-family="-apple-system, system-ui, sans-serif" font-size="56" font-weight="500">대진 · 스코어 · 복식 매칭</text>
+</svg>
