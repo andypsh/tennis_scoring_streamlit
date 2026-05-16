@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*.local
+.vscode
+.idea
+.DS_Store
+ios/App/Pods
+ios/App/build
+android/.gradle
+android/app/build
+android/build
+android/captures
+android/local.properties
